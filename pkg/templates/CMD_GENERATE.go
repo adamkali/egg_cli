@@ -1,0 +1,83 @@
+package templates
+const GenerateCmdTemplate = `
+/*
+Copyright © {{.Copyright.Year}} {{.Copyright.Author}}
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+package cmd
+
+import (
+	"bufio"
+	"errors"
+	"os"
+	"os/exec"
+
+	"{{.Namespace}}/cmd/configuration"
+	"github.com/spf13/cobra"
+)
+
+// generateCmd represents the generate command
+var generateCmd = &cobra.Command{
+	Use:   "generate",
+	Short: "This command uses sqlc to generate the repository code from the ` + "`internal/queries`. `" + `,
+	Long: ` + "`" + `
+*** Help Text
+This command uses sql to generate the repository code from the internal/queries. 
+this command also uses sqlc under the hood so refrence their documentation for generateing code from that.
+to configure sqlc please check in the root of the project in sqlc.yml
+
+*** Command 
+**** Default 
+--- bash
+go build main.go -o {{.Name }} 
+{{.Name }} db generate 
+---
+
+**** with -e passed
+--- bash
+go build main.go -o {{.Name }}
+{{ .Name }} db generate -e really-sick-config
+---
+` + "`" + `,
+	Run: func(cmd *cobra.Command, args []string) {
+		config, err := configuration.LoadConfiguration(Environment)
+		if err != nil {
+			panic(err)
+		}
+		if err := Gen(config, args); err != nil {
+			panic(err)
+		}
+		print("🥚 Sqlc Generate Successful")
+	},
+}
+
+func init() { dbCmd.AddCommand(generateCmd) }
+
+func Gen(configuration *configuration.Configuration, args []string) error {
+	if len(args) != 0 {
+		return errors.New("🍳 len(args) != 0 so egg does not know what to do with this.")
+	}
+
+	output, err := exec.Command("sqlc", "generate").Output()
+	if err != nil {
+		return err
+	}
+	writer := bufio.NewWriter(os.Stdout)
+	_, err = writer.Write(output)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+`

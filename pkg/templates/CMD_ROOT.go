@@ -1,0 +1,125 @@
+package templates
+const RootCmdTemplate = `
+/*
+Copyright © {{.Copyright.Year}} {{.Copyright.Author}}
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+package cmd
+
+import (
+	"fmt"
+	"os"
+	"strconv"
+
+	"{{.Namespace}}/cmd/configuration"
+	"{{.Namespace}}/controllers"
+	_ "{{.Namespace}}/docs"
+	"github.com/labstack/echo/v4"
+	"github.com/spf13/cobra"
+)
+
+var Environment string
+
+// rootCmd represents the base command when called without any subcommands
+var rootCmd = &cobra.Command{
+	Use:   "{{.Name}}",
+	Short: "Serve the application",
+	Long: ` + "`" + `
+	*** Help Text
+	Serve the application.
+	The default environment used with this is development,
+	So configured the application is opend at 
+
+	http://localhost:{{.Server.Port}}
+
+	This can be altered in the 
+
+	host: 0.0.0.0
+	port: {{.Server.Port}}
+
+	section of the config file. use -e environment when 
+	calling this command to run serve using the configured 
+	values.
+
+	*** Command 
+	**** Default 
+	--- bash
+	go build main.go -o {{.Name }}
+	./{{.Name }} 
+	---
+
+	**** with -e passed
+	If one had some configuration file really-sick-config.yaml
+	--- bash
+	go build main.go -o egg_app
+	./egg_app -e really-sick-config
+	---
+	` + "`" + `,
+	// Uncomment the following line if your bare application
+	// has an action associated with it:
+	Run: func(cmd *cobra.Command, args []string) {
+		config, err := configuration.LoadConfiguration(Environment)
+		if err != nil {
+			fmt.Print(err.Error())
+			os.Exit(1)
+		}
+		serve(config)
+		print("🥚")
+		os.Exit(1)
+	},
+}
+
+// Execute adds all child commands to the root command and sets flags appropriately.
+// This is called by main.main(). It only needs to happen once to the rootCmd.
+func Execute() {
+	err := rootCmd.Execute()
+	if err != nil {
+		os.Exit(1)
+	}
+	os.Exit(0)
+
+}
+func init() {
+	rootCmd.PersistentFlags().StringVarP(&Environment, "environment", "e", "development", "Choose what environment that should be used when running. Default is development")
+}
+
+func serve(config *configuration.Configuration) {
+	e := echo.New()
+	e.HideBanner = true
+
+    controllers.RegisterRoutes(e, config)
+
+	fmt.Printf(` + "`" + `
+	           ████████████████        
+	         ██                ██      
+	     ████    ░░░░░░░░        ██    
+	   ██      ░░      ░░░░        ██  
+	 ██      ░░          ░░░░        ██
+	 ██      ░░          ░░░░        ██
+	██        ░░▒▒░░  ░░░░░░░░        ██
+	██░░        ░░░░░░░░░░░░        ░░██
+	  ██░░        ░░░░░░░░        ░░██  
+	  ██░░░░                    ░░██    
+	    ████░░░░            ░░░░██      
+ 	       ████░░░░░░░░░░░░████        
+	           ████████████            
+
+	EGG v0.0.0
+	%s:%s
+	` + "`" + `, config.Name, config.Semver)
+
+	e.Logger.Fatal(e.Start(":" + strconv.Itoa(config.Server.Port)))
+}
+`
+

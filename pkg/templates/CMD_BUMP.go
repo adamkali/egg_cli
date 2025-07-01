@@ -1,0 +1,124 @@
+package templates
+const BumpCmdTemplate = `
+/*
+Copyright © {{.Copyright.Year}} {{.Copyright.Author}} 
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+package cmd
+
+import (
+	"strconv"
+	"strings"
+
+	"{{.Namespace}}/cmd/configuration"
+	"github.com/spf13/cobra"
+	"gopkg.in/yaml.v3"
+)
+
+// bumpCmd represents the bump command
+var bumpCmd = &cobra.Command{
+	Use:   "bump",
+	Short: "Bumps the semantic version of the server",
+	Long: ` + "\n" +
+`*** Help Text
+Use bump in order to incerment the server
+- no flags increments the specific version  <0.0.XX>
+- -m increments the minor version           <0.XX.0>
+- -M increments the Major version           <XX.0.0>
+
+*** Command
+**** Default 
+--- bash
+go build main.go -o {{.Name}}
+{{.Name}} bump 
+---
+
+**** with -e passed
+--- bash
+go build main.go -o {{.Name}}
+{{.Name}} bump -e really-sick-config
+---
+` + "`" + `,
+	Run: func(cmd *cobra.Command, args []string) {
+        bump()
+        print("🥚 Bump Successful")
+	},
+}
+
+var (
+    Minor bool 
+    Major bool 
+)
+
+func init() {
+	rootCmd.AddCommand(bumpCmd)
+
+	// Here you will define your flags and configuration settings.
+
+	// Cobra supports Persistent Flags which will work for this command
+	// and all subcommands, e.g.:
+	//bumpCmd.PersistentFlags().String("foo", "", "A help for foo")
+
+	// Cobra supports local flags which will only run when this command
+	// is called directly, e.g.:
+	bumpCmd.Flags().BoolVarP(&Minor, "minor", "m", false, "bump the minor version")
+    bumpCmd.Flags().BoolVarP(&Major, "Major", "M", false, "bump the Major version")
+}
+
+func bump() {
+    config := new(configuration.Configuration)
+    config, err := configuration.LoadConfiguration(Environment)
+    if err != nil {
+        panic(err)
+    }
+    if Minor && Major {
+        panic("Major and Minor cannot be used at the same time")
+    }
+    semver := config.Semver
+    vers := strings.Split(semver, ".")
+    major, err := strconv.Atoi(vers[0])
+    if err != nil {
+        panic(err)
+    }
+    minor, err := strconv.Atoi(vers[1])
+    if err != nil {
+        panic(err)
+    }
+    specific, err:= strconv.Atoi(vers[2])
+    if err != nil {
+        panic(err)
+    }
+    if Major {
+        major = major+1
+    } else if Minor {
+        minor += minor + 1
+    } else {
+        specific += 1
+    }
+    semver = strings.Join([]string {
+        strconv.Itoa(major),
+        strconv.Itoa(minor),
+        strconv.Itoa(specific),
+    }, ".")
+    config.Semver = semver
+    configBytes, err := yaml.Marshal(config)
+    if err != nil {
+        panic(err)
+    }
+    if err =  configuration.SaveConfiguration(configBytes, Environment); err != nil {
+        panic(err)
+    }
+    return
+}
+`

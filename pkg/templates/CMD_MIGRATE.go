@@ -1,0 +1,97 @@
+package templates
+
+const MigrateCmdTemplate = `
+/*
+Copyright © {{.Copyright.Year}} {{.Copyright.Author}}
+ 
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+package cmd
+
+import (
+	"bufio"
+	"errors"
+	"os"
+	"os/exec"
+
+	"{{.Namespace}}/cmd/configuration"
+	"github.com/spf13/cobra"
+)
+
+// migrateCmd represents the migrate command
+var migrateCmd = &cobra.Command{
+	Use:   "migrate",
+	Short: "This command creates a migration with the migration name passed into the cli.",
+	Long: ` + "`" + `
+*** Help Text
+This command calls goose migrations under the hood. And by default it uses 
+the following environment variables:
+
+--- .env
+GOOSE_DRIVER=config.Server.Database.Migration.Protocol
+GOOSE_DBSTRING=config.Server.Database.Url
+GOOSE_MIGRATION_DIR=config.Server.Database.Migration.Destination
+---
+
+this generates a migration file in the GOOSE_MIGRATION_DIR to be 
+
+*** Command 
+
+**** Default 
+--- bash
+go build main.go -o {{.Name }} 
+{{.Name }} db migrate <migration-name>
+---
+
+**** with -e passed
+--- bash
+go build main.go -o {{.Name }} 
+{{.Name }} db migrate <migration-name> -e really-sick-config
+---
+` + "`" + `,
+	Run: func(cmd *cobra.Command, args []string) {
+        config, err := configuration.LoadConfiguration(Environment) 
+        if err != nil {
+            panic(err)
+        }
+        if err = Migrate(config, args); err != nil {
+            panic(err)
+        }
+        print("🥚 Create Migration Successful")
+	},
+}
+
+func init() {
+	dbCmd.AddCommand(migrateCmd)
+}
+
+func Migrate(configuration *configuration.Configuration, args []string) error {
+    os.Setenv("GOOSE_DRIVER", configuration.Database.Sqlc)
+    os.Setenv("GOOSE_MIGRATION_DIR", configuration.Database.Migration.Destination)
+    if len(args) != 1 {
+        return errors.New("len(args) != 1 so the cli does not know what to do.")
+    }
+
+    migration_name := args[0]
+    output, err := exec.Command("goose", "create", migration_name, configuration.Database.Sqlc).Output()
+    if err != nil {
+        return err
+    }
+    writer := bufio.NewWriter(os.Stdout)
+    _, err = writer.Write(output)
+    if err != nil {
+        return err
+    }
+    return nil
+}
+`

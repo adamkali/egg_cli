@@ -1,0 +1,94 @@
+package templates
+const SwagCmdTemplate = `
+/*
+Copyright © {{.Copyright.Year}} {{.Copyright.Author}}
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+package cmd
+
+import (
+	"fmt"
+	"os"
+	"os/exec"
+
+	"{{.Namespace}}/cmd/configuration"
+	"github.com/spf13/cobra"
+)
+
+// swagCmd represents the swag command
+var swagCmd = &cobra.Command{
+	Use:   "swag",
+	Short: "A brief description of your command",
+	Long: ` + "`" + `,
+	Run: func(cmd *cobra.Command, args []string) {
+		if err := swag(); err != nil {
+			fmt.Println(err.Error())
+			os.Exit(1)
+		}
+		os.Exit(0)
+	},
+}
+
+
+func init() {
+	rootCmd.AddCommand(swagCmd)
+}
+
+func swag() error {
+	config, err := configuration.LoadConfiguration(Environment)
+	if err != nil {
+		return err
+	}
+
+	// first run swag
+	output, err := exec.Command("swag", "init").Output()
+	fmt.Printf("%s\n", string(output))
+	if err != nil {
+		return err
+	}
+
+	outputDir := config.Server.Frontend.Api
+	fmt.Printf("%s\n", outputDir)
+	if _, err = os.Stat(outputDir); os.IsNotExist(err) {
+		// create the directory
+		fmt.Println("need to create")
+		if err := os.Mkdir(outputDir, os.ModePerm); err != nil {
+			fmt.Printf("%s\n", err.Error())
+			return err
+		}
+	}
+
+	// now do the open api
+	fmt.Println("Scaffolding typescript-fetch api")
+	output, err = exec.Command(
+		"openapi-generator-cli",
+		"generate",
+		"-g",
+		"typescript-fetch",
+		"-o",
+		outputDir,
+		"-i",
+		"docs/swagger.json",
+	).Output()
+	if err != nil {
+		println(err.Error())
+		fmt.Printf("%s", output)
+
+		return err
+	}
+	fmt.Printf("%s", output)
+
+	return nil
+}
+`

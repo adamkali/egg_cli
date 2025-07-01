@@ -1,0 +1,87 @@
+package templates
+
+const DownCmdTemplate = `
+/*
+Copyright © {{.Copyright.Year}} {{.Copyright.Author}}
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+	http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+package cmd
+
+import (
+	"bufio"
+	"errors"
+	"os"
+	"os/exec"
+
+	"{{.Namespace}}/cmd/configuration"
+	"github.com/spf13/cobra"
+)
+
+// downCmd represents the down command
+var downCmd = &cobra.Command{
+	Use:   "down",
+	Short: " This command uses goose to run down migrations in the `+ "`internal/migrations` " + ` folder",
+	Long: `+ "`"+ `
+*** Help Text
+    this is effectively goose down
+
+*** Command 
+**** Default 
+--- bash
+go build main.go -o {{.Name}}
+./{{.Name}} db down 
+---
+
+**** with -e passed
+--- bash
+go build main.go -o {{.Name}}
+./{{.Name}} db down -e really-sick-config
+---
+`+ "`"+ `,
+	Run: func(cmd *cobra.Command, args []string) {
+        config, err := configuration.LoadConfiguration(Environment) 
+        if err != nil {
+            panic(err)
+        }
+        if err = Down(config, args); err != nil {
+            panic(err)
+        }
+        print("🥚 Goose Down Successful")
+	},
+}
+
+func init() {
+	rootCmd.AddCommand(downCmd)
+}
+
+func Down(configuration *configuration.Configuration, args []string) error {
+    os.Setenv("GOOSE_DRIVER", configuration.Database.Sqlc)
+    os.Setenv("GOOSE_MIGRATION_DIR", configuration.Database.Migration.Destination)
+    if len(args) != 0 {
+        return errors.New("len(args) != 0 so the cli does not know what to do.")
+    }
+
+    output, err := exec.Command("goose", "down", configuration.Database.Sqlc).Output()
+    if err != nil {
+        return err
+    }
+    writer := bufio.NewWriter(os.Stdout)
+    _, err = writer.Write(output)
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
+`

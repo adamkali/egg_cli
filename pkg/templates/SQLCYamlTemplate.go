@@ -1,0 +1,39 @@
+package templates
+
+const SQLCYamlTemplate = `
+version: "2"
+sql:
+  - engine: "{{.Database.Migratinon.Protocol}}"
+    schema: "{{.Database.Migratinon.Destination}}"
+    queries: "{{.Database.QueriesLocation}}"
+    gen:
+      go:
+        emit_json_tags: true
+        package: "repository"
+        out: "internal/repository"
+        sql_package: "pgx/v5"
+        emit_pointers_for_null_types: true
+        overrides:
+          - db_type: "uuid"
+            go_type:
+              import: "github.com/google/uuid"
+              type: "UUID"
+          - db_type: "pg_catalog.timestamptz"
+            go_type:
+              pointer: true
+              import: "time"
+              type: "Time"
+          - db_type: "pg_catalog.timestamp"
+            go_type:
+              pointer: true
+              import: "time"
+              type: "Time"
+          - db_type: "text"
+            go_type:
+              pointer: true
+              type: "string"
+          - db_type: "pgtype.text"
+            go_type:
+              pointer: true
+              type: "string"
+`
