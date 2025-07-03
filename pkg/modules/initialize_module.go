@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/adamkali/egg_cli/configuration"
+	"github.com/adamkali/egg_cli/pkg/configuration"
 	"github.com/adamkali/egg_cli/models"
 	"github.com/adamkali/egg_cli/styles"
 )
