@@ -1,7 +1,6 @@
 package pkg
 
 import (
-	"errors"
 	"fmt"
 	"os"
 
@@ -68,36 +67,45 @@ func ProjectFactory(configuration *configuration.Configuration, eggl *models.Egg
 func RecoverFromScrambled(eggl *models.EggLog) error {
 	configuration, succeededModules, failedModules, err := LoadScrambled()
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("failed to load .scrambled file: %w", err)
 	}
+
+	if len(failedModules) == 0 {
+		eggl.Info("No failed modules to recover - all modules completed successfully")
+		return nil
+	}
+
+	eggl.Info("Recovering %d failed modules", len(failedModules))
+
 	for _, module := range failedModules {
-		module.LoadFromConfig(configuration, nil)
+		eggl.Info("Attempting to recover module: %s", module.Name())
+
+		module.LoadFromConfig(configuration, eggl)
 		module.Run()
 		err = module.IsError()
-		if PrintError(module, nil) {
+
+		if PrintError(module, eggl) {
 			// if there is an error, then we have to write the .scrambled file
 			bigErr := WriteScrambled(configuration, succeededModules, module, err)
 			if bigErr != nil {
-				return bigErr
+				return fmt.Errorf("failed to write .scrambled file: %w", bigErr)
 			}
 			// print out to check the Scrambled file
 			fmt.Println("check the .scrambled for the breaking error and what module failed")
 			return err
 		}
+
+		eggl.Info("Successfully recovered module: %s", module.Name())
 		succeededModules = append(succeededModules, module)
 	}
+
+	eggl.Info("All modules recovered successfully")
 	return nil
 }
 
 func CheckScrambled() bool {
-	// check if there is a .scrambled file in the current directory
 	_, err := os.Stat(ScrambledFileName)
-	if os.IsNotExist(err) {
-		// if the .scrambled file does not exist, return false
-		return false
-	}
-	// if the .scrambled file exists, return true
-	return true
+	return !os.IsNotExist(err)
 }
 
 func LoadScrambled() (
@@ -109,34 +117,34 @@ func LoadScrambled() (
 	// open the .scrambled file
 	file, err := os.Open(ScrambledFileName)
 	if err != nil {
-		return nil, nil, nil, err
+		return nil, nil, nil, fmt.Errorf("failed to open .scrambled file: %w", err)
 	}
+	defer file.Close()
+
 	// read the .scrambled file
 	var scramble scrambleFile
 	err = yaml.NewDecoder(file).Decode(&scramble)
 	if err != nil {
-		return nil, nil, nil, err
-	}
-	succeededModules := []modules.IModule{}
-	for _, moduleName := range scramble.Succeeded {
-		if modules.ModuleFactory(moduleName) == nil {
-			return nil, nil, nil, errors.New("module not found")
-		}
-		succeededModules = append(succeededModules, modules.ModuleFactory(moduleName))
+		return nil, nil, nil, fmt.Errorf("failed to decode .scrambled file: %w", err)
 	}
 
-	// cut out all the succeeded modules from Modules list
-	// and take the remaining modules as failed modules
+	// Create a map for O(1) lookup of succeeded modules
+	succeededMap := make(map[string]bool)
+	succeededModules := make([]modules.IModule, 0, len(scramble.Succeeded))
+
+	for _, moduleName := range scramble.Succeeded {
+		module := modules.ModuleFactory(moduleName)
+		if module == nil {
+			return nil, nil, nil, fmt.Errorf("module not found: %s", moduleName)
+		}
+		succeededModules = append(succeededModules, module)
+		succeededMap[moduleName] = true
+	}
+
+	// Find failed modules using efficient map lookup
 	var failedModules []modules.IModule
 	for _, module := range Modules {
-		found := false
-		for _, succeededModule := range succeededModules {
-			if module.Name() == succeededModule.Name() {
-				found = true
-				break
-			}
-		}
-		if !found {
+		if !succeededMap[module.Name()] {
 			failedModules = append(failedModules, module)
 		}
 	}
@@ -187,23 +195,20 @@ func WriteScrambled(
 	failed modules.IModule,
 	ModuleError error,
 ) error {
-	var f *os.File
-	// create a .scrambled file in the current directory
-	if _, err := os.Stat(ScrambledFileName); errors.Is(err, os.ErrNotExist) {
-		if f, err = os.Create(ScrambledFileName); err != nil {
-			return err
-		}
-	}
-	f, err := os.OpenFile(ScrambledFileName, os.O_APPEND|os.O_WRONLY, 0600)
+	// Create or truncate the .scrambled file
+	f, err := os.Create(ScrambledFileName)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to create .scrambled file: %w", err)
 	}
 	defer f.Close()
-	// init the scramble file
+
+	// Build succeeded module names slice
 	succeededNames := make([]string, len(succeeded))
-	for _, module := range succeeded {
-		succeededNames = append(succeededNames, module.Name())
+	for i, module := range succeeded {
+		succeededNames[i] = module.Name()
 	}
+
+	// Create scramble file structure
 	scr := scrambleFile{
 		Failed: struct {
 			ModuleName string `yaml:"moduleName"`
@@ -215,15 +220,17 @@ func WriteScrambled(
 		Succeeded:     succeededNames,
 		Configuration: *configuration,
 	}
-	// marshal the scramble file
+
+	// Marshal the scramble file
 	scrambled, err := yaml.Marshal(scr)
 	if err != nil {
-		return err
+		return fmt.Errorf("failed to marshal scramble file: %w", err)
 	}
-	// write the scramble file
+
+	// Write the scramble file
 	if _, err := f.Write(scrambled); err != nil {
-		return err
+		return fmt.Errorf("failed to write .scrambled file: %w", err)
 	}
+
 	return nil
-	// if the .scrambled file already exists then
 }

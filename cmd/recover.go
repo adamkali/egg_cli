@@ -16,6 +16,7 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
 	"os"
 
 	"github.com/adamkali/egg_cli/models"
@@ -25,17 +26,36 @@ import (
 
 var recoverCmd = &cobra.Command{
 	Use:   "recover",
-	Short: "Initialize a project with the .scrambled file",
-	Long:  `Try to recover a project from the .scrambled file, if it exists`,
+	Short: "Recover a project from the .scrambled file",
+	Long:  `Attempt to recover a project from the .scrambled file, if it exists. This will resume execution from where the previous run failed.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		logger, err := models.NewLogger("egg-log")
-		if err != nil {
+		// Check if .scrambled file exists before attempting recovery
+		if !pkg.CheckScrambled() {
+			fmt.Println("❌ No .scrambled file found. Nothing to recover.")
+			fmt.Println("💡 Run 'egg init' first to create a project.")
 			os.Exit(1)
 		}
-		if err := pkg.RecoverFromScrambled(logger); err != nil {
-			os.Exit(2)
 
+		// Initialize logger
+		logger, err := models.NewLogger("egg-log")
+		if err != nil {
+			fmt.Printf("❌ Failed to initialize logger: %v\n", err)
+			os.Exit(1)
 		}
+		defer logger.Close()
+
+		fmt.Println("🔄 Attempting to recover project from .scrambled file...")
+
+		// Attempt recovery
+		if err := pkg.RecoverFromScrambled(logger); err != nil {
+			fmt.Printf("❌ Recovery failed: %v\n", err)
+			fmt.Println("💡 Check the .scrambled file for details about the failure.")
+			logger.Error("Recovery failed: %v", err)
+			os.Exit(2)
+		}
+
+		fmt.Println("✅ Project recovered successfully!")
+		logger.Info("Project recovery completed successfully")
 	},
 }
 
