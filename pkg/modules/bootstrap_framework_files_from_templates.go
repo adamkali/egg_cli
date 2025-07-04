@@ -33,11 +33,12 @@ import (
 //	and logging the errors
 //	canceling the context if there is an error
 type BootstrapFrameworkFilesFromTemplatesModule struct {
-	mapping       map[string]*template.Template
-	configuration *configuration.Configuration
-	error         error
-	progress      int
-	eggl          *models.EggLog
+	mapping               map[string]*template.Template
+	configuration         *configuration.Configuration
+	error                 error
+	progress              int
+	eggl                  *models.EggLog
+	PopulateTemplatesFunc func(name string, template *template.Template) error // For testing - can be injected to mock template population
 }
 
 // Name
@@ -91,7 +92,13 @@ func (m *BootstrapFrameworkFilesFromTemplatesModule) Run() {
 		wg.Add(1)
 		go func(name string, t *template.Template) {
 			defer wg.Done()
-			err := m.populateTemplate(name, t)
+			// Use injected function if available (for testing), otherwise use real implementation
+			var err error
+			if m.PopulateTemplatesFunc != nil {
+				err = m.PopulateTemplatesFunc(name, t)
+			} else {
+				err = m.populateTemplate(name, t)
+			}
 			logChan <- fmt.Sprintf("🥚 %s creating %s", m.Name(), name)
 			if err != nil {
 				errChan <- err

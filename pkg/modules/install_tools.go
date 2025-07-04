@@ -12,9 +12,11 @@ import (
 )
 
 type InstallToolsModule struct {
-	eggl     *models.EggLog
-	Progress int
-	Error    error
+	eggl            *models.EggLog
+	Progress        int
+	Error           error
+	LookPathFunc    func(file string) (string, error) // For testing - can be injected to mock tool lookup
+	InstallToolFunc func(tool string) error           // For testing - can be injected to mock tool installation
 }
 
 func (m *InstallToolsModule) Name() string {
@@ -40,7 +42,15 @@ func (m *InstallToolsModule) Run() {
 	for _, tool := range targets.RequiredTools {
 		toolStr := tool[strings.LastIndex(tool, "/")+1:]
 		toolStr = toolStr[:strings.Index(toolStr, "@")]
-		_, err := exec.LookPath(tool)
+
+		// Use injected function if available, otherwise use real implementation
+		var err error
+		if m.LookPathFunc != nil {
+			_, err = m.LookPathFunc(tool)
+		} else {
+			_, err = exec.LookPath(tool)
+		}
+
 		if err == nil {
 			installToolInstalledMessage := fmt.Sprintf(
 				"🥚 %s %s is already installed",
@@ -61,12 +71,23 @@ func (m *InstallToolsModule) Run() {
 		m.eggl.Info(installToolsMessage)
 		installToolsMessage = styles.EggProgressInfo.Render(installToolsMessage)
 		fmt.Println(installToolsMessage)
-		output, err := exec.Command("go", "install", tool).Output()
+
+		// Use injected function if available, otherwise use real implementation
+		if m.InstallToolFunc != nil {
+			err = m.InstallToolFunc(tool)
+		} else {
+			output, err := exec.Command("go", "install", tool).Output()
+			if err != nil {
+				m.Error = err
+				return
+			}
+			fmt.Println(string(output))
+		}
+
 		if err != nil {
 			m.Error = err
 			return
 		}
-		fmt.Println(string(output))
 		m.IncrProg()
 		m.Error = nil
 	}

@@ -11,9 +11,10 @@ import (
 )
 
 type InstallLibrariesModule struct {
-	eggl     *models.EggLog
-	Progress int
-	Error    error
+	eggl      *models.EggLog
+	Progress  int
+	Error     error
+	GoGetFunc func(pac string) error // For testing - can be injected to mock go get
 }
 
 func (*InstallLibrariesModule) Name() string {
@@ -53,6 +54,11 @@ func (m *InstallLibrariesModule) Run() {
 }
 
 func (m *InstallLibrariesModule) GoGet(pac string) error {
+	// Use injected function if available (for testing), otherwise use real implementation
+	if m.GoGetFunc != nil {
+		return m.GoGetFunc(pac)
+	}
+
 	_, err := exec.Command(
 		"go", "get", pac).Output()
 	if err != nil {

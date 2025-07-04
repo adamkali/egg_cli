@@ -16,6 +16,7 @@ type BootstrapDirectoriesModule struct {
 	Error       error
 	Progress    int
 	eggl        *models.EggLog
+	MkdirFunc   func(dir string) error // For testing - can be injected to mock directory creation
 }
 
 // Name
@@ -71,7 +72,12 @@ func (m *BootstrapDirectoriesModule) Run() {
 		wg.Add(1)
 		go func(dir string) {
 			defer wg.Done()
-			err := m.mkdir(dir)
+			var err error
+			if m.MkdirFunc != nil {
+				err = m.MkdirFunc(dir)
+			} else {
+				err = m.mkdir(dir)
+			}
 			logChan <- fmt.Sprintf("🥚 %s creating %s", m.Name(), dir)
 			if err != nil {
 				errChan <- err

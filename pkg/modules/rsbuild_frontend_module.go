@@ -43,6 +43,8 @@ type RsbuildFrontendModule struct {
 	error         error
 	progress      int
 	eggl          *models.EggLog
+	InputFunc     func(prompt string) string                       // For testing - can be injected to mock user input
+	ExecFunc      func(cmd string, args ...string) ([]byte, error) // For testing - can be injected to mock command execution
 }
 
 // Name
@@ -85,20 +87,27 @@ func (m *RsbuildFrontendModule) GetProgress() float64 {
 //	  we firrst ask the user which frontend framework they are using and then we build the frontend and
 //	  passing off the control flow to rsbuild for the user to interact with the cli interface
 func (m *RsbuildFrontendModule) Run() {
-
 	// ask the user if they want to use js for the frontend
 	// if they do not want to use js for the frontend, exit
-	fmt.Println("Do you want to use a JavaScript Framework for the frontend? (y/n)")
 	var useJs string
-	fmt.Scanln(&useJs)
+	if m.InputFunc != nil {
+		useJs = m.InputFunc("Do you want to use a JavaScript Framework for the frontend? (y/n)")
+	} else {
+		fmt.Println("Do you want to use a JavaScript Framework for the frontend? (y/n)")
+		fmt.Scanln(&useJs)
+	}
 	if useJs == "n" || useJs == "N" || useJs == "no" || useJs == "No" || useJs == "NO" {
 		return
 	}
 
 	// ask which package manager do they want to use?
-	fmt.Println("Which package manager do you want to use? (pnpm, npm, yarn, bun)")
 	var packageManager string
-	fmt.Scanln(&packageManager)
+	if m.InputFunc != nil {
+		packageManager = m.InputFunc("Which package manager do you want to use? (pnpm, npm, yarn, bun)")
+	} else {
+		fmt.Println("Which package manager do you want to use? (pnpm, npm, yarn, bun)")
+		fmt.Scanln(&packageManager)
+	}
 	switch packageManager {
 	case "pnpm":
 		m.installAndWaitForRsBuild(PnpmInstall)
@@ -141,25 +150,31 @@ func (m *RsbuildFrontendModule) Run() {
 //	     stdin and stdout and then pass off the control flow to rsbuild. then when it
 //	     is done, it will return the error
 func (m *RsbuildFrontendModule) installAndWaitForRsBuild(packageManager string) {
-	// first split the argument into the package manager and the command
-	// and store the first to check if the user actually has the package manager installed
 	p := strings.Split(packageManager, " ")[0]
 	rest := strings.Split(packageManager, " ")[1:]
-	_, err := exec.LookPath(p)
+	var err error
+	if m.ExecFunc != nil {
+		_, err = m.ExecFunc(p, rest...)
+	} else {
+		_, err = exec.LookPath(p)
+		if err != nil {
+			m.error = err
+			m.eggl.Error("error: %s", m.error.Error())
+			return
+		}
+		var output []byte
+		output, m.error = exec.Command(packageManager, rest...).Output()
+		if m.error != nil {
+			m.eggl.Error("error: %s", m.error.Error())
+			return
+		}
+		fmt.Println(string(output))
+	}
 	if err != nil {
 		m.error = err
 		m.eggl.Error("error: %s", m.error.Error())
 		return
 	}
-
-	var output []byte
-	output, m.error = exec.Command(packageManager, rest...).Output()
-	if m.error != nil {
-		m.eggl.Error("error: %s", m.error.Error())
-		return
-	}
-	// hand off control flow to rsbuild
-	fmt.Println(string(output))
 	return
 }
 

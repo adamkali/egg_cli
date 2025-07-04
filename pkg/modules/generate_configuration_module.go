@@ -9,10 +9,11 @@ import (
 )
 
 type GenerateConfigurationModule struct {
-	Configuration *configuration.Configuration
-	Error         error
-	Progress      int
-	eggl          *models.EggLog
+	Configuration      *configuration.Configuration
+	Error              error
+	Progress           int
+	eggl               *models.EggLog
+	GenerateConfigFunc func(environment string) error // For testing - can be injected to mock config generation
 }
 
 func (m *GenerateConfigurationModule) Name() string   { return "egg::generate_configuration" }
@@ -23,7 +24,12 @@ func (m *GenerateConfigurationModule) Run() {
 	m.eggl.Info(generateConfigurationStart)
 	generateConfigurationStart = styles.EggProgressInfo.Render(generateConfigurationStart)
 	fmt.Println(generateConfigurationStart)
-	err := m.Configuration.GenerateConfigurationFile("development")
+	var err error
+	if m.GenerateConfigFunc != nil {
+		err = m.GenerateConfigFunc("development")
+	} else {
+		err = m.Configuration.GenerateConfigurationFile("development")
+	}
 	if err != nil {
 		m.Error = err
 		m.eggl.Error("error: %s", m.Error.Error())
