@@ -4,22 +4,21 @@ import (
 	"fmt"
 
 	"github.com/adamkali/egg_cli/pkg/configuration"
-	"github.com/adamkali/egg_cli/models"
+	"github.com/adamkali/egg_cli/pkg/models"
 	"github.com/adamkali/egg_cli/styles"
 )
 
-
 type GenerateConfigurationModule struct {
 	Configuration *configuration.Configuration
-	Error       error
-	Progress    int
-	eggl        *models.EggLog
+	Error         error
+	Progress      int
+	eggl          *models.EggLog
 }
 
-func (m *GenerateConfigurationModule)Name() string { return "egg::generate_configuration" }
-func (m *GenerateConfigurationModule)IsError() error { return m.Error }
+func (m *GenerateConfigurationModule) Name() string   { return "egg::generate_configuration" }
+func (m *GenerateConfigurationModule) IsError() error { return m.Error }
 
-func (m *GenerateConfigurationModule)Run() {
+func (m *GenerateConfigurationModule) Run() {
 	generateConfigurationStart := "🥚 " + m.Name() + " start\n"
 	m.eggl.Info(generateConfigurationStart)
 	generateConfigurationStart = styles.EggProgressInfo.Render(generateConfigurationStart)
@@ -35,7 +34,7 @@ func (m *GenerateConfigurationModule)Run() {
 	fmt.Println(generateConfigurationComplete)
 }
 
-func (m *GenerateConfigurationModule)LoadFromConfig(
+func (m *GenerateConfigurationModule) LoadFromConfig(
 	configuration *configuration.Configuration,
 	eggl *models.EggLog,
 ) {

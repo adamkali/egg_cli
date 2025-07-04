@@ -20,7 +20,7 @@ import (
 	"strings"
 
 	"github.com/adamkali/egg_cli/pkg/configuration"
-	"github.com/adamkali/egg_cli/models"
+	"github.com/adamkali/egg_cli/pkg/models"
 )
 
 const (
@@ -100,26 +100,26 @@ func (m *RsbuildFrontendModule) Run() {
 	var packageManager string
 	fmt.Scanln(&packageManager)
 	switch packageManager {
-		case "pnpm":
-			m.installAndWaitForRsBuild(PnpmInstall)
-		case "p":
-			m.installAndWaitForRsBuild(PnpmInstall)
-		case "npm":
-			m.installAndWaitForRsBuild(NpmInstall)
-		case "n":
-			m.installAndWaitForRsBuild(NpmInstall)
-		case "yarn":
-			m.installAndWaitForRsBuild(YarnInstall)
-		case "y":
-			m.installAndWaitForRsBuild(YarnInstall)
-		case "bun":
-			m.installAndWaitForRsBuild(BunInstall)
-		case "b":
-			m.installAndWaitForRsBuild(BunInstall)
-		default:
-			m.error = fmt.Errorf("invalid package manager: %s", packageManager)
-			m.eggl.Error("error: %s", m.error.Error())
-			return
+	case "pnpm":
+		m.installAndWaitForRsBuild(PnpmInstall)
+	case "p":
+		m.installAndWaitForRsBuild(PnpmInstall)
+	case "npm":
+		m.installAndWaitForRsBuild(NpmInstall)
+	case "n":
+		m.installAndWaitForRsBuild(NpmInstall)
+	case "yarn":
+		m.installAndWaitForRsBuild(YarnInstall)
+	case "y":
+		m.installAndWaitForRsBuild(YarnInstall)
+	case "bun":
+		m.installAndWaitForRsBuild(BunInstall)
+	case "b":
+		m.installAndWaitForRsBuild(BunInstall)
+	default:
+		m.error = fmt.Errorf("invalid package manager: %s", packageManager)
+		m.eggl.Error("error: %s", m.error.Error())
+		return
 	}
 	return
 }
@@ -129,17 +129,17 @@ func (m *RsbuildFrontendModule) Run() {
 // params:
 //
 //	string: the package manager
-// 
+//
 // returns:
 //
 //	error: any errors that occur to install the frontend
-// 
+//
 // description:
 //
-//		This function is used to install the frontend framework and wait for rsbuild
-//      to finish building the frontend. It will wait for rsbuild to take control of 
-//      stdin and stdout and then pass off the control flow to rsbuild. then when it 
-//      is done, it will return the error
+//			This function is used to install the frontend framework and wait for rsbuild
+//	     to finish building the frontend. It will wait for rsbuild to take control of
+//	     stdin and stdout and then pass off the control flow to rsbuild. then when it
+//	     is done, it will return the error
 func (m *RsbuildFrontendModule) installAndWaitForRsBuild(packageManager string) {
 	// first split the argument into the package manager and the command
 	// and store the first to check if the user actually has the package manager installed

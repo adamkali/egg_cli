@@ -19,8 +19,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/adamkali/egg_cli/models"
 	"github.com/adamkali/egg_cli/pkg"
+	"github.com/adamkali/egg_cli/pkg/models"
 	"github.com/spf13/cobra"
 )
 

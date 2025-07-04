@@ -14,7 +14,7 @@ import (
 	"text/template"
 
 	"github.com/adamkali/egg_cli/pkg/configuration"
-	"github.com/adamkali/egg_cli/models"
+	"github.com/adamkali/egg_cli/pkg/models"
 	"github.com/adamkali/egg_cli/pkg/templates"
 	"github.com/adamkali/egg_cli/styles"
 )
@@ -75,11 +75,12 @@ func (m *BootstrapFrameworkFilesFromTemplatesModule) GetProgress() float64 {
 // Run
 //
 // description:
-//   This function is used to bootstrap the framework files from the templates found in the templates directory
-//   this is done by iterating over the mapping and creating a goroutine for each template
-//   and then waiting for all the goroutines to finish
-//   and collecting the errors
-//   and logging the errors
+//
+//	This function is used to bootstrap the framework files from the templates found in the templates directory
+//	this is done by iterating over the mapping and creating a goroutine for each template
+//	and then waiting for all the goroutines to finish
+//	and collecting the errors
+//	and logging the errors
 func (m *BootstrapFrameworkFilesFromTemplatesModule) Run() {
 	m.progress = 0
 	// iterate over the mapping and create a goroutine for each template

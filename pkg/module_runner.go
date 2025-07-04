@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/adamkali/egg_cli/models"
 	"github.com/adamkali/egg_cli/pkg/configuration"
+	"github.com/adamkali/egg_cli/pkg/models"
 	"github.com/adamkali/egg_cli/pkg/modules"
 	"github.com/adamkali/egg_cli/styles"
 	"gopkg.in/yaml.v3"

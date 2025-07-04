@@ -22,9 +22,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/adamkali/egg_cli/pkg/configuration"
-	"github.com/adamkali/egg_cli/models"
 	"github.com/adamkali/egg_cli/pkg"
+	"github.com/adamkali/egg_cli/pkg/configuration"
+	"github.com/adamkali/egg_cli/pkg/models"
 	"github.com/adamkali/egg_cli/state"
 	"github.com/adamkali/egg_cli/styles"
 	tea "github.com/charmbracelet/bubbletea"
@@ -124,7 +124,7 @@ var initCmd = &cobra.Command{
 			logger.Info(defaultingDatabaseURLMessage)
 			defaultingDatabaseURLMessage = styles.EggProgressInfo.Render(defaultingDatabaseURLMessage)
 			fmt.Println(defaultingDatabaseURLMessage)
-			state.DatabaseURL = defaultDatabaseURL 
+			state.DatabaseURL = defaultDatabaseURL
 		}
 
 		if state.DatabaseSqlcOrGo == "" {

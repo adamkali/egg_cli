@@ -1,8 +1,8 @@
 package modules
 
 import (
-	"github.com/adamkali/egg_cli/models"
 	"github.com/adamkali/egg_cli/pkg/configuration"
+	"github.com/adamkali/egg_cli/pkg/models"
 )
 
 type IModule interface {

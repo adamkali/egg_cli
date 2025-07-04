@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/adamkali/egg_cli/pkg/configuration"
-	"github.com/adamkali/egg_cli/models"
+	"github.com/adamkali/egg_cli/pkg/models"
 	"github.com/adamkali/egg_cli/pkg/targets"
 	"github.com/adamkali/egg_cli/styles"
 )
@@ -33,12 +33,12 @@ func (m *InstallToolsModule) GetProgress() float64 {
 }
 
 func (m *InstallToolsModule) Run() {
-	installToolsStart := styles.EggProgressInfo.Render("🥚 " +m.Name() + " start")
+	installToolsStart := styles.EggProgressInfo.Render("🥚 " + m.Name() + " start")
 	fmt.Println(installToolsStart)
 
 	// install go tools
 	for _, tool := range targets.RequiredTools {
-		toolStr := tool[strings.LastIndex(tool, "/") + 1:]
+		toolStr := tool[strings.LastIndex(tool, "/")+1:]
 		toolStr = toolStr[:strings.Index(toolStr, "@")]
 		_, err := exec.LookPath(tool)
 		if err == nil {
