@@ -493,7 +493,6 @@ configuration:
 	}
 }
 
-
 func TestRecoverFromScrambled_NoFailedModules(t *testing.T) {
 	logger := createTestLogger(t)
 	defer logger.Close()
@@ -505,7 +504,7 @@ func TestRecoverFromScrambled_NoFailedModules(t *testing.T) {
   - egg::install_libraries
   - egg::bootstrap_directories
   - egg::generate_configuration
-  - egg::bootstrap_framework
+  - egg::bootstrap_framework_files
   - egg::rsbuild_frontend
 configuration:
   namespace: github.com/testuser/testproject
