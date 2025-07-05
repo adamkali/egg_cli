@@ -16,17 +16,17 @@ func ModuleFactory(moduleName string) IModule {
 	switch moduleName {
 	case "egg::initialize":
 		return &InitializeModule{}
-	case "egg::install-tools":
+	case "egg::install_tools":
 		return &InstallToolsModule{}
-	case "egg::install-libraries":
+	case "egg::install_libraries":
 		return &InstallLibrariesModule{}
-	case "egg::bootstrap-directories":
+	case "egg::bootstrap_directories":
 		return &BootstrapDirectoriesModule{}
-	case "egg::generate-configuration":
+	case "egg::generate_configuration":
 		return &GenerateConfigurationModule{}
-	case "egg::bootstrap-framework-files-from-templates":
+	case "egg::bootstrap_framework_files_from_templates":
 		return &BootstrapFrameworkFilesFromTemplatesModule{}
-	case "egg::rsbuild-frontend":
+	case "egg::rsbuild_frontend":
 		return &RsbuildFrontendModule{}
 	default:
 		return nil

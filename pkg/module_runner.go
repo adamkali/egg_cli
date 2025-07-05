@@ -45,6 +45,31 @@ func PrintError(m modules.IModule, eggl *models.EggLog) bool {
 	return false
 }
 
+// ProjectFactory
+//
+// params:
+//
+//	configuration:
+//	  type: *configuration.Configuration
+//	  description:
+//	    the configuration of the project to be created
+//	eggl:
+//	  type: *models.EggLog
+//	  description:
+//	    the logger of the project to be created
+//
+// returns:
+//
+//	error:
+//	  type: error
+//	  description:
+//	    the error that occurred during the project creation
+//
+// description:
+//
+//		This function is used to create a new project. It will run all the modules
+//	 in the order they are defined in the Modules slice. If any module fails, it
+//	 will write the .scrambled file and return an error.
 func ProjectFactory(configuration *configuration.Configuration, eggl *models.EggLog) error {
 	var err error
 	var succeededModules []modules.IModule
@@ -64,6 +89,26 @@ func ProjectFactory(configuration *configuration.Configuration, eggl *models.Egg
 	return nil
 }
 
+// RecoverFromScrambled
+//
+// params:
+//
+//	eggl:
+//	  type: *models.EggLog
+//	  description:
+//	    the logger of the project to be created
+//
+// returns:
+//
+//	error:
+//	  type: error
+//	  description:
+//	    the error that occurred during the project recovery
+//
+// description:
+//
+//		This function is used to recover a project from the .scrambled file.
+//	 It will load the .scrambled file and run the modules that failed.
 func RecoverFromScrambled(eggl *models.EggLog) error {
 	configuration, succeededModules, failedModules, err := LoadScrambled()
 	if err != nil {
@@ -103,11 +148,53 @@ func RecoverFromScrambled(eggl *models.EggLog) error {
 	return nil
 }
 
+// CheckScrambled
+//
+// params:
+//
+// returns:
+//
+//		bool:
+//	  type: bool
+//	  description:
+//	    true if the .scrambled file exists, false otherwise
+//
+// description:
+//
+//		This function is used to check if the .scrambled file exists.
+//	 It will return true if the .scrambled file exists, false otherwise.
 func CheckScrambled() bool {
 	_, err := os.Stat(ScrambledFileName)
 	return !os.IsNotExist(err)
 }
 
+// LoadScrambled
+//
+// params:
+//
+// returns:
+//
+//	configuration:
+//	  type: *configuration.Configuration
+//	  description:
+//	    the configuration of the project to be loaded from the .scrambled file
+//	succeeded:
+//	  type: []modules.IModule
+//	  description:
+//	    the modules that were successfully run and can be written to the
+//	    .scrambled file so that we do not need to repeat them
+//	failed:
+//	  type: []modules.IModule
+//	  description:
+//	    the modules that failed and can be written to the .scrambled file
+//	error:
+//	  type: error
+//	  description:
+//	    the error that occurred during the project recovery
+//
+// description:
+//
+//	This function is used to load the .scrambled file and return the configuration,
 func LoadScrambled() (
 	*configuration.Configuration,
 	[]modules.IModule,
