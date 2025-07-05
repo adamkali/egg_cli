@@ -24,7 +24,7 @@ func ModuleFactory(moduleName string) IModule {
 		return &BootstrapDirectoriesModule{}
 	case "egg::generate_configuration":
 		return &GenerateConfigurationModule{}
-	case "egg::bootstrap_framework_files_from_templates":
+	case "egg::bootstrap_framework":
 		return &BootstrapFrameworkFilesFromTemplatesModule{}
 	case "egg::rsbuild_frontend":
 		return &RsbuildFrontendModule{}

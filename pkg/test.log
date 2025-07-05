@@ -1,0 +1,129 @@
+2025-07-05 16:18:32.345 ERROR: error: test error
+2025-07-05 16:18:32.355 ERROR: error: module failed
+2025-07-05 16:18:32.363 INFO: Recovering 5 failed modules
+2025-07-05 16:18:32.366 INFO: Attempting to recover module: egg::install_libraries
+2025-07-05 16:18:32.368 INFO: Successfully recovered module: egg::install_libraries
+2025-07-05 16:18:32.370 INFO: Attempting to recover module: egg::bootstrap_directories
+2025-07-05 16:18:32.373 INFO: Successfully recovered module: egg::bootstrap_directories
+2025-07-05 16:18:32.375 INFO: Attempting to recover module: egg::generate_configuration
+2025-07-05 16:18:32.377 INFO: Successfully recovered module: egg::generate_configuration
+2025-07-05 16:18:32.379 INFO: Attempting to recover module: egg::bootstrap_framwork
+2025-07-05 16:18:32.381 INFO: Successfully recovered module: egg::bootstrap_framwork
+2025-07-05 16:18:32.383 INFO: Attempting to recover module: egg::rsbuild_frontend
+2025-07-05 16:18:32.384 INFO: Successfully recovered module: egg::rsbuild_frontend
+2025-07-05 16:18:32.386 INFO: All modules recovered successfully
+2025-07-05 16:18:32.389 INFO: Recovering 1 failed modules
+2025-07-05 16:18:32.391 INFO: Attempting to recover module: egg::install_tools
+2025-07-05 16:18:32.392 ERROR: error: recovery failed
+2025-07-05 16:22:55.539 ERROR: error: test error
+2025-07-05 16:22:55.546 ERROR: error: module failed
+2025-07-05 16:24:48.033 ERROR: error: test error
+2025-07-05 16:24:48.041 ERROR: error: module failed
+2025-07-05 16:27:17.534 ERROR: error: test error
+2025-07-05 16:27:17.541 ERROR: error: module failed
+2025-07-05 16:27:17.546 INFO: Recovering 5 failed modules
+2025-07-05 16:27:17.548 INFO: Attempting to recover module: egg::install_libraries
+2025-07-05 16:27:17.550 INFO: Successfully recovered module: egg::install_libraries
+2025-07-05 16:27:17.551 INFO: Attempting to recover module: egg::bootstrap_directories
+2025-07-05 16:27:17.553 INFO: Successfully recovered module: egg::bootstrap_directories
+2025-07-05 16:27:17.555 INFO: Attempting to recover module: egg::generate_configuration
+2025-07-05 16:27:17.556 INFO: Successfully recovered module: egg::generate_configuration
+2025-07-05 16:27:17.558 INFO: Attempting to recover module: egg::bootstrap_framwork
+2025-07-05 16:27:17.560 INFO: Successfully recovered module: egg::bootstrap_framwork
+2025-07-05 16:27:17.562 INFO: Attempting to recover module: egg::rsbuild_frontend
+2025-07-05 16:27:17.564 INFO: Successfully recovered module: egg::rsbuild_frontend
+2025-07-05 16:27:17.565 INFO: All modules recovered successfully
+2025-07-05 16:27:17.568 INFO: Recovering 1 failed modules
+2025-07-05 16:27:17.570 INFO: Attempting to recover module: egg::install_tools
+2025-07-05 16:27:17.572 ERROR: error: recovery failed
+2025-07-05 16:31:12.129 ERROR: error: test error
+2025-07-05 16:31:12.135 ERROR: error: module failed
+2025-07-05 16:31:12.140 INFO: Recovering 5 failed modules
+2025-07-05 16:31:12.142 INFO: Attempting to recover module: egg::install_libraries
+2025-07-05 16:31:12.144 INFO: Successfully recovered module: egg::install_libraries
+2025-07-05 16:31:12.146 INFO: Attempting to recover module: egg::bootstrap_directories
+2025-07-05 16:31:12.147 INFO: Successfully recovered module: egg::bootstrap_directories
+2025-07-05 16:31:12.149 INFO: Attempting to recover module: egg::generate_configuration
+2025-07-05 16:31:12.151 INFO: Successfully recovered module: egg::generate_configuration
+2025-07-05 16:31:12.153 INFO: Attempting to recover module: egg::bootstrap_framwork
+2025-07-05 16:31:12.155 INFO: Successfully recovered module: egg::bootstrap_framwork
+2025-07-05 16:31:12.156 INFO: Attempting to recover module: egg::rsbuild_frontend
+2025-07-05 16:31:12.158 INFO: Successfully recovered module: egg::rsbuild_frontend
+2025-07-05 16:31:12.160 INFO: All modules recovered successfully
+2025-07-05 16:31:12.162 INFO: Recovering 1 failed modules
+2025-07-05 16:31:12.164 INFO: Attempting to recover module: egg::install_tools
+2025-07-05 16:31:12.166 ERROR: error: recovery failed
+2025-07-05 16:32:28.099 ERROR: error: test error
+2025-07-05 16:32:28.111 ERROR: error: module failed
+2025-07-05 16:32:28.119 INFO: Recovering 5 failed modules
+2025-07-05 16:32:28.123 INFO: Attempting to recover module: egg::install_libraries
+2025-07-05 16:32:28.126 INFO: Successfully recovered module: egg::install_libraries
+2025-07-05 16:32:28.130 INFO: Attempting to recover module: egg::bootstrap_directories
+2025-07-05 16:32:28.134 INFO: Successfully recovered module: egg::bootstrap_directories
+2025-07-05 16:32:28.139 INFO: Attempting to recover module: egg::generate_configuration
+2025-07-05 16:32:28.143 INFO: Successfully recovered module: egg::generate_configuration
+2025-07-05 16:32:28.146 INFO: Attempting to recover module: egg::bootstrap_framwork
+2025-07-05 16:32:28.150 INFO: Successfully recovered module: egg::bootstrap_framwork
+2025-07-05 16:32:28.155 INFO: Attempting to recover module: egg::rsbuild_frontend
+2025-07-05 16:32:28.160 INFO: Successfully recovered module: egg::rsbuild_frontend
+2025-07-05 16:32:28.164 INFO: All modules recovered successfully
+2025-07-05 16:32:28.169 INFO: Recovering 1 failed modules
+2025-07-05 16:32:28.172 INFO: Attempting to recover module: egg::install_tools
+2025-07-05 16:32:28.175 ERROR: error: recovery failed
+2025-07-05 16:33:25.629 ERROR: error: test error
+2025-07-05 16:33:25.637 ERROR: error: module failed
+2025-07-05 16:33:25.641 INFO: Recovering 5 failed modules
+2025-07-05 16:33:25.643 INFO: Attempting to recover module: egg::install_libraries
+2025-07-05 16:33:25.645 INFO: Successfully recovered module: egg::install_libraries
+2025-07-05 16:33:25.648 INFO: Attempting to recover module: egg::bootstrap_directories
+2025-07-05 16:33:25.649 INFO: Successfully recovered module: egg::bootstrap_directories
+2025-07-05 16:33:25.652 INFO: Attempting to recover module: egg::generate_configuration
+2025-07-05 16:33:25.654 INFO: Successfully recovered module: egg::generate_configuration
+2025-07-05 16:33:25.656 INFO: Attempting to recover module: egg::bootstrap_framwork
+2025-07-05 16:33:25.658 INFO: Successfully recovered module: egg::bootstrap_framwork
+2025-07-05 16:33:25.660 INFO: Attempting to recover module: egg::rsbuild_frontend
+2025-07-05 16:33:25.663 INFO: Successfully recovered module: egg::rsbuild_frontend
+2025-07-05 16:33:25.665 INFO: All modules recovered successfully
+2025-07-05 16:33:25.668 INFO: Recovering 1 failed modules
+2025-07-05 16:33:25.670 INFO: Attempting to recover module: egg::install_tools
+2025-07-05 16:33:25.672 ERROR: error: recovery failed
+2025-07-05 16:34:41.887 ERROR: error: test error
+2025-07-05 16:34:41.891 ERROR: error: module failed
+2025-07-05 16:34:41.896 INFO: Recovering 5 failed modules
+2025-07-05 16:34:41.898 INFO: Attempting to recover module: egg::install_libraries
+2025-07-05 16:34:41.900 INFO: Successfully recovered module: egg::install_libraries
+2025-07-05 16:34:41.902 INFO: Attempting to recover module: egg::bootstrap_directories
+2025-07-05 16:34:41.904 INFO: Successfully recovered module: egg::bootstrap_directories
+2025-07-05 16:34:41.906 INFO: Attempting to recover module: egg::generate_configuration
+2025-07-05 16:34:41.908 INFO: Successfully recovered module: egg::generate_configuration
+2025-07-05 16:34:41.910 INFO: Attempting to recover module: egg::bootstrap_framwork
+2025-07-05 16:34:41.911 INFO: Successfully recovered module: egg::bootstrap_framwork
+2025-07-05 16:34:41.913 INFO: Attempting to recover module: egg::rsbuild_frontend
+2025-07-05 16:34:41.916 INFO: Successfully recovered module: egg::rsbuild_frontend
+2025-07-05 16:34:41.917 INFO: All modules recovered successfully
+2025-07-05 16:34:41.920 INFO: Recovering 1 failed modules
+2025-07-05 16:34:41.923 INFO: Attempting to recover module: egg::install_tools
+2025-07-05 16:34:41.925 ERROR: error: recovery failed
+2025-07-05 16:35:59.392 ERROR: error: test error
+2025-07-05 16:35:59.401 ERROR: error: module failed
+2025-07-05 16:35:59.408 INFO: Recovering 5 failed modules
+2025-07-05 16:35:59.412 INFO: Attempting to recover module: egg::install_libraries
+2025-07-05 16:35:59.414 INFO: Successfully recovered module: egg::install_libraries
+2025-07-05 16:35:59.417 INFO: Attempting to recover module: egg::bootstrap_directories
+2025-07-05 16:35:59.419 INFO: Successfully recovered module: egg::bootstrap_directories
+2025-07-05 16:35:59.421 INFO: Attempting to recover module: egg::generate_configuration
+2025-07-05 16:35:59.423 INFO: Successfully recovered module: egg::generate_configuration
+2025-07-05 16:35:59.425 INFO: Attempting to recover module: egg::bootstrap_framwork
+2025-07-05 16:35:59.427 INFO: Successfully recovered module: egg::bootstrap_framwork
+2025-07-05 16:35:59.429 INFO: Attempting to recover module: egg::rsbuild_frontend
+2025-07-05 16:35:59.432 INFO: Successfully recovered module: egg::rsbuild_frontend
+2025-07-05 16:35:59.434 INFO: All modules recovered successfully
+2025-07-05 16:35:59.438 INFO: Recovering 1 failed modules
+2025-07-05 16:35:59.440 INFO: Attempting to recover module: egg::install_tools
+2025-07-05 16:35:59.442 ERROR: error: recovery failed
+2025-07-05 16:39:15.285 INFO: Recovering 1 failed modules
+2025-07-05 16:39:15.290 INFO: Attempting to recover module: egg::bootstrap_framwork
+2025-07-05 16:39:15.294 INFO: Successfully recovered module: egg::bootstrap_framwork
+2025-07-05 16:39:15.302 INFO: 🥚 egg::bootstrap_framwork creating ./middlewares/configs/auth.go
+2025-07-05 16:39:15.312 INFO: All modules recovered successfully
+2025-07-05 16:39:15.312 INFO: 🥚 egg::bootstrap_framwork creating openapitools.json

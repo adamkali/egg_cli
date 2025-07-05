@@ -214,7 +214,6 @@ func LoadScrambled() (
 	if err != nil {
 		return nil, nil, nil, fmt.Errorf("failed to decode .scrambled file: %w", err)
 	}
-
 	// Create a map for O(1) lookup of succeeded modules
 	succeededMap := make(map[string]bool)
 	succeededModules := make([]modules.IModule, 0, len(scramble.Succeeded))
