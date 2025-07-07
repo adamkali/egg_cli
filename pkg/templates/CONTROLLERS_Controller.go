@@ -9,7 +9,7 @@ import (
 	"context"
 
 	"{{.Namespace}}/cmd/configuration"
-	"{{.Namespace}}/middlwares/configs"
+	"{{.Namespace}}/middlewares/configs"
 	"{{.Namespace}}/services"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/labstack/echo/v4"

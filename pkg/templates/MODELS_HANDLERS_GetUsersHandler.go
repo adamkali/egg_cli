@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"time"
 
-	"{{.Namespace}}/models/responses"
+	"{{.Namespace}}/{{.Database.SqlcRepositoryLocation}}"
 	"{{.Namespace}}/services"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"

@@ -6,7 +6,7 @@ const MODELS_RESPONSE_UsersResponseTemplate = `
 package responses
 
 import (
-	"{{.Namespace}}/internal/repository"
+	"{{.Namespace}}/{{.Database.SqlcRepositoryLocation}}"
 	"github.com/labstack/echo/v4"
 )
 

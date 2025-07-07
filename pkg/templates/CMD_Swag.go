@@ -30,7 +30,7 @@ import (
 var swagCmd = &cobra.Command{
 	Use:   "swag",
 	Short: "A brief description of your command",
-	Long: ` + "`" + `,
+	Long: ` + "` A long description of your command`" + `,
 	Run: func(cmd *cobra.Command, args []string) {
 		if err := swag(); err != nil {
 			fmt.Println(err.Error())

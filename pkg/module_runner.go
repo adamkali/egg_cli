@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	ScrambledFileName = ".scrambled"
+	ScrambledFileName = "./.scrambled.yml"
 )
 
 var (
@@ -78,9 +78,10 @@ func ProjectFactory(configuration *configuration.Configuration, eggl *models.Egg
 		module.Run()
 		err = module.IsError()
 		if PrintError(module, eggl) {
-			// if there is an error, then we to still write the .scrambled file
 			err = WriteScrambled(configuration, succeededModules, module, err)
-			// print out to check the Scrambled file
+			if err != nil {
+				return err
+			}
 			fmt.Println("check the .scrambled for the breaking error and what module failed")
 			return err
 		}

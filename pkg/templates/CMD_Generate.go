@@ -30,7 +30,7 @@ import (
 // generateCmd represents the generate command
 var generateCmd = &cobra.Command{
 	Use:   "generate",
-	Short: "This command uses sqlc to generate the repository code from the ` + "`internal/queries`. `" + `,
+	Short: "This command uses sqlc to generate the repository code from the ` + "`internal/queries`. `" + `",
 	Long: ` + "`" + `
 *** Help Text
 This command uses sql to generate the repository code from the internal/queries. 

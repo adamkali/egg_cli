@@ -24,7 +24,7 @@ import (
 
 	"{{.Namespace}}/cmd/configuration"
 	"{{.Namespace}}/controllers"
-	_ "{{.Namespace}}/docs"
+	// _ "{{.Namespace}}/docs" // uncomment this to enable swagger docs
 	"github.com/labstack/echo/v4"
 	"github.com/spf13/cobra"
 )

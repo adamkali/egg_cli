@@ -8,7 +8,7 @@ import (
 	"net/http"
 
 	"{{.Namespace}}/cmd/configuration"
-	"{{.Namespace}}/middlwares/configs"
+	"{{.Namespace}}/middlewares/configs"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	echoSwagger "github.com/swaggo/echo-swagger"

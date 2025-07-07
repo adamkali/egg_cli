@@ -9,7 +9,7 @@ import (
 	"errors"
 	"time"
 
-	"{{.Namespace}}/internal/repository"
+	"{{.Namespace}}/{{.Database.SqlcRepositoryLocation}}"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 )

@@ -4,7 +4,7 @@ const MODELS_RESPONSE_DeleteUserResponseTemplate = `
 package responses
 
 import (
-	"{{.Namespace}}/internal/repository"
+	"{{.Namespace}}/{{.Database.SqlcRepositoryLocation}}"
 )
 
 type DashboardResponse struct {

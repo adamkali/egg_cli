@@ -9,7 +9,7 @@ import (
 	"context"
 	//"time"
 
-	"{{.Namespace}}/internal/repository"
+	"{{.Namespace}}/{{.Database.SqlcRepositoryLocation}}"
 )
 
 // AuthService provides authentication services, including creating and checking tokens.

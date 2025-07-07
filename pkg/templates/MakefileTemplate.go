@@ -6,7 +6,7 @@ const MakefileTemplate = `
 #   on the server without React 
 # 	tailwindcss -i ./tailwind.css -o ./public/css/index.css 
 build-backend:
-	go build -o ./tmp/main .
+	go build -o ./tmp/{{.Name}} . 
 build-frontend: 
 	cd ./frontend/ && pnpm format && pnpm build
 build-swagger:

@@ -6,7 +6,7 @@ const SERVICES_IAuthServiceTemplate = `
 package services
 
 import (
-	"{{.Namespace}}/internal/repository"
+	"{{.Namespace}}/{{.Database.SqlcRepositoryLocation}}"
 )
 
 

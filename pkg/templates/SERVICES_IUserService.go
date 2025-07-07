@@ -6,8 +6,8 @@ const SERVICES_IUserServiceTemplate = `
 package services
 
 import (
-	"github.com/adamkali/fullstack_app/internal/repository"
-	"github.com/adamkali/fullstack_app/models/requests"
+	"{{.Namespace}}/{{.Database.SqlcRepositoryLocation}}"
+	"{{.Namespace}}/models/requests"
 	"github.com/google/uuid"
 )
 

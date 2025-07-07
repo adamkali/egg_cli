@@ -8,7 +8,7 @@ package handlers
 import (
 	"fmt"
 
-	"{{.Namespace}}/internal/repository"
+	"{{.Namespace}}/{{.Database.SqlcRepositoryLocation}}"
 	"{{.Namespace}}/models/requests"
 	"{{.Namespace}}/models/responses"
 	"github.com/labstack/echo/v4"

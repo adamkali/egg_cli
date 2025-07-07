@@ -98,12 +98,18 @@ func (m *BootstrapDirectoriesModule) Run() {
 			return
 		}
 	}()
-	go func() {
-		wg.Wait()
-		bootstrapDirectoriesComplete := styles.EggProgressInfo.Render("🥚 " + m.Name() + " complete")
-		fmt.Println(bootstrapDirectoriesComplete)
-		m.eggl.Info("🥚 " + m.Name() + " complete")
-	}()
+	// go func() {
+	// 	wg.Wait()
+	// 	bootstrapDirectoriesComplete := styles.EggProgressInfo.Render("🥚 " + m.Name() + " complete")
+	// 	fmt.Println(bootstrapDirectoriesComplete)
+	// 	m.eggl.Info("🥚 " + m.Name() + " complete")
+	// }()
+	// the above code causes a panic at the wait group lets fix it
+	wg.Wait()
+
+	bootstrapDirectoriesComplete := styles.EggProgressInfo.Render("🥚 " + m.Name() + " complete")
+	fmt.Println(bootstrapDirectoriesComplete)
+	m.eggl.Info("🥚 " + m.Name() + " complete")
 	return
 }
 

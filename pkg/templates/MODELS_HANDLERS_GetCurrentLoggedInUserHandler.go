@@ -6,7 +6,7 @@ package handlers
 import (
 	"fmt"
 
-	"{{.Namespace}}/internal/repository"
+	"{{.Namespace}}/{{.Database.SqlcRepositoryLocation}}"
 	"{{.Namespace}}/models/responses"
 	"{{.Namespace}}/services"
 	"github.com/golang-jwt/jwt/v5"

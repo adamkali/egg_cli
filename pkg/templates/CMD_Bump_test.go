@@ -39,8 +39,8 @@ import (
 var bumpCmd = &cobra.Command{
 	Use:   "bump",
 	Short: "Bumps the semantic version of the server",
-	Long: ` + "\n" +
-	`*** Help Text
+	Long: ` + "`" + `
+	*** Help Text
 Use bump in order to incerment the server
 - no flags increments the specific version  <0.0.XX>
 - -m increments the minor version           <0.XX.0>

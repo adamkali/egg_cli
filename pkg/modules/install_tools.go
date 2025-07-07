@@ -42,6 +42,7 @@ func (m *InstallToolsModule) Run() {
 	for _, tool := range targets.RequiredTools {
 		toolStr := tool[strings.LastIndex(tool, "/")+1:]
 		toolStr = toolStr[:strings.Index(toolStr, "@")]
+		fmt.Printf("%s\n", toolStr)
 
 		// Use injected function if available, otherwise use real implementation
 		var err error
@@ -62,6 +63,8 @@ func (m *InstallToolsModule) Run() {
 			fmt.Println(installToolInstalledMessage)
 			continue
 		}
+		// err should be handled at this point
+		err = nil
 
 		installToolsMessage := fmt.Sprintf(
 			"🥚 %s installing %s",
@@ -71,6 +74,7 @@ func (m *InstallToolsModule) Run() {
 		m.eggl.Info(installToolsMessage)
 		installToolsMessage = styles.EggProgressInfo.Render(installToolsMessage)
 		fmt.Println(installToolsMessage)
+		// 
 
 		// Use injected function if available, otherwise use real implementation
 		if m.InstallToolFunc != nil {
@@ -84,6 +88,7 @@ func (m *InstallToolsModule) Run() {
 			fmt.Println(string(output))
 		}
 
+	
 		if err != nil {
 			m.Error = err
 			return

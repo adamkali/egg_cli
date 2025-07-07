@@ -30,7 +30,7 @@ import (
 // upCmd represents the up command
 var upCmd = &cobra.Command{
 	Use:   "up",
-	Short: "This command uses sql to generate the repository code from the` + " `internal/migrations`." + `,
+	Short: "This command uses sql to generate the repository code from the` + " `internal/migrations`." + `",
 	Long: ` + "`" + `
 *** Help Text
 This command calls goose migrations under the hood. And by default it uses 

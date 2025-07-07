@@ -59,12 +59,12 @@ func Mapping(config *configuration.Configuration) map[string]*template.Template 
 		"./" + config.Database.Migration.Destination + "/0001_init.sql": template.Must(
 			template.New("./" + config.Database.Migration.Destination + "/migrations/0001_init.sql").Parse(DATABASE_MIGRATIONS_INITTemplate),
 		),
-		"./" + config.Database.QueriesLocation + "/token.go": template.Must(
-			template.New("./" + config.Database.QueriesLocation + "/token.go").Parse(DATABASE_QUERIES_TokenTemplate),
+		"./" + config.Database.QueriesLocation + "/token.sql": template.Must(
+			template.New("./" + config.Database.QueriesLocation + "/token.sql").Parse(DATABASE_QUERIES_TokenTemplate),
 		),
 
-		"./" + config.Database.QueriesLocation + "/user.go": template.Must(
-			template.New("./" + config.Database.QueriesLocation + "/user.go").Parse(DATABASE_QUERIES_UserTemplate),
+		"./" + config.Database.QueriesLocation + "/user.sql": template.Must(
+			template.New("./" + config.Database.QueriesLocation + "/user.sql").Parse(DATABASE_QUERIES_UserTemplate),
 		),
 	}
 }

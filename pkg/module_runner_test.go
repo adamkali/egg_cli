@@ -363,10 +363,9 @@ configuration:
 	// if module is unknown it should return an error 
 	_, _, _, err = LoadScrambled()
 	if err == nil {	
-		return
+		t.Error("LoadScrambled() should return error for unknown module")
 	}
-	t.Error("LoadScrambled() should return error for unknown module")
-
+		return
 }
 
 func TestWriteScrambled(t *testing.T) {
@@ -504,7 +503,7 @@ func TestRecoverFromScrambled_NoFailedModules(t *testing.T) {
   - egg::install_libraries
   - egg::bootstrap_directories
   - egg::generate_configuration
-  - egg::bootstrap_framework_files
+  - egg::bootstrap_framework
   - egg::rsbuild_frontend
 configuration:
   namespace: github.com/testuser/testproject
@@ -621,12 +620,6 @@ configuration:
 	// Check that new .scrambled file was created
 	if !CheckScrambled() {
 		t.Error("RecoverFromScrambled() should create new .scrambled file when recovery fails")
-	}
-}
-
-func TestScrambledFileName_Constant(t *testing.T) {
-	if ScrambledFileName != ".scrambled" {
-		t.Errorf("ScrambledFileName = %s, want %s", ScrambledFileName, ".scrambled")
 	}
 }
 
