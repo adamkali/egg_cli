@@ -49,15 +49,13 @@ func (m PageModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			return m, tea.Quit
 		case "ctrl+n":
 			// Move to next page
-			if m.currentPage <= len(m.pages)-1 {
+			if m.currentPage < len(m.pages)-1 {
 				m.currentPage++
-				if m.currentPage > len(m.pages)-1 {
-					return m, tea.Quit
-				}
-				m.eggl.Info("Moving to page %d", m.currentPage)
 				if page, ok := m.pages[m.currentPage].(ISubModel); ok {
 					page.FocusFirstInput()
 				}
+			} else {
+				return m, tea.Quit	
 			}
 		case "ctrl+p":
 			// Move to previous page

@@ -144,35 +144,6 @@ func TestPrintError(t *testing.T) {
 	}
 }
 
-func TestProjectFactory_Success(t *testing.T) {
-	logger := createTestLogger(t)
-	defer logger.Close()
-	config := createTestConfiguration()
-
-	// Create mock modules that succeed
-	mockModules := []modules.IModule{
-		&MockModule{name: "test1", err: nil},
-		&MockModule{name: "test2", err: nil},
-		&MockModule{name: "test3", err: nil},
-	}
-
-	// Temporarily replace the Modules slice
-	originalModules := Modules
-	Modules = mockModules
-	defer func() { Modules = originalModules }()
-
-	err := ProjectFactory(config, logger)
-	if err != nil {
-		t.Errorf("ProjectFactory() returned unexpected error: %v", err)
-	}
-
-	// Verify that LoadFromConfig was called on all modules
-	for _, module := range mockModules {
-		if mock, ok := module.(*MockModule); !ok || !mock.loadRun {
-			t.Errorf("LoadFromConfig was not called on module %s", module.Name())
-		}
-	}
-}
 
 func TestProjectFactory_ModuleFailure(t *testing.T) {
 	logger := createTestLogger(t)

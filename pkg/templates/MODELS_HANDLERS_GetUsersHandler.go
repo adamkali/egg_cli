@@ -7,29 +7,27 @@ package handlers
 
 import (
 	"fmt"
-	"time"
-
 	"{{.Namespace}}/{{.Database.SqlcRepositoryLocation}}"
+	"{{.Namespace}}/models/responses"
 	"{{.Namespace}}/services"
+
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
-	"github.com/redis/go-redis/v9"
 )
 
-type GetProfilePictureHandler struct {
-	UserID                      uuid.UUID
-	Context                     echo.Context
-	ProfilePictureName          string
-	PresignedUserProfilePicture string
-	UpdateRedis                 bool			// This will tell the handler to update the redis cache if the profile picture needs to be updated
-	Error                       error
-	Code                        int
-	Locked                      bool
+type GetUsersHandler struct {
+	Admin   bool
+	UserID  uuid.UUID
+	Users   []repository.User
+	Context echo.Context
+	Error   error
+	Code    int
+	Locked  bool
 }
 
-func NewGetProfilPictureHandler(ctx echo.Context) *GetProfilePictureHandler {
-	return &GetProfilePictureHandler{
+func NewGetUsersHandler(ctx echo.Context) *GetUsersHandler {
+	return &GetUsersHandler{
 		Context: ctx,
 		Locked:  false,
 		Error:   nil,
@@ -37,65 +35,39 @@ func NewGetProfilPictureHandler(ctx echo.Context) *GetProfilePictureHandler {
 	}
 }
 
-func (h *GetProfilePictureHandler) Lock(code int) *GetProfilePictureHandler {
+func (h *GetUsersHandler) Lock(code int) *GetUsersHandler {
 	h.Locked = true
 	h.Code = code
 	return h
 }
 
-func (h *GetProfilePictureHandler) Handle(fun any) *GetProfilePictureHandler {
+func (h *GetUsersHandler) Handle(fun any) *GetUsersHandler {
 	var code int
 	if !h.Locked {
 		switch handle := fun.(type) {
 		case func(token string) error:
+			// UWU 
 			jwt_token := h.Context.Get("user").(*jwt.Token)
 			claims := jwt_token.Claims.(*services.CustomJwt)
 			h.UserID = claims.UserId
-			h.Error = handle(jwt_token.Raw)
+			h.Admin = claims.IsAdmin
+			//fmt.Printf("[DEBUG] GetUsersHandler.Handle{ jwt_token.Claims.(*services.CustomJwt) }.{claims.User}: %s, {claims.IsAdmin}: %v, {claims.ProfilePic}: %s\n", claims.User, claims.IsAdmin, claims.ProfilePic)
 			code = 401
-			h.ProfilePictureName = claims.ProfilePic
-			break
-		case func(uploaderID uuid.UUID, uploadName string) (string, error):
-			// check if the PresignedUserProfilePicture exists yet in the handler 
-			if h.PresignedUserProfilePicture != "" {
-				fmt.Printf("[DEBUG] Cached GetProfilePictureHandler.Handle{ h.UserID } Success\n", )
-				h.Error = nil
-				h.UpdateRedis = false
-				break // basically we say that the we have the url from cache and we can return
+			h.Error = handle(jwt_token.Raw)
+			if !h.Admin {
+				code = 403
+				h.Error = echo.NewHTTPError(code, "Not Admin")
 			}
-			fmt.Printf("[DEBUG] GetProfilePictureHandler.Handle{ Must be updated: h.UserID / h.ProfilePictureName: %s / %s }\n", h.UserID.String(), h.ProfilePictureName)
-			h.PresignedUserProfilePicture, h.Error = handle(h.UserID, h.ProfilePictureName)
-			h.UpdateRedis = true
+		case func() ([]repository.User, error):
 			code = 500
-			break
-		// IRedisService GetWithExpiration
-		case func(key string) (string, error):
-			// check if the PresignedUserProfilePicture exists in redis
-			fmt.Printf("[DEBUG] GetProfilePictureHandler.Handle{ h.UserID / h.PresignedUserProfilePicture: %s/%s }\n", h.UserID.String(), h.ProfilePictureName)
-			h.PresignedUserProfilePicture, h.Error = handle(h.UserID.String() + "/" + h.ProfilePictureName)
-			// dont worry
-			if h.Error == redis.Nil {
-				h.UpdateRedis = true
-				h.PresignedUserProfilePicture = ""
-				h.Error = nil
-			} else {
-				h.UpdateRedis = false	
-				code = 500
-			}
-			break
-		case func(key string, value string, expiration time.Duration) error:
-			if !h.UpdateRedis {
-				h.Error = nil
-				break
-			}
-			h.Error = handle(h.UserID.String() + "/" + h.ProfilePictureName, h.PresignedUserProfilePicture, time.Hour*24)
-			code = 500
-			break
+			h.Users, h.Error = handle()
+
 		default:
-			fmt.Printf("Type assertion failed for type: %T\n", fun)
 			code = 600
-			h.Error = echo.NewHTTPError(code, "Misaligned handler on the server")
-			break
+			h.Error = echo.NewHTTPError(
+				code,
+				fmt.Sprintf("Type assertion failed for type: %T\n", fun),
+			)
 		}
 		if h.Error != nil {
 			return h.Lock(code)
@@ -104,7 +76,7 @@ func (h *GetProfilePictureHandler) Handle(fun any) *GetProfilePictureHandler {
 	return h
 }
 
-func (h *GetProfilePictureHandler) JSON() error {
+func (h *GetUsersHandler) JSON() error {
 	var code int
 	var message string
 	if h.Locked && h.Error != nil {
@@ -117,11 +89,26 @@ func (h *GetProfilePictureHandler) JSON() error {
 	} else if code == 200 {
 		message = "OK"
 	}
-	return h.Context.JSON(code, responses.StringResponse{
+	
+	data := make([]responses.UserData, len(h.Users))
+	for i, val := range h.Users {
+		 data[i] = *responses.UserDataFromRepository(&val)
+	}
+
+	return h.Context.JSON(code, responses.UsersResponse{
 		Message: message,
 		Success: !h.Locked,
-		Data:    &h.PresignedUserProfilePicture,
+		Data: data,
 	})
+}
 
+func (h *GetUsersHandler) Response() error {
+	if h.Locked && h.Error != nil {
+		return h.JSON()
+	} else {
+		return h.JSON()
+	}
 }
 `
+
+

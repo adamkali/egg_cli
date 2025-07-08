@@ -268,3 +268,50 @@
 2025-07-07 02:32:38.060 INFO: Recovering 1 failed modules
 2025-07-07 02:32:38.061 INFO: Attempting to recover module: egg::install_tools
 2025-07-07 02:32:38.061 ERROR: error: recovery failed
+2025-07-08 12:37:39.177 ERROR: error: test error
+2025-07-08 12:37:39.183 ERROR: error: module failed
+2025-07-08 12:37:39.191 INFO: Recovering 5 failed modules
+2025-07-08 12:37:39.197 INFO: Attempting to recover module: egg::install_libraries
+2025-07-08 12:37:39.201 INFO: Successfully recovered module: egg::install_libraries
+2025-07-08 12:37:39.203 INFO: Attempting to recover module: egg::bootstrap_directories
+2025-07-08 12:37:39.208 INFO: Successfully recovered module: egg::bootstrap_directories
+2025-07-08 12:37:39.212 INFO: Attempting to recover module: egg::generate_configuration
+2025-07-08 12:37:39.216 INFO: Successfully recovered module: egg::generate_configuration
+2025-07-08 12:37:39.220 INFO: Attempting to recover module: egg::bootstrap_framwork
+2025-07-08 12:37:39.224 INFO: Successfully recovered module: egg::bootstrap_framwork
+2025-07-08 12:37:39.227 INFO: Attempting to recover module: egg::rsbuild_frontend
+2025-07-08 12:37:39.232 INFO: Successfully recovered module: egg::rsbuild_frontend
+2025-07-08 12:37:39.236 INFO: All modules recovered successfully
+2025-07-08 12:37:39.241 INFO: Recovering 1 failed modules
+2025-07-08 12:37:39.245 INFO: Attempting to recover module: egg::bootstrap_framwork
+2025-07-08 12:37:39.253 INFO: Successfully recovered module: egg::bootstrap_framwork
+2025-07-08 12:37:39.258 INFO: 🥚 egg::bootstrap_framwork creating ./models/handlers/get_current_logged_in_user_handler.go
+2025-07-08 12:37:39.268 INFO: All modules recovered successfully
+2025-07-08 12:37:39.268 INFO: 🥚 egg::bootstrap_framwork creating ./models/handlers/delete_user_handler.go
+2025-07-08 12:37:39.283 INFO: 🥚 egg::bootstrap_framwork creating ./models/responses/users_response.go
+2025-07-08 12:37:39.283 INFO: Recovering 1 failed modules
+2025-07-08 12:37:39.290 INFO: Attempting to recover module: egg::install_tools
+2025-07-08 12:37:39.294 ERROR: error: recovery failed
+2025-07-08 12:42:34.521 ERROR: error: test error
+2025-07-08 12:42:34.529 ERROR: error: module failed
+2025-07-08 12:42:34.536 INFO: Recovering 5 failed modules
+2025-07-08 12:42:34.542 INFO: Attempting to recover module: egg::install_libraries
+2025-07-08 12:42:34.546 INFO: Successfully recovered module: egg::install_libraries
+2025-07-08 12:42:34.548 INFO: Attempting to recover module: egg::bootstrap_directories
+2025-07-08 12:42:34.552 INFO: Successfully recovered module: egg::bootstrap_directories
+2025-07-08 12:42:34.555 INFO: Attempting to recover module: egg::generate_configuration
+2025-07-08 12:42:34.559 INFO: Successfully recovered module: egg::generate_configuration
+2025-07-08 12:42:34.563 INFO: Attempting to recover module: egg::bootstrap_framwork
+2025-07-08 12:42:34.578 INFO: Successfully recovered module: egg::bootstrap_framwork
+2025-07-08 12:42:34.582 INFO: Attempting to recover module: egg::rsbuild_frontend
+2025-07-08 12:42:34.585 INFO: Successfully recovered module: egg::rsbuild_frontend
+2025-07-08 12:42:34.589 INFO: All modules recovered successfully
+2025-07-08 12:42:34.599 INFO: Recovering 1 failed modules
+2025-07-08 12:42:34.606 INFO: Attempting to recover module: egg::bootstrap_framwork
+2025-07-08 12:42:34.611 INFO: Successfully recovered module: egg::bootstrap_framwork
+2025-07-08 12:42:34.614 INFO: 🥚 egg::bootstrap_framwork creating sqlc.yaml
+2025-07-08 12:42:34.620 INFO: All modules recovered successfully
+2025-07-08 12:42:34.625 INFO: 🥚 egg::bootstrap_framwork creating ./db/migrations/0001_init.sql
+2025-07-08 12:42:34.629 INFO: Recovering 1 failed modules
+2025-07-08 12:42:34.635 INFO: Attempting to recover module: egg::install_tools
+2025-07-08 12:42:34.640 ERROR: error: recovery failed
