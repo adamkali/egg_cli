@@ -105,7 +105,7 @@ jobs:
           go build -ldflags="-s -w" -o ${{ matrix.binary_name }} .
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.binary_name }}
           path: ${{ matrix.binary_name }}
