@@ -15,6 +15,10 @@ env:
   GO_VERSION: '1.24.2'
 
 jobs:
+  # Do not run tests right now!!! This is a work in progress. Right now the tests are being 
+  # generated int PKG dirictory and not in a test dir. This breaks the build process even
+  # if all tests passes.
+  #
   # test:
   #   name: Test
   #   runs-on: ubuntu-latest
@@ -50,7 +54,6 @@ jobs:
   #
   build:
     name: Build
-    needs: test
     runs-on: ubuntu-latest
     strategy:
       matrix:
