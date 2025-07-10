@@ -1,4 +1,4 @@
-![egg](https://github.com/user-attachments/assets/80dcb1e9-b7a5-486c-8ed9-d628ed265ee2)
+![egg](https://github.com/user-attachments/assets/2e31d134-8f8a-47c2-9d04-5ec8ffabc749)
 
 # egg_cli
 
