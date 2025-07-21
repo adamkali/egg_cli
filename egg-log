@@ -1,0 +1,116 @@
+2025-07-20 20:56:56.721 INFO: PageModel started
+2025-07-20 20:57:00.601 INFO: nextInput: cursor=1, focused=PROJECTUSERNAMENAME
+2025-07-20 20:57:03.380 INFO: nextInput: cursor=2, focused=PROJECTNAMENAME
+2025-07-20 20:57:08.139 INFO: Moving to page 1
+2025-07-20 20:57:10.296 INFO: nextInput: cursor=1, focused=COPYRIGHTYEARNAME
+2025-07-20 20:57:13.752 INFO: nextInput: cursor=2, focused=COPYRIGHTAUTHORNAME
+2025-07-20 20:57:29.935 INFO: prevInput: cursor=1, focused=COPYRIGHTYEARNAME
+2025-07-20 20:57:32.304 INFO: Moving to page 0
+2025-07-20 20:57:34.545 INFO: Moving to page 1
+2025-07-20 20:57:34.703 INFO: Moving to page 2
+2025-07-20 20:57:34.709 INFO: len(state.ProjectSeverMap): 2
+2025-07-20 20:57:36.581 INFO: Moving to page 3
+2025-07-20 20:57:43.172 INFO: Moving to page 4
+2025-07-20 20:58:20.879 ERROR: Error running program: program was killed: program experienced a panic
+2025-07-20 20:58:20.884 INFO: Defaulting to postgres://postgres@localhost:5432/egg?sslmode=disable as database url
+2025-07-20 20:58:20.887 INFO: Defaulting to db as database root directory
+2025-07-20 20:58:20.891 INFO: Defaulting to eAQYrEpVse99VU08uY0iZ7NAqY6ff7RPIcvrz0l2QM4= as minio access key
+2025-07-20 20:58:20.894 INFO: Defaulting to CH+ZQINKET0+vGzly5/Yj2DiybSftDEHhZfYtpKZ6No= as minio secret key
+2025-07-20 20:58:22.186 INFO: 🥚 egg::install_tools installing github.com/air-verse/air@latest
+2025-07-20 20:58:23.610 INFO: 🥚 egg::install_tools installing github.com/swaggo/swag/cmd/swag@latest
+2025-07-20 20:58:24.878 INFO: 🥚 egg::install_tools installing github.com/pressly/goose/v3/cmd/goose@latest
+2025-07-20 20:58:26.129 INFO: 🥚 egg::install_tools installing github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+2025-07-20 20:58:27.557 INFO: Installing libraries
+2025-07-20 20:58:27.564 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo
+2025-07-20 20:58:28.965 INFO: 🥚 egg::install_libraries installing github.com/spf13/cobra
+2025-07-20 20:58:30.493 INFO: 🥚 egg::install_libraries installing gopkg.in/yaml.v3
+2025-07-20 20:58:31.685 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/jsonpointer
+2025-07-20 20:58:32.913 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/jsonreference
+2025-07-20 20:58:34.202 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/spec
+2025-07-20 20:58:35.458 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/swag
+2025-07-20 20:58:36.700 INFO: 🥚 egg::install_libraries installing github.com/golang-jwt/jwt/v5
+2025-07-20 20:58:37.727 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo-jwt/v4
+2025-07-20 20:58:39.115 INFO: 🥚 egg::install_libraries installing github.com/golang-jwt/jwt
+2025-07-20 20:58:40.277 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo/v4
+2025-07-20 20:58:41.259 INFO: 🥚 egg::install_libraries installing github.com/joho/godotenv
+2025-07-20 20:58:42.369 INFO: 🥚 egg::install_libraries installing github.com/minio/crc64nvme
+2025-07-20 20:58:43.488 INFO: 🥚 egg::install_libraries installing github.com/minio/md5-simd
+2025-07-20 20:58:44.479 INFO: 🥚 egg::install_libraries installing github.com/minio/minio-go/v7
+2025-07-20 20:58:45.591 INFO: 🥚 egg::install_libraries installing github.com/pkg/errors
+2025-07-20 20:58:46.476 INFO: 🥚 egg::install_libraries installing github.com/swaggo/echo-swagger
+2025-07-20 20:58:47.699 INFO: 🥚 egg::install_libraries installing github.com/swaggo/files/v2
+2025-07-20 20:58:48.560 INFO: 🥚 egg::install_libraries installing github.com/swaggo/swag
+2025-07-20 20:58:49.682 INFO: 🥚 egg::install_libraries installing github.com/google/uuid
+2025-07-20 20:58:50.392 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx
+2025-07-20 20:58:51.481 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx/v5
+2025-07-20 20:58:52.715 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx/v5/pgxpool
+2025-07-20 20:58:54.015 INFO: 🥚 egg::install_libraries installing github.com/redis/go-redis/v9
+2025-07-20 20:58:55.180 INFO: 🥚 egg::bootstrap_directories creating cmd/configuration
+2025-07-20 20:58:55.183 INFO: 🥚 egg::bootstrap_directories creating tmp
+2025-07-20 20:58:55.186 INFO: 🥚 egg::bootstrap_directories creating services
+2025-07-20 20:58:55.189 INFO: 🥚 egg::bootstrap_directories creating middlwares/configs
+2025-07-20 20:58:55.191 INFO: 🥚 egg::bootstrap_directories creating models
+2025-07-20 20:58:55.192 INFO: 🥚 egg::bootstrap_directories creating db/queries
+2025-07-20 20:58:55.195 INFO: 🥚 egg::bootstrap_directories creating cmd/database_cli
+2025-07-20 20:58:55.197 INFO: 🥚 egg::bootstrap_directories creating db/migrations
+2025-07-20 20:58:55.200 INFO: 🥚 egg::bootstrap_directories creating public
+2025-07-20 20:58:55.202 INFO: 🥚 egg::bootstrap_directories creating controllers
+2025-07-20 20:58:55.206 INFO: 🥚 egg::bootstrap_directories creating docs
+2025-07-20 20:58:55.208 INFO: 🥚 egg::bootstrap_directories creating db/repository
+2025-07-20 20:58:55.208 INFO: 🥚 egg::bootstrap_directories complete
+2025-07-20 20:58:55.211 INFO: 🥚 egg::generate_configuration start
+
+2025-07-20 20:58:55.214 INFO: 🥚 egg::generate_configuration complete
+2025-07-20 20:58:55.219 INFO: 🥚 egg::bootstrap_framwork creating sqlc.yaml
+2025-07-20 20:58:55.223 INFO: 🥚 egg::bootstrap_framwork creating ./cmd/down.go
+2025-07-20 20:58:55.225 INFO: 🥚 egg::bootstrap_framwork creating ./services/i_user_service.go
+2025-07-20 20:58:55.228 INFO: 🥚 egg::bootstrap_framwork creating .dockerignore
+2025-07-20 20:58:55.231 INFO: 🥚 egg::bootstrap_framwork creating ./cmd/root.go
+2025-07-20 20:58:55.233 INFO: 🥚 egg::bootstrap_framwork creating ./controllers/controller.go
+2025-07-20 20:58:55.235 INFO: 🥚 egg::bootstrap_framwork creating ./cmd/up.go
+2025-07-20 20:58:55.237 INFO: 🥚 egg::bootstrap_framwork creating ./models/responses/user_response.go
+2025-07-20 20:58:55.239 INFO: 🥚 egg::bootstrap_framwork creating ./cmd/generate.go
+2025-07-20 20:58:55.241 INFO: 🥚 egg::bootstrap_framwork creating ./cmd/configuration/configuration.go
+2025-07-20 20:58:55.243 INFO: 🥚 egg::bootstrap_framwork creating .gitignore
+2025-07-20 20:58:55.246 INFO: 🥚 egg::bootstrap_framwork creating ./models/responses/delete_user_response.go
+2025-07-20 20:58:55.248 INFO: 🥚 egg::bootstrap_framwork creating ./cmd/bump.go
+2025-07-20 20:58:55.250 INFO: 🥚 egg::bootstrap_framwork creating ./cmd/migrate.go
+2025-07-20 20:58:55.252 INFO: 🥚 egg::bootstrap_framwork creating ./models/responses/login_response.go
+2025-07-20 20:58:55.254 INFO: 🥚 egg::bootstrap_framwork creating ./services/auth_service.go
+2025-07-20 20:58:55.257 INFO: 🥚 egg::bootstrap_framwork creating ./services/user_service.go
+2025-07-20 20:58:55.259 INFO: 🥚 egg::bootstrap_framwork creating Dockerfile
+2025-07-20 20:58:55.262 INFO: 🥚 egg::bootstrap_framwork creating ./services/i_minio_service.go
+2025-07-20 20:58:55.264 INFO: 🥚 egg::bootstrap_framwork creating ./services/validator_service.go
+2025-07-20 20:58:55.266 INFO: 🥚 egg::bootstrap_framwork creating ./cmd/version.go
+2025-07-20 20:58:55.267 INFO: 🥚 egg::bootstrap_framwork creating ./db/migrations/0001_init.sql
+2025-07-20 20:58:55.269 INFO: 🥚 egg::bootstrap_framwork creating ./services/minio_service.go
+2025-07-20 20:58:55.271 INFO: 🥚 egg::bootstrap_framwork creating ./services/mock_auth_service.go
+2025-07-20 20:58:55.273 INFO: 🥚 egg::bootstrap_framwork creating openapitools.json
+2025-07-20 20:58:55.275 INFO: 🥚 egg::bootstrap_framwork creating ./services/mock_user_service.go
+2025-07-20 20:58:55.277 INFO: 🥚 egg::bootstrap_framwork creating ./controllers/routes.go
+2025-07-20 20:58:55.279 INFO: 🥚 egg::bootstrap_framwork creating ./controllers/user_controller.go
+2025-07-20 20:58:55.281 INFO: 🥚 egg::bootstrap_framwork creating README.md
+2025-07-20 20:58:55.283 INFO: 🥚 egg::bootstrap_framwork creating ./models/handlers/get_current_logged_in_user_handler.go
+2025-07-20 20:58:55.285 INFO: 🥚 egg::bootstrap_framwork creating ./db/queries/user.sql
+2025-07-20 20:58:55.287 INFO: 🥚 egg::bootstrap_framwork creating Makefile
+2025-07-20 20:58:55.289 INFO: 🥚 egg::bootstrap_framwork creating ./services/redis_service.go
+2025-07-20 20:58:55.293 INFO: 🥚 egg::bootstrap_framwork creating ./services/i_auth_service.go
+2025-07-20 20:58:55.295 INFO: 🥚 egg::bootstrap_framwork creating ./models/handlers/delete_user_handler.go
+2025-07-20 20:58:55.297 INFO: 🥚 egg::bootstrap_framwork creating ./models/handlers/register_handler.go
+2025-07-20 20:58:55.300 INFO: 🥚 egg::bootstrap_framwork creating ./models/requests/new_user_request.go
+2025-07-20 20:58:55.302 INFO: 🥚 egg::bootstrap_framwork creating ./models/requests/login_request.go
+2025-07-20 20:58:55.304 INFO: 🥚 egg::bootstrap_framwork creating ./cmd/db.go
+2025-07-20 20:58:55.305 INFO: 🥚 egg::bootstrap_framwork creating ./models/handlers/get_profile_picture_handler.go
+2025-07-20 20:58:55.307 INFO: 🥚 egg::bootstrap_framwork creating ./db/queries/token.sql
+2025-07-20 20:58:55.310 INFO: 🥚 egg::bootstrap_framwork creating ./models/responses/users_response.go
+2025-07-20 20:58:55.312 INFO: 🥚 egg::bootstrap_framwork creating ./models/handlers/get_users_handler.go
+2025-07-20 20:58:55.314 INFO: 🥚 egg::bootstrap_framwork creating .air.toml
+2025-07-20 20:58:55.317 INFO: 🥚 egg::bootstrap_framwork creating ./cmd/swag.go
+2025-07-20 20:58:55.319 INFO: 🥚 egg::bootstrap_framwork creating ./services/i_redis_service.go
+2025-07-20 20:58:55.322 INFO: 🥚 egg::bootstrap_framwork creating main.go
+2025-07-20 20:58:55.324 INFO: 🥚 egg::bootstrap_framwork creating ./middlewares/configs/static.go
+2025-07-20 20:58:55.327 INFO: 🥚 egg::bootstrap_framwork creating ./models/handlers/upload_profile_picture_handler.go
+2025-07-20 20:58:55.330 INFO: 🥚 egg::bootstrap_framwork creating ./middlewares/configs/auth.go
+2025-07-20 20:58:55.333 INFO: 🥚 egg::bootstrap_framwork creating ./models/handlers/login_handler.go
+2025-07-20 21:00:57.930 ERROR: error: invalid package manager: 
+2025-07-20 21:00:57.937 ERROR: error: invalid package manager: 

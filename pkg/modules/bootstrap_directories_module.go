@@ -164,7 +164,6 @@ func (m *BootstrapDirectoriesModule) LoadFromConfig(configuration *configuration
 		"cmd/database_cli",
 		"controllers",
 		"docs",
-		"middlwares/configs",
 		"models",
 		"public",
 		"services",
