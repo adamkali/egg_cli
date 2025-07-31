@@ -97,12 +97,23 @@ This project has completed several major improvements:
 - ✅ **Documentation**: Enhanced README.md with comprehensive user guides, examples, and project structure explanations
 - ✅ **Build System**: Added Makefile with automated build, test, and release management targets
 - ✅ **Developer Experience**: Improved development workflow with standardized commands and version tracking
+- ✅ **CI/CD Pipeline**: Implemented comprehensive testing and automated release pipeline with branch-specific versioning
 
 ### Development Maturity
 - The core CLI and TUI framework is stable and functional
 - Template system is working with embedded Go templates
 - Interactive project generation wizard is operational
+- CI/CD pipeline with automated testing and releases is now operational
+- Branch-based development workflow established with dev and main branches
 - Ready for broader testing and usage
+
+### CI/CD Implementation (July 31, 2025)
+- **Testing Integration**: Added automated testing with `make test`, Go vet, and staticcheck
+- **Branch Strategy**: 
+  - `dev` branch: Development and testing, increments minor version (x.Y.z) on merge
+  - `main` branch: Production releases, increments major version (X.y.z) on merge
+- **Automated Releases**: Creates GitHub releases with cross-platform binaries automatically
+- **Build Matrix**: Supports Linux, macOS, and Windows on both amd64 and arm64 architectures
 
 ## Future Plans
 - Add a way to create either a preferred React or Svelte frontend with RSBuild that will just be very simple to use and work with
@@ -111,6 +122,8 @@ This project has completed several major improvements:
 - Add integration tests for the full project generation workflow
 - Consider adding support for additional database types and ORMs
 - Improve error handling and user feedback in the TUI wizard
+- Consider adding automated changelog generation
+- Implement semantic versioning with patch releases for bug fixes
 
 ## For Other AI Agents
 When working on this project:
@@ -120,5 +133,8 @@ When working on this project:
 4. Templates are located in `pkg/templates/` and mapped via `pkg/targets/mapping.yaml`
 5. The module system in `pkg/modules/` handles different aspects of project generation
 6. Configuration is YAML-based and managed through the TUI wizard
+7. **Branch Strategy**: Work on `dev` branch for development, merge to `main` for production releases
+8. **CI/CD**: The pipeline automatically runs tests, builds cross-platform binaries, and creates releases on branch pushes
+9. **Version Management**: Automated semantic versioning - dev branch increments minor, main branch increments major
 
 
