@@ -2,36 +2,166 @@
 
 # egg_cli
 
-A Fast and Simple Command Line Interface for Creating the Fullstack web framework egg. 
+A fast and simple command line interface for creating fullstack web applications with the **egg** framework. egg_cli provides an interactive setup wizard that scaffolds complete Go web applications with modern tooling, database integration, authentication, and frontend build configuration.
+
+## What is egg_cli?
+
+egg_cli is a project generator that creates production-ready Go web applications with:
+
+- 🚀 **REST API** with controllers and routes
+- 🗄️ **Database integration** with SQLC for type-safe queries
+- 🔐 **Authentication services** and middleware
+- 🐳 **Docker setup** for containerized deployment
+- ⚡ **Frontend build system** with RSBuild support
+- 📁 **Organized project structure** following Go best practices
+- 🛠️ **Development tools** and configurations
 
 ## Installation
 
+### From Go
 ```bash
 go install github.com/adamkali/egg_cli@latest
 ```
 
-## Usage
+### Build from Source
+```bash
+git clone https://github.com/adamkali/egg_cli.git
+cd egg_cli
+make build
+```
 
-### Init
-This will spin up the TUI configuration wizard to guide you through the creation of a new egg project, and is the recommended way to get started.
+## Quick Start
+
+### Creating a New Project
+
+The `init` command launches an interactive wizard that guides you through setting up your new egg project:
+
 ```bash
 egg_cli init
 ```
 
-This can also be used with the `--env` flag to use a certain environment file to skip through the wizard.
+The wizard will ask you about:
+- Project name and description
+- Database configuration (PostgreSQL, MySQL, SQLite)
+- Authentication setup
+- Frontend framework choice (React/Svelte with RSBuild)
+- Additional libraries and tools
 
-### Generate
-This will spin up the TUI configuration wizard to guide you through the creation of a new configuraion file,
-this can be useful if you already have an existing project but need to test a new database that has many nodes 
-or other configuration options that you want to change from the development.yaml (default).
-
+**Example walkthrough:**
 ```bash
-egg_cli generate
+$ egg_cli init
+
+🥚 Welcome to egg_cli!
+Let's create your new fullstack project.
+
+? What's your project name? my-awesome-app
+? Choose your database: PostgreSQL
+? Enable authentication? Yes
+? Frontend framework: React with RSBuild
+? Include Docker setup? Yes
+
+✨ Generating your egg project...
+✅ Project created successfully!
+
+Next steps:
+  cd my-awesome-app
+  make build
+  ./my-awesome-app
 ```
 
-This can also be used with the `--env` flag to use a certain environment file to skip through the wizard.
+### Using Environment Files
 
-This can also be used with the `--name` flag to set the name of the configuration file to be created outside of the wizard.
+Skip the interactive wizard by providing a pre-configured environment file:
+
+```bash
+egg_cli init --env production.yaml
+```
+
+## Commands
+
+### `init`
+Creates a new egg project with the interactive setup wizard.
+
+```bash
+egg_cli init [flags]
+```
+
+**Flags:**
+- `--env string`: Use an existing environment configuration file
+
+### `generate`
+Generates additional configuration files for existing projects. Useful for creating different environment configurations (development, staging, production).
+
+```bash
+egg_cli generate [flags]
+```
+
+**Flags:**
+- `--env string`: Base configuration file to extend
+- `--name string`: Name of the new configuration file
+
+**Example:**
+```bash
+# Generate a production config based on development settings
+egg_cli generate --env development.yaml --name production
+```
+
+## Project Structure
+
+egg_cli generates projects with this structure:
+
+```
+my-awesome-app/
+├── main.go                 # Application entry point
+├── Dockerfile             # Container configuration  
+├── docker-compose.yml     # Multi-service setup
+├── config/
+│   └── development.yaml   # Environment configuration
+├── internal/
+│   ├── controllers/       # HTTP request handlers
+│   ├── models/           # Data models
+│   ├── services/         # Business logic
+│   └── middleware/       # HTTP middleware
+├── migrations/           # Database migrations
+├── queries/             # SQLC database queries
+└── frontend/            # Frontend application (if selected)
+    ├── src/
+    └── rsbuild.config.js
+```
+
+## Development
+
+### Building
+```bash
+make build
+```
+
+### Running Tests
+```bash
+go test ./...
+```
+
+### Development Dependencies
+- Go 1.21+
+- Make (for build automation)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests: `go test ./...`
+5. Submit a pull request
+
+## License
+
+MIT License. See [LICENSE](LICENSE) for details.
+
+## Support
+
+- 📚 [Documentation](https://github.com/adamkali/egg_cli/wiki)
+- 🐛 [Issues](https://github.com/adamkali/egg_cli/issues)
+- 💬 [Discussions](https://github.com/adamkali/egg_cli/discussions)
 
 
 
