@@ -111,6 +111,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev')
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -152,14 +154,6 @@ jobs:
           NEW_VERSION="v${MAJOR}.${MINOR}.${PATCH}"
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
           echo "New version: $NEW_VERSION"
-
-      - name: Create and push tag
-        run: |
-          NEW_VERSION="${{ steps.calc_version.outputs.new_version }}"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag "$NEW_VERSION"
-          git push origin "$NEW_VERSION"
 
       - name: Download all artifacts
         uses: actions/download-artifact@v4
