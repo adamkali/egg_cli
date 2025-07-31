@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	"embed"
 	"fmt"
 	"os"
 
@@ -23,7 +24,6 @@ var (
 		&modules.BootstrapDirectoriesModule{},
 		&modules.GenerateConfigurationModule{},
 		&modules.BootstrapFrameworkFilesFromTemplatesModule{},
-		&modules.RsbuildFrontendModule{},
 	}
 )
 
@@ -70,11 +70,16 @@ func PrintError(m modules.IModule, eggl *models.EggLog) bool {
 //		This function is used to create a new project. It will run all the modules
 //	 in the order they are defined in the Modules slice. If any module fails, it
 //	 will write the .scrambled file and return an error.
-func ProjectFactory(configuration *configuration.Configuration, eggl *models.EggLog) error {
+func ProjectFactory(configuration *configuration.Configuration, eggl *models.EggLog, templatesFS embed.FS, mappingYaml string) error {
 	var err error
 	var succeededModules []modules.IModule
 	for _, module := range Modules {
-		module.LoadFromConfig(configuration, eggl)
+		// Special handling for bootstrap framework module to pass embedded files
+		if bootstrapModule, ok := module.(*modules.BootstrapFrameworkFilesFromTemplatesModule); ok {
+			bootstrapModule.LoadFromConfigWithEmbeds(configuration, eggl, templatesFS, mappingYaml)
+		} else {
+			module.LoadFromConfig(configuration, eggl)
+		}
 		module.Run()
 		err = module.IsError()
 		if PrintError(module, eggl) {
@@ -110,7 +115,7 @@ func ProjectFactory(configuration *configuration.Configuration, eggl *models.Egg
 //
 //		This function is used to recover a project from the .scrambled file.
 //	 It will load the .scrambled file and run the modules that failed.
-func RecoverFromScrambled(eggl *models.EggLog) error {
+func RecoverFromScrambled(eggl *models.EggLog, templatesFS embed.FS, mappingYaml string) error {
 	configuration, succeededModules, failedModules, err := LoadScrambled()
 	if err != nil {
 		return fmt.Errorf("failed to load .scrambled file: %w", err)
@@ -126,7 +131,12 @@ func RecoverFromScrambled(eggl *models.EggLog) error {
 	for _, module := range failedModules {
 		eggl.Info("Attempting to recover module: %s", module.Name())
 
-		module.LoadFromConfig(configuration, eggl)
+		// Special handling for bootstrap framework module to pass embedded files
+		if bootstrapModule, ok := module.(*modules.BootstrapFrameworkFilesFromTemplatesModule); ok {
+			bootstrapModule.LoadFromConfigWithEmbeds(configuration, eggl, templatesFS, mappingYaml)
+		} else {
+			module.LoadFromConfig(configuration, eggl)
+		}
 		module.Run()
 		err = module.IsError()
 

@@ -1,0 +1,21 @@
+# Template mapping configuration using embedded template files
+version: 1.0
+templates: 
+  - name: main.go
+    filepath: ./main.go
+    template: pkg/templates/files/main.go.tmpl
+  - name: README.md
+    filepath: ./README.md
+    template: pkg/templates/files/README.md.tmpl
+  - name: Makefile
+    filepath: ./Makefile
+    template: pkg/templates/files/Makefile.tmpl
+  - name: Dockerfile
+    filepath: ./Dockerfile
+    template: pkg/templates/files/Dockerfile.tmpl
+  - name: .gitignore
+    filepath: ./.gitignore
+    template: pkg/templates/files/.gitignore.tmpl
+  - name: cmd/root.go
+    filepath: ./cmd/root.go
+    template: pkg/templates/files/cmd/root.go.tmpl

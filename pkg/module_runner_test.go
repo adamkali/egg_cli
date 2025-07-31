@@ -453,7 +453,6 @@ package pkg
 // 		&MockModule{name: "egg::bootstrap_directories", err: nil},
 // 		&MockModule{name: "egg::generate_configuration", err: nil},
 // 		&MockModule{name: "egg::bootstrap_framwork", err: nil},
-// 		&MockModule{name: "egg::rsbuild_frontend", err: nil},
 // 	}
 // 	defer func() { Modules = originalModules }()
 //
@@ -475,7 +474,6 @@ package pkg
 //   - egg::bootstrap_directories
 //   - egg::generate_configuration
 //   - egg::bootstrap_framework
-//   - egg::rsbuild_frontend
 // configuration:
 //   namespace: github.com/testuser/testproject
 //   name: testproject
@@ -606,7 +604,6 @@ package pkg
 // 		"egg::bootstrap_directories",
 // 		"egg::generate_configuration",
 // 		"egg::bootstrap_framwork",
-// 		"egg::rsbuild_frontend",
 // 	}
 //
 // 	if len(Modules) != len(expectedModules) {

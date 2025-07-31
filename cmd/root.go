@@ -17,9 +17,15 @@ limitations under the License.
 */
 package cmd
 import (
+    "embed"
     "os"
 
     "github.com/spf13/cobra"
+)
+
+var (
+    embeddedTemplates embed.FS
+    embeddedMapping   string
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -40,6 +46,11 @@ func Execute() {
 }
 
 // Here you will define your flags and configuration settings.
+
+func SetEmbeddedData(templates embed.FS, mapping string) {
+    embeddedTemplates = templates
+    embeddedMapping = mapping
+}
 
 func init() {
     rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")

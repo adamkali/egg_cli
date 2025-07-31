@@ -6,6 +6,7 @@
 package modules
 
 import (
+	"embed"
 	"errors"
 	"fmt"
 	"os"
@@ -15,7 +16,7 @@ import (
 
 	"github.com/adamkali/egg_cli/pkg/configuration"
 	"github.com/adamkali/egg_cli/pkg/models"
-	"github.com/adamkali/egg_cli/pkg/templates"
+	tgts "github.com/adamkali/egg_cli/pkg/targets"
 	"github.com/adamkali/egg_cli/styles"
 )
 
@@ -84,6 +85,10 @@ func (m *BootstrapFrameworkFilesFromTemplatesModule) GetProgress() float64 {
 //	and logging the errors
 func (m *BootstrapFrameworkFilesFromTemplatesModule) Run() {
 	m.progress = 0
+	if m.error != nil {
+		m.eggl.Error(m.error.Error())
+		return
+	}
 	// iterate over the mapping and create a goroutine for each template
 	errChan := make(chan error)
 	logChan := make(chan string)
@@ -216,7 +221,13 @@ func (m *BootstrapFrameworkFilesFromTemplatesModule) populateTemplate(name strin
 //	by m.Run().
 func (m *BootstrapFrameworkFilesFromTemplatesModule) LoadFromConfig(configuration *configuration.Configuration, eggl *models.EggLog) {
 	m.configuration = configuration
-	m.mapping = templates.Mapping(configuration)
+	m.eggl = eggl
+	return
+}
+
+func (m *BootstrapFrameworkFilesFromTemplatesModule) LoadFromConfigWithEmbeds(configuration *configuration.Configuration, eggl *models.EggLog, templatesFS embed.FS, mappingYaml string) {
+	m.configuration = configuration
+	m.mapping, m.error = tgts.Mapping(configuration, templatesFS, mappingYaml)
 	m.eggl = eggl
 	return
 }

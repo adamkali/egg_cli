@@ -26,8 +26,6 @@ func ModuleFactory(moduleName string) IModule {
 		return &GenerateConfigurationModule{}
 	case "egg::bootstrap_framework":
 		return &BootstrapFrameworkFilesFromTemplatesModule{}
-	case "egg::rsbuild_frontend":
-		return &RsbuildFrontendModule{}
 	default:
 		return nil
 	}
