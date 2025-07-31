@@ -47,28 +47,6 @@ The wizard will ask you about:
 - Frontend framework choice (React/Svelte with RSBuild)
 - Additional libraries and tools
 
-**Example walkthrough:**
-```bash
-$ egg_cli init
-
-🥚 Welcome to egg_cli!
-Let's create your new fullstack project.
-
-? What's your project name? my-awesome-app
-? Choose your database: PostgreSQL
-? Enable authentication? Yes
-? Frontend framework: React with RSBuild
-? Include Docker setup? Yes
-
-✨ Generating your egg project...
-✅ Project created successfully!
-
-Next steps:
-  cd my-awesome-app
-  make build
-  ./my-awesome-app
-```
-
 ### Using Environment Files
 
 Skip the interactive wizard by providing a pre-configured environment file:
