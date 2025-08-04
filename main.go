@@ -21,7 +21,7 @@ import (
 	"github.com/adamkali/egg_cli/cmd"
 )
 
-//go:embed pkg/templates/files/*.tmpl pkg/templates/files/**/*.tmpl
+//go:embed pkg/templates/*.tmpl pkg/templates/**/*.tmpl
 var templates embed.FS
 //go:embed pkg/targets/mapping.yaml
 var mapping string
