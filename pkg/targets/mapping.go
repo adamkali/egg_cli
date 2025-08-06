@@ -2,11 +2,11 @@ package targets
 
 import (
 	"embed"
+	"strings"
 	"text/template"
 
-
-	"gopkg.in/yaml.v3"
 	"github.com/adamkali/egg_cli/pkg/configuration"
+	"gopkg.in/yaml.v3"
 )
 
 type templates struct {
@@ -39,7 +39,13 @@ func Mapping(config *configuration.Configuration, templatesFS embed.FS, mappingY
 		if err != nil {
 			return nil, err
 		}
-		templateMap[t.Filepath] = template.Must(template.New(t.Name).Parse(string(templateContent)))
+		FilePath := t.Filepath
+		if strings.Contains(FilePath, "database/migrations") {
+			FilePath = strings.Replace(FilePath, "database/migrations", config.Database.Migration.Destination, 1)
+		} else if strings.Contains(FilePath, "database/queries") {
+			FilePath = strings.Replace(FilePath, "database/queries", config.Database.QueriesLocation, 1)
+		}
+		templateMap[FilePath] = template.Must(template.New(t.Name).Parse(string(templateContent)))
 	}
 	return templateMap, nil
 }
