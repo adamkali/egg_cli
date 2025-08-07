@@ -69,7 +69,7 @@ func (m *PostInstallSqlcModule) IsError() error {
 func (m *PostInstallSqlcModule) LoadFromConfig(config *configuration.Configuration, eggl *models.EggLog) {
 	m.eggl = eggl
 	m.Progress = 0
-	m.eggl.Info("🥚 generating %s using sqlc",  config.Database.SqlcRepositoryLocation)
+	m.eggl.Info("🥚 generating %s using sqlc",  config.Database.Sqlc.RepositoryLocation)
 	return
 }
 

@@ -143,19 +143,29 @@ var initCmd = &cobra.Command{
 			state.DatabaseRoot = "db"
 		}
 		config.Database = struct {
-			URL                    string "yaml:\"url\""
-			Sqlc                   string "yaml:\"sqlc\""
-			SqlcRepositoryLocation string "yaml:\"repository\""
+			URL  string "yaml:\"url\""
+			Sqlc struct {
+				RepositoryLocation string `yaml:"repository"`
+				Schema             string `yaml:"schema"`
+				SqlOrGo            string `yaml:"sql_or_go"`
+			} `yaml:"sqlc"`
 			QueriesLocation        string "yaml:\"queries\""
 			Migration              struct {
 				Protocol    string "yaml:\"protocol\""
 				Destination string "yaml:\"destination\""
 			} "yaml:\"migration\""
 		}{
-			URL:                    state.DatabaseURL,
-			Sqlc:                   state.DatabaseSqlcOrGo,
-			SqlcRepositoryLocation: state.DatabaseRoot + "/repository",
-			QueriesLocation:        state.DatabaseRoot + "/queries",
+			URL: state.DatabaseURL,
+			Sqlc: struct {
+				RepositoryLocation string "yaml:\"repository\""
+				Schema             string "yaml:\"schema\""
+				SqlOrGo            string "yaml:\"sql_or_go\""
+			}{
+				RepositoryLocation: state.DatabaseRoot + "/repository",
+				Schema:             "postgres",
+				SqlOrGo:            "sql",
+			},
+			QueriesLocation: state.DatabaseRoot + "/queries",
 			Migration: struct {
 				Protocol    string "yaml:\"protocol\""
 				Destination string "yaml:\"destination\""
