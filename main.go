@@ -16,17 +16,9 @@ limitations under the License.
 package main
 
 import (
-	"embed"
-
 	"github.com/adamkali/egg_cli/cmd"
 )
 
-//go:embed pkg/templates/*.tmpl pkg/templates/**/*.tmpl
-var templates embed.FS
-//go:embed pkg/targets/mapping.yaml
-var mapping string
-
 func main() {
-	cmd.SetEmbeddedData(templates, mapping) 
 	cmd.Execute()
 }

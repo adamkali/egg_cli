@@ -58,12 +58,12 @@ func (m InitializeModule) IsError() error {
 
 func (m *InitializeModule) Run() {
 	// create a directory for the project
-	initModuleStart := styles.EggProgressInfo.Render("🥚 " + m.Name() + " start\n")
-	initModuleMkdirMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " creating project root directory\n")
-	initModuleGoVersionMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " checking go version\n")
-	initModuleGoModInitMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " initializing go module\n")
-	initModuleChangingDirectoryMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " changing directory to " + m.ProjectName + "\n")
-	initModuleCompletSuccessMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " initialization complete\n")
+	initModuleStart := styles.EggProgressInfo.Render("🥚 " + m.Name() + " start")
+	initModuleMkdirMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " creating project root directory")
+	initModuleGoVersionMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " checking go version")
+	initModuleGoModInitMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " initializing go module")
+	initModuleChangingDirectoryMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " changing directory to " + m.ProjectName + "")
+	initModuleCompletSuccessMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " initialization complete")
 	fmt.Println(initModuleStart)
 
 	fmt.Println(initModuleMkdirMessage)

@@ -1,166 +1,167 @@
 # Template mapping configuration using embedded template files
 version: 1.0
 templates: 
+  # Root files
   - name: main.go
     filepath: ./main.go
-    template: pkg/templates/main.go.tmpl
+    template: main.go.tmpl
   - name: README.md
     filepath: ./README.md
-    template: pkg/templates/README.md.tmpl
+    template: README.md.tmpl
   - name: Makefile
     filepath: ./Makefile
-    template: pkg/templates/Makefile.tmpl
+    template: Makefile.tmpl
   - name: Dockerfile
     filepath: ./Dockerfile
-    template: pkg/templates/Dockerfile.tmpl
+    template: Dockerfile.tmpl
   - name: openapitools.json
     filepath: ./openapitools.json
-    template: pkg/templates/openapitools.json.tmpl
+    template: openapitools.json.tmpl
   - name: sqlc.yml
-    filepath: ./sqlc.yml
-    template: pkg/templates/sqlc.yml.tmpl
+    filepath: sqlc.yml
+    template: sqlc.yml.tmpl
   
   # Command files
   - name: cmd/root.go
     filepath: ./cmd/root.go
-    template: pkg/templates/cmd/root.go.tmpl
+    template: cmd/root.go.tmpl
   - name: cmd/bump.go
     filepath: ./cmd/bump.go
-    template: pkg/templates/cmd/bump.go.tmpl
+    template: cmd/bump.go.tmpl
   - name: cmd/db.go
     filepath: ./cmd/db.go
-    template: pkg/templates/cmd/db.go.tmpl
+    template: cmd/db.go.tmpl
   - name: cmd/down.go
     filepath: ./cmd/down.go
-    template: pkg/templates/cmd/down.go.tmpl
+    template: cmd/down.go.tmpl
   - name: cmd/generate.go
     filepath: ./cmd/generate.go
-    template: pkg/templates/cmd/generate.go.tmpl
+    template: cmd/generate.go.tmpl
   - name: cmd/migrate.go
     filepath: ./cmd/migrate.go
-    template: pkg/templates/cmd/migrate.go.tmpl
+    template: cmd/migrate.go.tmpl
   - name: cmd/swag.go
     filepath: ./cmd/swag.go
-    template: pkg/templates/cmd/swag.go.tmpl
+    template: cmd/swag.go.tmpl
   - name: cmd/up.go
     filepath: ./cmd/up.go
-    template: pkg/templates/cmd/up.go.tmpl
+    template: cmd/up.go.tmpl
   - name: cmd/version.go
     filepath: ./cmd/version.go
-    template: pkg/templates/cmd/version.go.tmpl
+    template: cmd/version.go.tmpl
   - name: cmd/configuration/configuration.go
     filepath: ./cmd/configuration/configuration.go
-    template: pkg/templates/cmd/configuration/configuration.go.tmpl
+    template: cmd/configuration/configuration.go.tmpl
   
   # Controllers
   - name: controllers/controller.go
     filepath: ./controllers/controller.go
-    template: pkg/templates/controllers/controller.go.tmpl
+    template: controllers/controller.go.tmpl
   - name: controllers/routes.go
     filepath: ./controllers/routes.go
-    template: pkg/templates/controllers/routes.go.tmpl
+    template: controllers/routes.go.tmpl
   - name: controllers/user_controller.go
     filepath: ./controllers/user_controller.go
-    template: pkg/templates/controllers/user_controller.go.tmpl
+    template: controllers/user_controller.go.tmpl
   
   # Database
   - name: database/migrations/20250220222610_init.sql
     filepath: ./database/migrations/20250220222610_init.sql
-    template: pkg/templates/database/migrations/20250220222610_init.sql.tmpl
-  - name: database/queries/token.go
-    filepath: ./database/queries/token.go
-    template: pkg/templates/database/queries/token.go.tmpl
-  - name: database/queries/user.go
-    filepath: ./database/queries/user.go
-    template: pkg/templates/database/queries/user.go.tmpl
+    template: database/migrations/20250220222610_init.sql.tmpl
+  - name: database/queries/token.sql
+    filepath: ./database/queries/token.sql
+    template: database/queries/token.sql.tmpl
+  - name: database/queries/user.sql
+    filepath: ./database/queries/user.sql
+    template: database/queries/user.sql.tmpl
   
   # Middlewares
   - name: middlewares/configs/AuthConfig.go
     filepath: ./middlewares/configs/AuthConfig.go
-    template: pkg/templates/middlewares/configs/AuthConfig.go.tmpl
+    template: middlewares/configs/AuthConfig.go.tmpl
   - name: middlewares/configs/StaticConfig.go
     filepath: ./middlewares/configs/StaticConfig.go
-    template: pkg/templates/middlewares/configs/StaticConfig.go.tmpl
+    template: middlewares/configs/StaticConfig.go.tmpl
   
   # Model Handlers
   - name: models/handlers/DeleteUserHandler.go
     filepath: ./models/handlers/DeleteUserHandler.go
-    template: pkg/templates/models/handlers/DeleteUserHandler.go.tmpl
+    template: models/handlers/DeleteUserHandler.go.tmpl
   - name: models/handlers/GetCurrentLoggedInUserHandler.go
     filepath: ./models/handlers/GetCurrentLoggedInUserHandler.go
-    template: pkg/templates/models/handlers/GetCurrentLoggedInUserHandler.go.tmpl
+    template: models/handlers/GetCurrentLoggedInUserHandler.go.tmpl
   - name: models/handlers/GetProfilePictureHandler.go
     filepath: ./models/handlers/GetProfilePictureHandler.go
-    template: pkg/templates/models/handlers/GetProfilePictureHandler.go.tmpl
+    template: models/handlers/GetProfilePictureHandler.go.tmpl
   - name: models/handlers/GetUsersHandler.go
     filepath: ./models/handlers/GetUsersHandler.go
-    template: pkg/templates/models/handlers/GetUsersHandler.go.tmpl
+    template: models/handlers/GetUsersHandler.go.tmpl
   - name: models/handlers/LoginHandler.go
     filepath: ./models/handlers/LoginHandler.go
-    template: pkg/templates/models/handlers/LoginHandler.go.tmpl
+    template: models/handlers/LoginHandler.go.tmpl
   - name: models/handlers/RegisterHandler.go
     filepath: ./models/handlers/RegisterHandler.go
-    template: pkg/templates/models/handlers/RegisterHandler.go.tmpl
+    template: models/handlers/RegisterHandler.go.tmpl
   - name: models/handlers/UploadProfilePictureHandler.go
     filepath: ./models/handlers/UploadProfilePictureHandler.go
-    template: pkg/templates/models/handlers/UploadProfilePictureHandler.go.tmpl
+    template: models/handlers/UploadProfilePictureHandler.go.tmpl
   
   # Model Requests
   - name: models/requests/LoginRequest.go
     filepath: ./models/requests/LoginRequest.go
-    template: pkg/templates/models/requests/LoginRequest.go.tmpl
+    template: models/requests/LoginRequest.go.tmpl
   - name: models/requests/NewUserRequest.go
     filepath: ./models/requests/NewUserRequest.go
-    template: pkg/templates/models/requests/NewUserRequest.go.tmpl
+    template: models/requests/NewUserRequest.go.tmpl
   
   # Model Responses
   - name: models/responses/DeleteUserResponse.go
     filepath: ./models/responses/DeleteUserResponse.go
-    template: pkg/templates/models/responses/DeleteUserResponse.go.tmpl
+    template: models/responses/DeleteUserResponse.go.tmpl
   - name: models/responses/LoginResponse.go
     filepath: ./models/responses/LoginResponse.go
-    template: pkg/templates/models/responses/LoginResponse.go.tmpl
+    template: models/responses/LoginResponse.go.tmpl
   - name: models/responses/StringResponse.go
     filepath: ./models/responses/StringResponse.go
-    template: pkg/templates/models/responses/StringResponse.go.tmpl
+    template: models/responses/StringResponse.go.tmpl
   - name: models/responses/UserResponse.go
     filepath: ./models/responses/UserResponse.go
-    template: pkg/templates/models/responses/UserResponse.go.tmpl
+    template: models/responses/UserResponse.go.tmpl
   - name: models/responses/UsersResponse.go
     filepath: ./models/responses/UsersResponse.go
-    template: pkg/templates/models/responses/UsersResponse.go.tmpl
+    template: models/responses/UsersResponse.go.tmpl
   
   # Services
   - name: services/AuthService.go
     filepath: ./services/AuthService.go
-    template: pkg/templates/services/AuthService.go.tmpl
+    template: services/AuthService.go.tmpl
   - name: services/IAuthService.go
     filepath: ./services/IAuthService.go
-    template: pkg/templates/services/IAuthService.go.tmpl
+    template: services/IAuthService.go.tmpl
   - name: services/IMinioService.go
     filepath: ./services/IMinioService.go
-    template: pkg/templates/services/IMinioService.go.tmpl
+    template: services/IMinioService.go.tmpl
   - name: services/IRedisService.go
     filepath: ./services/IRedisService.go
-    template: pkg/templates/services/IRedisService.go.tmpl
+    template: services/IRedisService.go.tmpl
   - name: services/IUserService.go
     filepath: ./services/IUserService.go
-    template: pkg/templates/services/IUserService.go.tmpl
+    template: services/IUserService.go.tmpl
   - name: services/MinioService.go
     filepath: ./services/MinioService.go
-    template: pkg/templates/services/MinioService.go.tmpl
+    template: services/MinioService.go.tmpl
   - name: services/MockAuthService.go
     filepath: ./services/MockAuthService.go
-    template: pkg/templates/services/MockAuthService.go.tmpl
+    template: services/MockAuthService.go.tmpl
   - name: services/MockUserService.go
     filepath: ./services/MockUserService.go
-    template: pkg/templates/services/MockUserService.go.tmpl
+    template: services/MockUserService.go.tmpl
   - name: services/RedisService.go
     filepath: ./services/RedisService.go
-    template: pkg/templates/services/RedisService.go.tmpl
+    template: services/RedisService.go.tmpl
   - name: services/UserService.go
     filepath: ./services/UserService.go
-    template: pkg/templates/services/UserService.go.tmpl
+    template: services/UserService.go.tmpl
   - name: services/ValidatorService.go
     filepath: ./services/ValidatorService.go
-    template: pkg/templates/services/ValidatorService.go.tmpl
+    template: services/ValidatorService.go.tmpl

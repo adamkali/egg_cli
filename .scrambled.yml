@@ -1,0 +1,32 @@
+failed:
+    moduleName: egg::initialize
+    error: project directory already exists
+succeeded: []
+configuration:
+    namespace: github.com/adamkali/mindscape
+    name: mindscape
+    semver: 0.0.1
+    license: MIT
+    copyright:
+        year: 2025
+        author: adamkali
+    server:
+        jwt: skTs7mF0XKJPhoPMoOj78EoC7cDuGKu0PuXTLcfjcs0=
+        port: 8080
+        frontend:
+            dir: web/dist
+            api: web/src/api
+    database:
+        url: postgres://postgres@localhost:5432/egg?sslmode=disable
+        sqlc: sql
+        repository: db/repository
+        queries: db/queries
+        migration:
+            protocol: postgresql
+            destination: db/migrations
+    cache:
+        url: redis://localhost:6379
+    s3:
+        url: localhost:9000
+        access: WZ3N+GCRzn5b3PwOSVK8cLmo+fAnA/Z4Qe2HmNjPj8w=
+        secret: q4/kaCL41gIHYdl7mZndVMPg3OPEq3Dx3jKXL6ImgcE=

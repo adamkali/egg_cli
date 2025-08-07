@@ -2,6 +2,7 @@ package targets
 
 import (
 	"embed"
+	"fmt"
 	"strings"
 	"text/template"
 
@@ -18,17 +19,23 @@ type templates struct {
 	} `yaml:"templates"`
 }
 
+//go:embed mapping.yaml
+var mapping string
+
 // Mapping
 //
 // params:
-// 	config: *configuration.Configuration
+//
+//	config: *configuration.Configuration
+//
 // returns:
-// 	type: map[string]*template.Template
-//  description:
-// 	  the map of templates with the key as the same as the file name to be rendered
-func Mapping(config *configuration.Configuration, templatesFS embed.FS, mappingYaml string) (map[string]*template.Template, error) {
+//
+//		type: map[string]*template.Template
+//	 description:
+//		  the map of templates with the key as the same as the file name to be rendered
+func Mapping(config *configuration.Configuration, templatesFS embed.FS) (map[string]*template.Template, error) {
 	templates := &templates{}
-	err := yaml.Unmarshal([]byte(mappingYaml), templates)
+	err := yaml.Unmarshal([]byte(mapping), templates)
 	if err != nil {
 		return nil, err
 	}
@@ -47,5 +54,6 @@ func Mapping(config *configuration.Configuration, templatesFS embed.FS, mappingY
 		}
 		templateMap[FilePath] = template.Must(template.New(t.Name).Parse(string(templateContent)))
 	}
+	fmt.Printf("Loaded %d templates\n", len(templateMap))
 	return templateMap, nil
 }
