@@ -73,14 +73,14 @@ func init() {
 }
 
 func Migrate(configuration *configuration.Configuration, args []string) error {
-    os.Setenv("GOOSE_DRIVER", configuration.Database.Sqlc)
+    os.Setenv("GOOSE_DRIVER", configuration.Database.Migration.Protocol)
     os.Setenv("GOOSE_MIGRATION_DIR", configuration.Database.Migration.Destination)
     if len(args) != 1 {
         return errors.New("len(args) != 1 so the cli does not know what to do.")
     }
 
     migration_name := args[0]
-    output, err := exec.Command("goose", "create", migration_name, configuration.Database.Sqlc).Output()
+    output, err := exec.Command("goose", "create", migration_name, configuration.Database.Sqlc.SqlOrGo).Output()
     if err != nil {
         return err
     }

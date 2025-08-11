@@ -13,8 +13,10 @@ server:
         api: web/src/api
 database:
     url: "postgres://postgres:LK3cfU6QbfKNupatsXNPpKLvNcbRekj8V2RQXjztu3EBTZqddkeHzizOCFIHyPYX@68.200.181.190:60001/postgres"
-    sqlc: sql
-    repository: db/repository
+    sqlc: 
+      repository: db/repository
+      schema: postgresql
+      sql_or_go: sql
     queries: db/queries
     migration:
         protocol: postgres

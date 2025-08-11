@@ -9,6 +9,17 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+const (
+	prev_screen = "Previous::ctrl+p"
+	next_screen = "Next::ctrl+n"
+	next_input  = "+ Input::Tab"
+	prev_input  = "- Input::Shift+Tab"
+	save        = "Save::ctrl+s"
+	exit        = "Exit::ctrl+c"
+	help_cmd    = "Help::ctrl+h"
+	quit        = "Quit::ctrl+q"
+)
+
 type PageModel struct {
 	pages       []tea.Model
 	currentPage int
@@ -55,7 +66,7 @@ func (m PageModel) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 					page.FocusFirstInput()
 				}
 			} else {
-				return m, tea.Quit	
+				return m, tea.Quit
 			}
 		case "ctrl+p":
 			// Move to previous page
@@ -140,19 +151,28 @@ func (m *PageModel) footerLine() string {
 		Align(lipgloss.Left)
 
 	var footer string
-
-	hotkeys := []string{
-		"Previous::ctrl+p",
-		"Next::ctrl+n",
-		"Save::ctrl+s",
-		"Exit::ctrl+c",
-		"Help::ctrl+h",
-		"+ Input::Tab",
-		"- Input::Shift+Tab",
-		"Quit::ctrl+q",
+	hotkeys1 := []string{
+		prev_screen,
+		prev_input,
+		next_input,
+		next_screen,
+	}
+	hotkeys2 := []string{
+		save,
+		exit,
+		help_cmd,
+		quit,
 	}
 
-	for _, entry := range hotkeys {
+	for _, entry := range hotkeys1 {
+		label := strings.Split(entry, "::")[0]
+		hotkey := strings.Split(entry, "::")[1]
+		label = styleLabel.Render(label)
+		hotkey = styleHotkey.Render(hotkey)
+		footer += styleItem.Render(label + hotkey)
+	}
+	footer += "\n"
+	for _, entry := range hotkeys2 {
 		label := strings.Split(entry, "::")[0]
 		hotkey := strings.Split(entry, "::")[1]
 		label = styleLabel.Render(label)

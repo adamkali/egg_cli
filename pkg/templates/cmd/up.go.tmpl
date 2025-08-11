@@ -82,7 +82,7 @@ func Up(configuration *configuration.Configuration, args []string) error {
         return errors.New("len(args) != 0 so the cli does not know what to do.")
     }
 
-    output, err := exec.Command("goose", "up").Output()
+    output, err := exec.Command("goose", "up", "-v").Output()
     if err != nil {
         return err
     }

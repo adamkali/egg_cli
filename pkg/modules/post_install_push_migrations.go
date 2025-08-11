@@ -21,7 +21,7 @@ type PostInstallPushMigrationsToServer struct {
 }
 
 func (m *PostInstallPushMigrationsToServer) Name() string {
-	return "post_install_run_migration"
+	return "egg_cli::post_install_run_migration"
 }
 
 func (m *PostInstallPushMigrationsToServer) LoadFromConfig(config *configuration.Configuration, eggl *models.EggLog) {
@@ -56,15 +56,15 @@ func (m *PostInstallPushMigrationsToServer) Run() {
 		os.Setenv("GOOSE_DRIVER", m.GOOSE_DRIVER)
 		os.Setenv("GOOSE_DBSTRING", m.GOOSE_DBSTRING)
 		os.Setenv("GOOSE_MIGRATION_DIR", m.GOOSE_MIGRATION_DIR)
-		cmd := exec.Command("goose", "up")
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		err := cmd.Run()
+		cmd, err := exec.Command("goose", "up", "-v").Output()
 		if err != nil {
 			m.Error = err
 			m.eggl.Error("error: %s", m.Error.Error())
 			return
 		}
+		log := fmt.Sprintf("🥚 %s %s", m.Name(), string(cmd))
+		m.eggl.Info(log)
+		fmt.Println(styles.EggProgressInfo.Render(log))
 	}
 
 	m.eggl.Info("🥚 " + m.Name() + " complete")

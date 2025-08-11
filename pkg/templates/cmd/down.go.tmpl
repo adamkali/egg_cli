@@ -63,13 +63,13 @@ func init() {
 }
 
 func Down(configuration *configuration.Configuration, args []string) error {
-    os.Setenv("GOOSE_DRIVER", configuration.Database.Sqlc)
+    os.Setenv("GOOSE_DRIVER", configuration.Database.Migration.Protocol)
     os.Setenv("GOOSE_MIGRATION_DIR", configuration.Database.Migration.Destination)
     if len(args) != 0 {
         return errors.New("len(args) != 0 so the cli does not know what to do.")
     }
 
-    output, err := exec.Command("goose", "down", configuration.Database.Sqlc).Output()
+    output, err := exec.Command("goose", "down", configuration.Database.Sqlc.SqlOrGo).Output()
     if err != nil {
         return err
     }
