@@ -38,7 +38,7 @@ func (m *PostInstallSwagModule) Run() {
 	fmt.Println(installSwagMessage)
 	if m.SwagGenerate == nil {
 		// run swag generate
-		cmd := exec.Command("swag", "generate")
+		cmd := exec.Command("swag", "init")
 		err := cmd.Run()
 		if err != nil {
 			m.Error = err

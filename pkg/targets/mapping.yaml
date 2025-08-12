@@ -165,3 +165,10 @@ templates:
   - name: services/ValidatorService.go
     filepath: ./services/ValidatorService.go
     template: services/ValidatorService.go.tmpl
+  # web/dist/index.html
+  - name: web/dist/index.html
+    filepath: ./web/dist/index.html
+    template: web/dist/index.html.tmpl
+  - name: web/dist/egg.png
+    filepath: ./web/dist/egg.png
+    template: web/dist/egg.png

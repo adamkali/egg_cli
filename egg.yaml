@@ -6,13 +6,13 @@ copyright:
     year: 2025
     author: Adam Kalinowski 
 server:
-    jwt: skTs7mF0XKJPhoPMoOj78EoC7cDuGKu0PuXTLcfjcs0=
-    port: 8080
+    jwt: pf7cHHrEX8fKcwKTZQg7HtVv4SxUnsk8HsPJqUStZaaW4FCynwJYGyx8B
+    port: 60000
     frontend:
         dir: web/dist
         api: web/src/api
 database:
-    url: "postgres://postgres:LK3cfU6QbfKNupatsXNPpKLvNcbRekj8V2RQXjztu3EBTZqddkeHzizOCFIHyPYX@68.200.181.190:60001/postgres"
+    url: "postgres://postgres:LK3cfU6QbfKNupatsXNPpKLvNcbRekj8V2RQXjztu3EBTZqddkeHzizOCFIHyPYX@100.74.242.121:60001/postgres"
     sqlc: 
       repository: db/repository
       schema: postgresql
@@ -22,8 +22,8 @@ database:
         protocol: postgres
         destination: db/migrations
 cache:
-    url: redis://localhost:6379
+    url: "redis://:8xcUUZD3e4EHNHFetARc27hsZ6rAGdo8f1bUFg7zifqNCoHXoYDpg5rzqHmDxtzs@100.74.242.121:60002/0?protocol=3"
 s3:
-    url: https://minio-j8s8okssws040w0goggko4gg.kalilarosa.xyz
+    url: "minio-j8s8okssws040w0goggko4gg.kalilarosa.xyz"
     access: gb0PLIZmmIUzUrJP
     secret: DLRfn17dd1ECjD1zMIIwMraiIlY15e3I
