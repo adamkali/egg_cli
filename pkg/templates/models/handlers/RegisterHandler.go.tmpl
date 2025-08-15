@@ -73,6 +73,9 @@ func (h *RegisterHandler) JSON() error {
 		message = "OK"
 		code = 200
 	}
+	if h.Token == nil {
+		h.Token = new(string)
+	}
 	return h.Context.JSON(code, responses.LoginResponse{
 		Data:    responses.UserDataFromRepository(h.NewUser),
 		Success: !h.Locked,

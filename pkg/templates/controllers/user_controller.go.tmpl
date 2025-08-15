@@ -149,6 +149,7 @@ func (UserController *UserController) UploadProfilePicture(ctx echo.Context) err
 func (UserController *UserController) GetProfile(ctx echo.Context) error {
 	return handlers.NewGetProfilPictureHandler(ctx).
 		Handle(UserController.AuthService.CheckToken).
+		Handle(UserController.UserService.Get).
 		Handle(UserController.RedisService.Get).
 		Handle(UserController.MinioService.GetPresigned).
 		Handle(UserController.RedisService.SetWithExpiration).
@@ -173,7 +174,7 @@ func (uc *UserController) loginHandler(ctx echo.Context) *handlers.LoginHandler 
 // @Failure     403                 {object}     UsersResponse
 // @Failure     404                 {object}     UsersResponse
 // @Failure     500                 {object}     UsersResponse
-// @Router      /v2/users/			    [get]
+// @Router      /users/			    [get]
 func (uc *UserController) GetUsers(ctx echo.Context) error {
 	return handlers.NewGetUsersHandler(ctx).
 		Handle(uc.AuthService.CheckToken).
@@ -184,7 +185,7 @@ func (uc *UserController) GetUsers(ctx echo.Context) error {
 func (uc UserController) Attatch(e *echo.Echo, authMiddleware echo.MiddlewareFunc) {
 	// Register the namespaces for the endopoints
 	api := e.Group("/api" + uc.Name)
-	api.GET("/", uc.GetUsers, authMiddleware)
+	api.GET("", uc.GetUsers, authMiddleware)
 	api.POST("/login", uc.Login)
 	api.POST("/signup", uc.Signup)
 	api.GET("/current", uc.GetCurrent, authMiddleware)

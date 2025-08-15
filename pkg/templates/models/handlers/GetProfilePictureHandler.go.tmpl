@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	"{{.Namespace}}/{{.Database.Sqlc.RepositoryLocation}}"
 	"{{.Namespace}}/services"
 	"{{.Namespace}}/models/responses"
 	"github.com/golang-jwt/jwt/v5"
@@ -51,6 +52,19 @@ func (h *GetProfilePictureHandler) Handle(fun any) *GetProfilePictureHandler {
 			h.Error = handle(jwt_token.Raw)
 			code = 401
 			h.ProfilePictureName = claims.ProfilePic
+			fmt.Printf("[DEBUG] GetProfilePictureHandler.Handle{ claims.User: %s, claims.ProfilePic: %s }\n", claims.User, claims.ProfilePic)
+			break
+		case func(user_id uuid.UUID) (*repository.User, error):
+			user, err := handle(h.UserID)
+			if user.ProfilePicUrl != nil {
+				if h.ProfilePictureName != *user.ProfilePicUrl {
+					h.UpdateRedis = true
+					h.ProfilePictureName = *user.ProfilePicUrl
+					h.PresignedUserProfilePicture = ""
+				}
+			}
+			h.Error = err
+			code = 500
 			break
 		case func(uploaderID uuid.UUID, uploadName string) (string, error):
 			// check if the PresignedUserProfilePicture exists yet in the handler 

@@ -1813,3 +1813,248 @@
 2025-08-12 13:19:47.390 INFO: 🥚 egg::install_tools swag is already installed
 2025-08-12 13:19:47.391 INFO: 🥚 egg::install_tools installing github.com/pressly/goose/v3/cmd/goose@latest
 2025-08-12 13:19:47.393 INFO: 🥚 egg::install_tools installing github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+2025-08-13 09:59:43.788 INFO: 🥚 egg::bootstrap_directories creating dir1
+2025-08-13 09:59:43.795 INFO: 🥚 egg::bootstrap_directories creating dir2
+2025-08-13 09:59:43.795 INFO: 🥚 egg::bootstrap_directories complete
+2025-08-13 09:59:43.847 INFO: 🥚 egg::bootstrap_directories creating dir1
+2025-08-13 09:59:43.850 INFO: 🥚 egg::bootstrap_directories creating dir2
+2025-08-13 09:59:43.850 INFO: 🥚 egg::bootstrap_directories complete
+2025-08-13 09:59:44.006 INFO: 🥚 egg::generate_configuration start
+2025-08-13 09:59:44.009 INFO: 🥚 egg::generate_configuration complete
+2025-08-13 09:59:44.011 INFO: 🥚 egg::generate_configuration start
+2025-08-13 09:59:44.014 ERROR: error: simulated error
+2025-08-13 09:59:44.389 INFO: Installing libraries
+2025-08-13 09:59:44.391 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo
+2025-08-13 09:59:44.392 INFO: 🥚 egg::install_libraries installing github.com/spf13/cobra
+2025-08-13 09:59:44.393 INFO: 🥚 egg::install_libraries installing gopkg.in/yaml.v3
+2025-08-13 09:59:44.394 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/jsonpointer
+2025-08-13 09:59:44.395 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/jsonreference
+2025-08-13 09:59:44.398 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/spec
+2025-08-13 09:59:44.399 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/swag
+2025-08-13 09:59:44.400 INFO: 🥚 egg::install_libraries installing github.com/golang-jwt/jwt/v5
+2025-08-13 09:59:44.401 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo-jwt/v4
+2025-08-13 09:59:44.402 INFO: 🥚 egg::install_libraries installing github.com/golang-jwt/jwt
+2025-08-13 09:59:44.403 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo/v4
+2025-08-13 09:59:44.404 INFO: 🥚 egg::install_libraries installing github.com/joho/godotenv
+2025-08-13 09:59:44.406 INFO: 🥚 egg::install_libraries installing github.com/minio/crc64nvme
+2025-08-13 09:59:44.407 INFO: 🥚 egg::install_libraries installing github.com/minio/md5-simd
+2025-08-13 09:59:44.408 INFO: 🥚 egg::install_libraries installing github.com/minio/minio-go/v7
+2025-08-13 09:59:44.409 INFO: 🥚 egg::install_libraries installing github.com/pkg/errors
+2025-08-13 09:59:44.410 INFO: 🥚 egg::install_libraries installing github.com/swaggo/echo-swagger
+2025-08-13 09:59:44.411 INFO: 🥚 egg::install_libraries installing github.com/swaggo/files/v2
+2025-08-13 09:59:44.412 INFO: 🥚 egg::install_libraries installing github.com/swaggo/swag
+2025-08-13 09:59:44.413 INFO: 🥚 egg::install_libraries installing github.com/google/uuid
+2025-08-13 09:59:44.414 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx
+2025-08-13 09:59:44.415 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx/v5
+2025-08-13 09:59:44.417 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx/v5/pgxpool
+2025-08-13 09:59:44.418 INFO: 🥚 egg::install_libraries installing github.com/redis/go-redis/v9
+2025-08-13 09:59:44.419 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo
+2025-08-13 09:59:44.420 INFO: 🥚 egg::install_tools air is already installed
+2025-08-13 09:59:44.421 INFO: 🥚 egg::install_tools swag is already installed
+2025-08-13 09:59:44.423 INFO: 🥚 egg::install_tools goose is already installed
+2025-08-13 09:59:44.424 INFO: 🥚 egg::install_tools sqlc is already installed
+2025-08-13 09:59:44.425 INFO: 🥚 egg::install_tools installing github.com/air-verse/air@latest
+2025-08-13 09:59:44.426 INFO: 🥚 egg::install_tools installing github.com/swaggo/swag/cmd/swag@latest
+2025-08-13 09:59:44.427 INFO: 🥚 egg::install_tools goose is already installed
+2025-08-13 09:59:44.428 INFO: 🥚 egg::install_tools sqlc is already installed
+2025-08-13 09:59:44.430 INFO: 🥚 egg::install_tools installing github.com/air-verse/air@latest
+2025-08-13 09:59:44.431 INFO: 🥚 egg::install_tools air is already installed
+2025-08-13 09:59:44.432 INFO: 🥚 egg::install_tools swag is already installed
+2025-08-13 09:59:44.433 INFO: 🥚 egg::install_tools installing github.com/pressly/goose/v3/cmd/goose@latest
+2025-08-13 09:59:44.434 INFO: 🥚 egg::install_tools installing github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+2025-08-13 11:58:49.113 INFO: 🥚 egg::bootstrap_directories creating dir1
+2025-08-13 11:58:49.123 INFO: 🥚 egg::bootstrap_directories creating dir2
+2025-08-13 11:58:49.123 INFO: 🥚 egg::bootstrap_directories complete
+2025-08-13 11:58:49.179 INFO: 🥚 egg::bootstrap_directories creating dir1
+2025-08-13 11:58:49.186 INFO: 🥚 egg::bootstrap_directories creating dir2
+2025-08-13 11:58:49.186 INFO: 🥚 egg::bootstrap_directories complete
+2025-08-13 11:58:49.344 INFO: 🥚 egg::generate_configuration start
+2025-08-13 11:58:49.350 INFO: 🥚 egg::generate_configuration complete
+2025-08-13 11:58:49.355 INFO: 🥚 egg::generate_configuration start
+2025-08-13 11:58:49.360 ERROR: error: simulated error
+2025-08-13 11:58:49.819 INFO: Installing libraries
+2025-08-13 11:58:49.824 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo
+2025-08-13 11:58:49.828 INFO: 🥚 egg::install_libraries installing github.com/spf13/cobra
+2025-08-13 11:58:49.832 INFO: 🥚 egg::install_libraries installing gopkg.in/yaml.v3
+2025-08-13 11:58:49.836 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/jsonpointer
+2025-08-13 11:58:49.840 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/jsonreference
+2025-08-13 11:58:49.844 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/spec
+2025-08-13 11:58:49.848 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/swag
+2025-08-13 11:58:49.853 INFO: 🥚 egg::install_libraries installing github.com/golang-jwt/jwt/v5
+2025-08-13 11:58:49.857 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo-jwt/v4
+2025-08-13 11:58:49.862 INFO: 🥚 egg::install_libraries installing github.com/golang-jwt/jwt
+2025-08-13 11:58:49.867 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo/v4
+2025-08-13 11:58:49.871 INFO: 🥚 egg::install_libraries installing github.com/joho/godotenv
+2025-08-13 11:58:49.876 INFO: 🥚 egg::install_libraries installing github.com/minio/crc64nvme
+2025-08-13 11:58:49.881 INFO: 🥚 egg::install_libraries installing github.com/minio/md5-simd
+2025-08-13 11:58:49.885 INFO: 🥚 egg::install_libraries installing github.com/minio/minio-go/v7
+2025-08-13 11:58:49.890 INFO: 🥚 egg::install_libraries installing github.com/pkg/errors
+2025-08-13 11:58:49.895 INFO: 🥚 egg::install_libraries installing github.com/swaggo/echo-swagger
+2025-08-13 11:58:49.899 INFO: 🥚 egg::install_libraries installing github.com/swaggo/files/v2
+2025-08-13 11:58:49.904 INFO: 🥚 egg::install_libraries installing github.com/swaggo/swag
+2025-08-13 11:58:49.908 INFO: 🥚 egg::install_libraries installing github.com/google/uuid
+2025-08-13 11:58:49.913 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx
+2025-08-13 11:58:49.919 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx/v5
+2025-08-13 11:58:49.923 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx/v5/pgxpool
+2025-08-13 11:58:49.928 INFO: 🥚 egg::install_libraries installing github.com/redis/go-redis/v9
+2025-08-13 11:58:49.933 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo
+2025-08-13 11:58:49.938 INFO: 🥚 egg::install_tools air is already installed
+2025-08-13 11:58:49.943 INFO: 🥚 egg::install_tools swag is already installed
+2025-08-13 11:58:49.948 INFO: 🥚 egg::install_tools goose is already installed
+2025-08-13 11:58:49.953 INFO: 🥚 egg::install_tools sqlc is already installed
+2025-08-13 11:58:49.958 INFO: 🥚 egg::install_tools installing github.com/air-verse/air@latest
+2025-08-13 11:58:49.963 INFO: 🥚 egg::install_tools installing github.com/swaggo/swag/cmd/swag@latest
+2025-08-13 11:58:49.969 INFO: 🥚 egg::install_tools goose is already installed
+2025-08-13 11:58:49.973 INFO: 🥚 egg::install_tools sqlc is already installed
+2025-08-13 11:58:49.979 INFO: 🥚 egg::install_tools installing github.com/air-verse/air@latest
+2025-08-13 11:58:49.984 INFO: 🥚 egg::install_tools air is already installed
+2025-08-13 11:58:49.988 INFO: 🥚 egg::install_tools swag is already installed
+2025-08-13 11:58:49.993 INFO: 🥚 egg::install_tools installing github.com/pressly/goose/v3/cmd/goose@latest
+2025-08-13 11:58:49.998 INFO: 🥚 egg::install_tools installing github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+2025-08-14 10:05:05.767 INFO: 🥚 egg::bootstrap_directories creating dir1
+2025-08-14 10:05:05.773 INFO: 🥚 egg::bootstrap_directories creating dir2
+2025-08-14 10:05:05.773 INFO: 🥚 egg::bootstrap_directories complete
+2025-08-14 10:05:05.825 INFO: 🥚 egg::bootstrap_directories creating dir1
+2025-08-14 10:05:05.828 INFO: 🥚 egg::bootstrap_directories creating dir2
+2025-08-14 10:05:05.828 INFO: 🥚 egg::bootstrap_directories complete
+2025-08-14 10:05:05.981 INFO: 🥚 egg::generate_configuration start
+2025-08-14 10:05:05.984 INFO: 🥚 egg::generate_configuration complete
+2025-08-14 10:05:05.986 INFO: 🥚 egg::generate_configuration start
+2025-08-14 10:05:05.988 ERROR: error: simulated error
+2025-08-14 10:05:06.570 INFO: Installing libraries
+2025-08-14 10:05:06.572 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo
+2025-08-14 10:05:06.574 INFO: 🥚 egg::install_libraries installing github.com/spf13/cobra
+2025-08-14 10:05:06.575 INFO: 🥚 egg::install_libraries installing gopkg.in/yaml.v3
+2025-08-14 10:05:06.577 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/jsonpointer
+2025-08-14 10:05:06.578 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/jsonreference
+2025-08-14 10:05:06.580 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/spec
+2025-08-14 10:05:06.582 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/swag
+2025-08-14 10:05:06.583 INFO: 🥚 egg::install_libraries installing github.com/golang-jwt/jwt/v5
+2025-08-14 10:05:06.585 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo-jwt/v4
+2025-08-14 10:05:06.586 INFO: 🥚 egg::install_libraries installing github.com/golang-jwt/jwt
+2025-08-14 10:05:06.588 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo/v4
+2025-08-14 10:05:06.589 INFO: 🥚 egg::install_libraries installing github.com/joho/godotenv
+2025-08-14 10:05:06.590 INFO: 🥚 egg::install_libraries installing github.com/minio/crc64nvme
+2025-08-14 10:05:06.591 INFO: 🥚 egg::install_libraries installing github.com/minio/md5-simd
+2025-08-14 10:05:06.593 INFO: 🥚 egg::install_libraries installing github.com/minio/minio-go/v7
+2025-08-14 10:05:06.594 INFO: 🥚 egg::install_libraries installing github.com/pkg/errors
+2025-08-14 10:05:06.595 INFO: 🥚 egg::install_libraries installing github.com/swaggo/echo-swagger
+2025-08-14 10:05:06.597 INFO: 🥚 egg::install_libraries installing github.com/swaggo/files/v2
+2025-08-14 10:05:06.599 INFO: 🥚 egg::install_libraries installing github.com/swaggo/swag
+2025-08-14 10:05:06.600 INFO: 🥚 egg::install_libraries installing github.com/google/uuid
+2025-08-14 10:05:06.602 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx
+2025-08-14 10:05:06.603 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx/v5
+2025-08-14 10:05:06.604 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx/v5/pgxpool
+2025-08-14 10:05:06.605 INFO: 🥚 egg::install_libraries installing github.com/redis/go-redis/v9
+2025-08-14 10:05:06.607 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo
+2025-08-14 10:05:06.608 INFO: 🥚 egg::install_tools air is already installed
+2025-08-14 10:05:06.609 INFO: 🥚 egg::install_tools swag is already installed
+2025-08-14 10:05:06.611 INFO: 🥚 egg::install_tools goose is already installed
+2025-08-14 10:05:06.612 INFO: 🥚 egg::install_tools sqlc is already installed
+2025-08-14 10:05:06.613 INFO: 🥚 egg::install_tools installing github.com/air-verse/air@latest
+2025-08-14 10:05:06.615 INFO: 🥚 egg::install_tools installing github.com/swaggo/swag/cmd/swag@latest
+2025-08-14 10:05:06.616 INFO: 🥚 egg::install_tools goose is already installed
+2025-08-14 10:05:06.618 INFO: 🥚 egg::install_tools sqlc is already installed
+2025-08-14 10:05:06.619 INFO: 🥚 egg::install_tools installing github.com/air-verse/air@latest
+2025-08-14 10:05:06.621 INFO: 🥚 egg::install_tools air is already installed
+2025-08-14 10:05:06.622 INFO: 🥚 egg::install_tools swag is already installed
+2025-08-14 10:05:06.623 INFO: 🥚 egg::install_tools installing github.com/pressly/goose/v3/cmd/goose@latest
+2025-08-14 10:05:06.625 INFO: 🥚 egg::install_tools installing github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+2025-08-15 14:32:06.452 INFO: 🥚 egg::bootstrap_directories creating dir1
+2025-08-15 14:32:06.463 INFO: 🥚 egg::bootstrap_directories creating dir2
+2025-08-15 14:32:06.463 INFO: 🥚 egg::bootstrap_directories complete
+2025-08-15 14:32:06.516 INFO: 🥚 egg::bootstrap_directories creating dir1
+2025-08-15 14:32:06.520 INFO: 🥚 egg::bootstrap_directories creating dir2
+2025-08-15 14:32:06.521 INFO: 🥚 egg::bootstrap_directories complete
+2025-08-15 14:32:06.679 INFO: 🥚 egg::generate_configuration start
+2025-08-15 14:32:06.685 INFO: 🥚 egg::generate_configuration complete
+2025-08-15 14:32:06.689 INFO: 🥚 egg::generate_configuration start
+2025-08-15 14:32:06.693 ERROR: error: simulated error
+2025-08-15 14:32:07.807 INFO: Installing libraries
+2025-08-15 14:32:07.818 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo
+2025-08-15 14:32:07.820 INFO: 🥚 egg::install_libraries installing github.com/spf13/cobra
+2025-08-15 14:32:07.822 INFO: 🥚 egg::install_libraries installing gopkg.in/yaml.v3
+2025-08-15 14:32:07.825 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/jsonpointer
+2025-08-15 14:32:07.827 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/jsonreference
+2025-08-15 14:32:07.829 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/spec
+2025-08-15 14:32:07.831 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/swag
+2025-08-15 14:32:07.833 INFO: 🥚 egg::install_libraries installing github.com/golang-jwt/jwt/v5
+2025-08-15 14:32:07.835 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo-jwt/v4
+2025-08-15 14:32:07.837 INFO: 🥚 egg::install_libraries installing github.com/golang-jwt/jwt
+2025-08-15 14:32:07.839 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo/v4
+2025-08-15 14:32:07.841 INFO: 🥚 egg::install_libraries installing github.com/joho/godotenv
+2025-08-15 14:32:07.843 INFO: 🥚 egg::install_libraries installing github.com/minio/crc64nvme
+2025-08-15 14:32:07.845 INFO: 🥚 egg::install_libraries installing github.com/minio/md5-simd
+2025-08-15 14:32:07.847 INFO: 🥚 egg::install_libraries installing github.com/minio/minio-go/v7
+2025-08-15 14:32:07.849 INFO: 🥚 egg::install_libraries installing github.com/pkg/errors
+2025-08-15 14:32:07.852 INFO: 🥚 egg::install_libraries installing github.com/swaggo/echo-swagger
+2025-08-15 14:32:07.853 INFO: 🥚 egg::install_libraries installing github.com/swaggo/files/v2
+2025-08-15 14:32:07.855 INFO: 🥚 egg::install_libraries installing github.com/swaggo/swag
+2025-08-15 14:32:07.857 INFO: 🥚 egg::install_libraries installing github.com/google/uuid
+2025-08-15 14:32:07.859 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx
+2025-08-15 14:32:07.861 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx/v5
+2025-08-15 14:32:07.864 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx/v5/pgxpool
+2025-08-15 14:32:07.866 INFO: 🥚 egg::install_libraries installing github.com/redis/go-redis/v9
+2025-08-15 14:32:07.868 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo
+2025-08-15 14:32:07.870 INFO: 🥚 egg::install_tools air is already installed
+2025-08-15 14:32:07.872 INFO: 🥚 egg::install_tools swag is already installed
+2025-08-15 14:32:07.874 INFO: 🥚 egg::install_tools goose is already installed
+2025-08-15 14:32:07.876 INFO: 🥚 egg::install_tools sqlc is already installed
+2025-08-15 14:32:07.878 INFO: 🥚 egg::install_tools installing github.com/air-verse/air@latest
+2025-08-15 14:32:07.880 INFO: 🥚 egg::install_tools installing github.com/swaggo/swag/cmd/swag@latest
+2025-08-15 14:32:07.882 INFO: 🥚 egg::install_tools goose is already installed
+2025-08-15 14:32:07.884 INFO: 🥚 egg::install_tools sqlc is already installed
+2025-08-15 14:32:07.886 INFO: 🥚 egg::install_tools installing github.com/air-verse/air@latest
+2025-08-15 14:32:07.889 INFO: 🥚 egg::install_tools air is already installed
+2025-08-15 14:32:07.891 INFO: 🥚 egg::install_tools swag is already installed
+2025-08-15 14:32:07.893 INFO: 🥚 egg::install_tools installing github.com/pressly/goose/v3/cmd/goose@latest
+2025-08-15 14:32:07.895 INFO: 🥚 egg::install_tools installing github.com/sqlc-dev/sqlc/cmd/sqlc@latest
+2025-08-15 14:48:53.019 INFO: 🥚 egg::bootstrap_directories creating dir1
+2025-08-15 14:48:53.024 INFO: 🥚 egg::bootstrap_directories creating dir2
+2025-08-15 14:48:53.024 INFO: 🥚 egg::bootstrap_directories complete
+2025-08-15 14:48:53.077 INFO: 🥚 egg::bootstrap_directories creating dir1
+2025-08-15 14:48:53.082 INFO: 🥚 egg::bootstrap_directories creating dir2
+2025-08-15 14:48:53.083 INFO: 🥚 egg::bootstrap_directories complete
+2025-08-15 14:48:53.241 INFO: 🥚 egg::generate_configuration start
+2025-08-15 14:48:53.247 INFO: 🥚 egg::generate_configuration complete
+2025-08-15 14:48:53.252 INFO: 🥚 egg::generate_configuration start
+2025-08-15 14:48:53.258 ERROR: error: simulated error
+2025-08-15 14:48:54.612 INFO: Installing libraries
+2025-08-15 14:48:54.617 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo
+2025-08-15 14:48:54.619 INFO: 🥚 egg::install_libraries installing github.com/spf13/cobra
+2025-08-15 14:48:54.620 INFO: 🥚 egg::install_libraries installing gopkg.in/yaml.v3
+2025-08-15 14:48:54.623 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/jsonpointer
+2025-08-15 14:48:54.625 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/jsonreference
+2025-08-15 14:48:54.626 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/spec
+2025-08-15 14:48:54.628 INFO: 🥚 egg::install_libraries installing github.com/go-openapi/swag
+2025-08-15 14:48:54.630 INFO: 🥚 egg::install_libraries installing github.com/golang-jwt/jwt/v5
+2025-08-15 14:48:54.631 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo-jwt/v4
+2025-08-15 14:48:54.633 INFO: 🥚 egg::install_libraries installing github.com/golang-jwt/jwt
+2025-08-15 14:48:54.634 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo/v4
+2025-08-15 14:48:54.636 INFO: 🥚 egg::install_libraries installing github.com/joho/godotenv
+2025-08-15 14:48:54.638 INFO: 🥚 egg::install_libraries installing github.com/minio/crc64nvme
+2025-08-15 14:48:54.639 INFO: 🥚 egg::install_libraries installing github.com/minio/md5-simd
+2025-08-15 14:48:54.641 INFO: 🥚 egg::install_libraries installing github.com/minio/minio-go/v7
+2025-08-15 14:48:54.644 INFO: 🥚 egg::install_libraries installing github.com/pkg/errors
+2025-08-15 14:48:54.647 INFO: 🥚 egg::install_libraries installing github.com/swaggo/echo-swagger
+2025-08-15 14:48:54.649 INFO: 🥚 egg::install_libraries installing github.com/swaggo/files/v2
+2025-08-15 14:48:54.650 INFO: 🥚 egg::install_libraries installing github.com/swaggo/swag
+2025-08-15 14:48:54.652 INFO: 🥚 egg::install_libraries installing github.com/google/uuid
+2025-08-15 14:48:54.654 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx
+2025-08-15 14:48:54.655 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx/v5
+2025-08-15 14:48:54.657 INFO: 🥚 egg::install_libraries installing github.com/jackc/pgx/v5/pgxpool
+2025-08-15 14:48:54.659 INFO: 🥚 egg::install_libraries installing github.com/redis/go-redis/v9
+2025-08-15 14:48:54.661 INFO: 🥚 egg::install_libraries installing github.com/labstack/echo
+2025-08-15 14:48:54.662 INFO: 🥚 egg::install_tools air is already installed
+2025-08-15 14:48:54.664 INFO: 🥚 egg::install_tools swag is already installed
+2025-08-15 14:48:54.666 INFO: 🥚 egg::install_tools goose is already installed
+2025-08-15 14:48:54.667 INFO: 🥚 egg::install_tools sqlc is already installed
+2025-08-15 14:48:54.669 INFO: 🥚 egg::install_tools installing github.com/air-verse/air@latest
+2025-08-15 14:48:54.671 INFO: 🥚 egg::install_tools installing github.com/swaggo/swag/cmd/swag@latest
+2025-08-15 14:48:54.673 INFO: 🥚 egg::install_tools goose is already installed
+2025-08-15 14:48:54.675 INFO: 🥚 egg::install_tools sqlc is already installed
+2025-08-15 14:48:54.677 INFO: 🥚 egg::install_tools installing github.com/air-verse/air@latest
+2025-08-15 14:48:54.679 INFO: 🥚 egg::install_tools air is already installed
+2025-08-15 14:48:54.681 INFO: 🥚 egg::install_tools swag is already installed
+2025-08-15 14:48:54.682 INFO: 🥚 egg::install_tools installing github.com/pressly/goose/v3/cmd/goose@latest
+2025-08-15 14:48:54.684 INFO: 🥚 egg::install_tools installing github.com/sqlc-dev/sqlc/cmd/sqlc@latest

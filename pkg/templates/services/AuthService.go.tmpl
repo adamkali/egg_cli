@@ -41,9 +41,11 @@ func newExpiration() time.Time {
 // and an expiration time set to 72 hours in the future. The token is signed with
 // the server's secret key.
 func jwtFromUser(user *repository.User) *CustomJwt {
+	ProfilePicUrl := "NULL"
+	if user.ProfilePicUrl != nil { ProfilePicUrl = *user.ProfilePicUrl }
 	return &CustomJwt{
 		UserId: user.ID,
-		ProfilePic: *user.ProfilePicUrl,
+		ProfilePic: ProfilePicUrl,
 		User: user.Username,
 		IsAdmin: user.Admin,
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -98,6 +100,7 @@ func (a *AuthService) Create(user *repository.User) (*string, error) {
 	}
 
 	tx.Commit(a.ctx)
+	fmt.Println(row.Token)
 
 	return row.Token, nil
 }
