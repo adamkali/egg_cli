@@ -53,5 +53,4 @@ func SetEmbeddedData(templates embed.FS, mapping string) {
 }
 
 func init() {
-    rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

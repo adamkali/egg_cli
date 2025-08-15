@@ -1,0 +1,323 @@
+basePath: /api
+definitions:
+  DeleteUserResponse:
+    properties:
+      data:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  LoginRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  LoginResponse:
+    properties:
+      data:
+        $ref: '#/definitions/responses.UserData'
+      jwt:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  NewUserRequest:
+    properties:
+      email:
+        type: string
+      isAdmin:
+        type: boolean
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  StringResponse:
+    properties:
+      data:
+        type: string
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  UserResponse:
+    properties:
+      data:
+        $ref: '#/definitions/responses.UserData'
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  UsersResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/responses.UserData'
+        type: array
+      message:
+        type: string
+      success:
+        type: boolean
+    type: object
+  responses.UserData:
+    properties:
+      admin:
+        type: boolean
+      created_datetime:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      profile_pic_url:
+        type: string
+      updated_datetime:
+        type: string
+      username:
+        type: string
+    type: object
+info:
+  contact:
+    name: Adam Kalinowski
+    url: https://github.com/adamkali/mindscape
+  description: This is the swagger page for the Project mindscape generated with Egg-go.
+    use this to test your database connection
+  license:
+    name: MIT
+  title: mindscape
+  version: 0.0.1
+paths:
+  /users/:
+    get:
+      description: Get All Users. Must be Admin using the new mediator pattern
+      operationId: GetUsers
+      parameters:
+      - default: Bearer token
+        description: admin header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/UsersResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/UsersResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/UsersResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/UsersResponse'
+      summary: Get All Users
+      tags:
+      - Users
+  /users/{user_id}:
+    delete:
+      description: get string by ID
+      operationId: DeleteUserByUUID
+      parameters:
+      - default: '"e38e78a4-2ca3-4c59-a3ea-a2019866e593"'
+        description: User Id
+        in: path
+        name: user_id
+        required: true
+        type: string
+      - default: '"Bearer token"'
+        description: admin header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/DeleteUserResponse'
+      summary: Delete User by their UUID
+      tags:
+      - Users
+  /users/current:
+    get:
+      description: Get the Current User by the uuid storred in the Claims header
+      operationId: GetCurrentLoggedInUser
+      parameters:
+      - default: Bearer token
+        description: admin header
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/UserResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/UserResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/UserResponse'
+      summary: Get Current User
+      tags:
+      - Users
+  /users/login:
+    post:
+      consumes:
+      - application/json
+      description: to a user account with either email or username
+      operationId: Login
+      parameters:
+      - description: Log in request
+        in: body
+        name: LoginRequest
+        required: true
+        schema:
+          $ref: '#/definitions/LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/LoginResponse'
+      summary: Login
+      tags:
+      - Users
+  /users/profile:
+    get:
+      description: Get User Profile by Authorization Header
+      operationId: GetProfilePicture
+      parameters:
+      - default: Bearer token
+        description: admin header
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/StringResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/StringResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/StringResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/StringResponse'
+      summary: Get User Profile by Authorization Header
+      tags:
+      - Users
+    post:
+      consumes:
+      - multipart/form-data
+      description: Upload file
+      operationId: UploadProfilePicture
+      parameters:
+      - description: this is a test file
+        in: formData
+        name: file
+        required: true
+        type: file
+      - default: Bearer token
+        description: admin header
+        in: header
+        name: authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/UserResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/UserResponse'
+      summary: Upload file
+      tags:
+      - Users
+  /users/signup:
+    post:
+      consumes:
+      - application/json
+      description: Signup using the requests.NewUserRequest
+      operationId: Signup
+      parameters:
+      - description: Signup Request
+        in: body
+        name: SignupRequest
+        required: true
+        schema:
+          $ref: '#/definitions/NewUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/LoginResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/LoginResponse'
+      summary: Signup to the app
+      tags:
+      - Users
+swagger: "2.0"

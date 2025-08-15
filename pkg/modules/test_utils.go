@@ -47,8 +47,11 @@ func createTestConfiguration() *configuration.Configuration {
 		},
 		Database: struct {
 			URL                    string "yaml:\"url\""
-			Sqlc                   string "yaml:\"sqlc\""
-			SqlcRepositoryLocation string "yaml:\"repository\""
+			Sqlc struct {
+				RepositoryLocation string `yaml:"repository"`
+				Schema             string `yaml:"schema"`
+				SqlOrGo            string `yaml:"sql_or_go"`
+			} `yaml:"sqlc"`
 			QueriesLocation        string "yaml:\"queries\""
 			Migration              struct {
 				Protocol    string "yaml:\"protocol\""
@@ -56,8 +59,15 @@ func createTestConfiguration() *configuration.Configuration {
 			} "yaml:\"migration\""
 		}{
 			URL:                    "postgres://postgres:postgres@localhost:5432/test?sslmode=disable",
-			Sqlc:                   "sql",
-			SqlcRepositoryLocation: "db/repository",
+			Sqlc: struct {
+				RepositoryLocation string "yaml:\"repository\""
+				Schema             string "yaml:\"schema\""
+				SqlOrGo            string "yaml:\"sql_or_go\""
+			}{
+				RepositoryLocation: "db/repository",
+				Schema:             "postgres",
+				SqlOrGo:            "sql",
+			},
 			QueriesLocation:        "db/queries",
 			Migration: struct {
 				Protocol    string "yaml:\"protocol\""

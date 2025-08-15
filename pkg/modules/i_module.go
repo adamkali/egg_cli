@@ -26,6 +26,14 @@ func ModuleFactory(moduleName string) IModule {
 		return &GenerateConfigurationModule{}
 	case "egg::bootstrap_framework":
 		return &BootstrapFrameworkFilesFromTemplatesModule{}
+	case "egg::post_install_sqlc":
+		return &PostInstallSqlcModule{}
+	case "egg::post_install_push_migrations":
+		return &PostInstallPushMigrationsToServer{}
+	case "egg::post_install_swag":
+		return &PostInstallSwagModule{}
+	case "egg::complete":
+		return CompleteModuleInstance()
 	default:
 		return nil
 	}

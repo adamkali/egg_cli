@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	ScrambledFileName = "./.scrambled.yml"
+	ScrambledFileName = ".scrambled.yml"
 )
 
 var (
@@ -21,9 +21,12 @@ var (
 		&modules.InitializeModule{},
 		&modules.InstallToolsModule{},
 		&modules.InstallLibrariesModule{},
-		&modules.BootstrapDirectoriesModule{},
 		&modules.GenerateConfigurationModule{},
 		&modules.BootstrapFrameworkFilesFromTemplatesModule{},
+		&modules.PostInstallSqlcModule{},
+		&modules.PostInstallPushMigrationsToServer{},
+		&modules.PostInstallSwagModule{},
+		&modules.CompleteModule{},
 	}
 )
 
@@ -75,11 +78,7 @@ func ProjectFactory(configuration *configuration.Configuration, eggl *models.Egg
 	var succeededModules []modules.IModule
 	for _, module := range Modules {
 		// Special handling for bootstrap framework module to pass embedded files
-		if bootstrapModule, ok := module.(*modules.BootstrapFrameworkFilesFromTemplatesModule); ok {
-			bootstrapModule.LoadFromConfigWithEmbeds(configuration, eggl, templatesFS, mappingYaml)
-		} else {
-			module.LoadFromConfig(configuration, eggl)
-		}
+		module.LoadFromConfig(configuration, eggl)
 		module.Run()
 		err = module.IsError()
 		if PrintError(module, eggl) {
@@ -131,12 +130,7 @@ func RecoverFromScrambled(eggl *models.EggLog, templatesFS embed.FS, mappingYaml
 	for _, module := range failedModules {
 		eggl.Info("Attempting to recover module: %s", module.Name())
 
-		// Special handling for bootstrap framework module to pass embedded files
-		if bootstrapModule, ok := module.(*modules.BootstrapFrameworkFilesFromTemplatesModule); ok {
-			bootstrapModule.LoadFromConfigWithEmbeds(configuration, eggl, templatesFS, mappingYaml)
-		} else {
-			module.LoadFromConfig(configuration, eggl)
-		}
+		module.LoadFromConfig(configuration, eggl)
 		module.Run()
 		err = module.IsError()
 

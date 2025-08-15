@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mindscape- Welcome</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .info {
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            opacity: 0.9;
+        }
+        .timestamp {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-top: 2rem;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="egg.png" alt="Egg CLI Mascot" style="max-width: 200px; height: auto; margin-bottom: 1rem; filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));">
+        <h1>Welcome to mindscape</h1>
+        <div class="info">
+            <p>🚀 A fullstack web application built with egg_cli</p>
+            <p>🔧 Powered by Go, PostgreSQL, and modern web technologies</p>
+            <p>💻 You can edit your code in the <code>./mindscape</code> directory</p>
+            <p>🌟 Give the generator a star on <a href="https://github.com/adamkali/egg_cli" target="_blank">GitHub</a></p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>🔐 Authentication</h3>
+                <p>Secure user login and registration check that out in the <br><code>./mindscape/services/AuthService.go</code> directory</p>
+            </div>
+            <div class="feature">
+                <h3>📊 Database</h3>
+                <p>PostgreSQL with SQLC integration. Be sure to check out the <br><code>./mindscape/db/queries</code> directory</p>
+            </div>
+            <div class="feature">
+                <h3>🐳 Docker Ready</h3>
+                <p>Containerized deployment with Docker.</p>
+            </div>
+            <div class="feature">
+                <h3>📝 API Docs</h3>
+                <p>Swagger documentation available</p>
+                <p>Check out the <a href="/swagger/index.html" target="_blank">Swagger Docs</a></p>
+            </div>
+            <div class="feature">
+                <h3>👀 GitHub Actions</h3>
+                <p>Continuous integration and deployment with GitHub Actions.</p>
+            </div>
+            <div class="feature">
+                <h3>🚀 Deployment</h3>
+                <p>Deploy to any environment with ease.</p>
+                <p>I made this with Coolify in mind 😊</p>
+            </div>
+            <div class="feature">
+                <h3>Configuration is easy</h3>
+                <p>in the <code>./mindscape/config/</code> directory you can find the configuration file and
+                set up environment variables
+                </p>
+                <p> then you can specify your envirenment with <br><code>mindscape -e a_bad_ass_env</code></p>
+            </div>
+            <div class="feature">
+                <h3>🌟 Star Us</h3>
+                <p>Give the generator a star on <a href="https://github.com/adamkali/egg_cli" target="_blank">GitHub</a></p>
+            </div>
+        </div>
+        
+        <div class="timestamp">
+            <p>Server started: <span id="currentTime"></span></p>
+            <p>Environment: Development</p>
+        </div>
+    </div>
+
+    <script>
+        // Display current timestamp
+        document.getElementById('currentTime').textContent = new Date().toLocaleString();
+        
+        // Add some interactivity
+        document.querySelector('.container').addEventListener('click', function() {
+            this.style.transform = this.style.transform === 'scale(1.05)' ? 'scale(1)' : 'scale(1.05)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+    </script>
+</body>
+</html>

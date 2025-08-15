@@ -42,7 +42,6 @@ func (m *InstallToolsModule) Run() {
 	for _, tool := range targets.RequiredTools {
 		toolStr := tool[strings.LastIndex(tool, "/")+1:]
 		toolStr = toolStr[:strings.Index(toolStr, "@")]
-		fmt.Printf("%s\n", toolStr)
 
 		// Use injected function if available, otherwise use real implementation
 		var err error

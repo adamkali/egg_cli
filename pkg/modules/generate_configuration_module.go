@@ -20,7 +20,7 @@ func (m *GenerateConfigurationModule) Name() string   { return "egg::generate_co
 func (m *GenerateConfigurationModule) IsError() error { return m.Error }
 
 func (m *GenerateConfigurationModule) Run() {
-	generateConfigurationStart := "🥚 " + m.Name() + " start\n"
+	generateConfigurationStart := "🥚 " + m.Name() + " start"
 	m.eggl.Info(generateConfigurationStart)
 	generateConfigurationStart = styles.EggProgressInfo.Render(generateConfigurationStart)
 	fmt.Println(generateConfigurationStart)
@@ -36,7 +36,7 @@ func (m *GenerateConfigurationModule) Run() {
 		return
 	}
 	m.eggl.Info("🥚 " + m.Name() + " complete")
-	generateConfigurationComplete := styles.EggProgressInfo.Render("🥚 " + m.Name() + " complete\n")
+	generateConfigurationComplete := styles.EggProgressInfo.Render("🥚 " + m.Name() + " complete")
 	fmt.Println(generateConfigurationComplete)
 }
 

@@ -25,9 +25,12 @@ type Configuration struct {
 		} `yaml:"frontend"`
 	} `yaml:"server"`
 	Database struct {
-		URL                    string `yaml:"url"`
-		Sqlc                   string `yaml:"sqlc"`
-		SqlcRepositoryLocation string `yaml:"repository"`
+		URL  string `yaml:"url"`
+		Sqlc struct {
+			RepositoryLocation string `yaml:"repository"`
+			Schema             string `yaml:"schema"`
+			SqlOrGo            string `yaml:"sql_or_go"`
+		} `yaml:"sqlc"`
 		QueriesLocation        string `yaml:"queries"`
 		Migration              struct {
 			Protocol    string `yaml:"protocol"`

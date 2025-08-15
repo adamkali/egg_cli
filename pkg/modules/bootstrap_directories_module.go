@@ -171,7 +171,7 @@ func (m *BootstrapDirectoriesModule) LoadFromConfig(configuration *configuration
 	}
 	m.Directories = append(m.Directories, configuration.Database.Migration.Destination)
 	m.Directories = append(m.Directories, configuration.Database.QueriesLocation)
-	m.Directories = append(m.Directories, configuration.Database.SqlcRepositoryLocation)
+	m.Directories = append(m.Directories, configuration.Database.Sqlc.RepositoryLocation)
 	m.eggl = eggl
 	m.Progress = 0
 	return
