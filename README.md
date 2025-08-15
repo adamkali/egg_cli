@@ -1,4 +1,4 @@
-![egg](https://github.com/user-attachments/assets/2e31d134-8f8a-47c2-9d04-5ec8ffabc749)
+<img width="200" height="200" alt="egg" src="https://github.com/user-attachments/assets/cb9da171-2b36-4a74-8e0b-629c38bab2bc" />
 
 # egg_cli
 
