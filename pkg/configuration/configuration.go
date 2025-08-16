@@ -47,6 +47,28 @@ type Configuration struct {
 	} `yaml:"s3"`
 }
 
+func (configuration *Configuration) SaveConfiguration(configFile string) error {
+	configurationFile := configFile
+	configBytes, err := yaml.Marshal(configuration)
+	if err != nil {
+		return err
+	}
+
+	// create the config file if not exists
+	if _, err := os.Stat(configurationFile); errors.Is(err, os.ErrNotExist) {
+		if _, err := os.Create(configurationFile); err != nil {
+			return err
+		}
+	}
+
+	// save the configuration
+	if err := os.WriteFile(configurationFile, configBytes, 0777); err != nil {
+		return err
+	}
+	
+	return nil
+}
+
 const ConfigurationDir = "config/"
 
 func LoadConfiguration(environment string) (*Configuration, error) {

@@ -68,5 +68,6 @@ var generateCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(generateCmd)
+
 	generateCmd.Flags().StringP("config", "c", "egg.yaml", "Path to the configuration file to generate from")
 }
