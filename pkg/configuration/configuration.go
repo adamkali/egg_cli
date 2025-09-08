@@ -62,9 +62,6 @@ func (configuration *Configuration) SaveConfiguration(configFile string) error {
 	}
 
 	// save the configuration
-	if err := os.WriteFile(configurationFile, configBytes, 0777); err != nil {
-		return err
-	}
 	
 	return nil
 }
