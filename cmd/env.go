@@ -99,10 +99,10 @@ var envCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		config := new(configuration.Configuration)
 		envFile := cmd.Flag("input").Value.String()
-		if envFile == "" {
-			envFile = ".env"
-		}
-		godotenv.Load(envFile)
+		if envFile != "" {
+			godotenv.Load(envFile)
+		} // otherwise, we use the proper environment
+
 
 		fmt.Println(styles.EggProgressInfo.Render(initMessage))
 
@@ -219,39 +219,18 @@ var envCmd = &cobra.Command{
 			port,
 			dbname,
 		)
-		port, err = strconv.Atoi(os.Getenv("EGG_S3_PORT"))
-		config.S3.Access = os.Getenv("EGG_S3_ACCESS_KEY_ID")
-		config.S3.Secret = os.Getenv("EGG_S3_SECRET_ACCESS_KEY")
-		host = os.Getenv("EGG_S3_HOST")
-		if err != nil {
-			fmt.Println(styles.EggProgressError.Render("EGG_S3_PORT is required"))
-			os.Exit(1)
-		}
-		if port <= 0 {
-			fmt.Println(styles.EggProgressError.Render("EGG_S3_PORT Must be between 0 and 65535"))
-			os.Exit(6)
-		}
-		if port > 65535 {
-			fmt.Println(styles.EggProgressError.Render("EGG_S3_PORT Must be between 0 and 65535"))
-			os.Exit(6)
-		}
-		if host == "" {
-			fmt.Println(styles.EggProgressError.Render("EGG_S3_HOST is required"))
-			os.Exit(1)
-		}
+		config.S3.Access = os.Getenv("EGG_S3_ACCESS")
+		config.S3.Secret = os.Getenv("EGG_S3_SECRET")
+		host = os.Getenv("EGG_S3_URL")
 		if config.S3.Access == "" {
-			fmt.Println(styles.EggProgressError.Render("EGG_S3_ACCESS_KEY_ID is required"))
+			fmt.Println(styles.EggProgressError.Render("EGG_S3_ACCESS is required"))
 			os.Exit(1)
 		}
 		if config.S3.Secret == "" {
-			fmt.Println(styles.EggProgressError.Render("EGG_S3_SECRET_ACCESS_KEY is required"))
+			fmt.Println(styles.EggProgressError.Render("EGG_S3_SECRET is required"))
 			os.Exit(1)
 		}
-		config.S3.URL = fmt.Sprintf(
-			"%s:%d",
-			host,
-			port,
-		)
+		config.S3.URL =host 
 
 		environment := cmd.Flag("env").Value.String() 
 		config.GenerateConfigurationFile(environment)
