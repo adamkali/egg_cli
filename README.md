@@ -101,6 +101,67 @@ egg_cli generate --config <file>
 
 when calling `generate`
 
+### Generating Environment Files (`generate dotenv`)
+
+The `generate dotenv` command creates a `.env` file from your configuration:
+
+```bash
+egg_cli generate dotenv
+```
+
+This command:
+- Creates a `.env` file from `config/developent.yaml` by default
+- Can accept a specific config file path as an argument:
+  ```bash
+  egg_cli generate dotenv path/to/config.yaml
+  ```
+- Can read configuration from stdin for pipeline usage
+- Supports the `--output` flag to specify output file location
+
+### Creating Configuration from Environment Variables (`env`)
+
+The `env` command creates a configuration file from environment variables:
+
+```bash
+egg_cli env
+```
+
+This command:
+- Reads environment variables with the `EGG_` prefix
+- Validates required variables (marked with X in the command help)
+- Generates a configuration file for the specified environment
+- Supports `--env` flag to specify environment (default: "dev")
+- Supports `--input` flag to load variables from a specific `.env` file
+
+Key environment variables include:
+- `EGG_NAME` (required) - Project name
+- `EGG_SEMVER` (required) - Project version
+- `EGG_SERVER_PORT` (required) - Server port
+- `EGG_SERVER_JWT` (required) - JWT secret
+- Database, cache, and S3 configuration variables
+
+### Version Information (`version`)
+
+The `version` command displays version information:
+
+```bash
+egg_cli version
+```
+
+Available options:
+- `--verbose` or `-v` - Show detailed version information
+- `--hash` or `-#` - Show git commit hash
+- `--build-time` or `-t` - Show build timestamp
+- `--oneline` or `-1` - Display all info on one line
+- `--compact` or `-c` - Compact format (version+hash+buildtime)
+
+Examples:
+```bash
+egg_cli version                    # Basic version
+egg_cli version --verbose          # Full details
+egg_cli version --oneline          # Single line format
+egg_cli version --compact          # Compact format
+```
 
 ## Project Structure
 
@@ -222,7 +283,7 @@ make clean
 
 ## License
 
-MIT License. See [LICENSE](LICENSE) for details.
+Apache License 2.0. See [LICENSE](LICENSE) for details.
 
 ## Support
 

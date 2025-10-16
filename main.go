@@ -19,6 +19,15 @@ import (
 	"github.com/adamkali/egg_cli/cmd"
 )
 
+// Version information set by ldflags during build
+var (
+	version   = "unknown"
+	buildTime = "unknown"
+	gitCommit = "unknown"
+)
+
 func main() {
+	// Pass version info to cmd package
+	cmd.SetVersionInfo(version, buildTime, gitCommit)
 	cmd.Execute()
 }

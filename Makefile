@@ -2,7 +2,7 @@
 
 # Variables
 BINARY_NAME=egg_cli
-VERSION?=$(shell git describe --tags --abbrev=0 2>/dev/null || echo "v0.1.0")
+VERSION?=$(shell git tag --sort=-version:refname | head -n1 2>/dev/null || echo "v0.0.0")
 BUILD_TIME=$(shell date -u +"%Y-%m-%dT%H:%M:%SZ")
 GIT_COMMIT=$(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
 
