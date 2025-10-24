@@ -1,0 +1,140 @@
+name: Convert Neorg Documentation
+
+on:
+  push:
+    branches: [ main, master, dev, nightly ]
+    paths: [ 'docs/**' ]
+  pull_request:
+    branches: [ main, master, dev, nightly ]
+    paths: [ 'docs/**' ]
+  workflow_dispatch:
+
+jobs:
+  convert-docs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Check if docs directory exists
+      id: check-docs
+      run: |
+        if [ -d "docs" ]; then
+          echo "exists=true" >> $GITHUB_OUTPUT
+        else
+          echo "exists=false" >> $GITHUB_OUTPUT
+          echo "No docs/ directory found, skipping conversion"
+        fi
+        
+    - name: Create tarball of docs directory
+      if: steps.check-docs.outputs.exists == 'true'
+      run: |
+        tar -czf docs.tar.gz docs/
+        echo "Created docs.tar.gz with contents:"
+        tar -tzf docs.tar.gz | head -20
+        
+    - name: Convert Neorg to Markdown via Lambda
+      if: steps.check-docs.outputs.exists == 'true'
+      id: convert
+      run: |
+        echo "Uploading docs.tar.gz to Neorg Documentation Lambda..."
+        
+        response=$(curl -s -w "%{http_code}" \
+          -X POST \
+          -H "x-auth-token: ${{ secrets.NEORG_DOCUMENTATION_AUTH_TOKEN }}" \
+          -H "Content-Type: application/octet-stream" \
+          --data-binary @docs.tar.gz \
+          -o converted-docs.zip \
+          "${{ vars.NEORG_LAMBDA_ENDPOINT || 'https://neorg-documentation-lambda.production.endpoint' }}")
+        
+        http_code="${response: -3}"
+        
+        if [ "$http_code" -eq 200 ]; then
+          echo "✅ Conversion successful"
+          echo "success=true" >> $GITHUB_OUTPUT
+        else
+          echo "❌ Conversion failed with HTTP $http_code"
+          echo "success=false" >> $GITHUB_OUTPUT
+          exit 1
+        fi
+        
+    - name: Extract converted documentation
+      if: steps.convert.outputs.success == 'true'
+      run: |
+        echo "Extracting converted documentation..."
+        unzip -q converted-docs.zip -d converted/
+        echo "Converted files:"
+        find converted/ -name "*.md" | head -20
+        
+    - name: Checkout wiki repository
+      if: steps.convert.outputs.success == 'true'
+      uses: actions/checkout@v4
+      with:
+        repository: ${{ github.repository }}.wiki
+        path: wiki
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Update wiki with converted docs
+      if: steps.convert.outputs.success == 'true'
+      run: |
+        echo "Updating wiki with converted documentation..."
+        
+        # Create wiki directory if it doesn't exist
+        mkdir -p wiki
+        
+        # Copy converted markdown files to wiki
+        if [ -d "converted" ]; then
+          # Find all markdown files and copy them, preserving directory structure
+          find converted/ -name "*.md" -type f | while read -r file; do
+            # Get relative path without the 'converted/' prefix
+            rel_path="${file#converted/}"
+            # Create target directory in wiki if needed
+            target_dir="wiki/$(dirname "$rel_path")"
+            mkdir -p "$target_dir"
+            # Copy file to wiki
+            cp "$file" "wiki/$rel_path"
+            echo "Copied: $file -> wiki/$rel_path"
+          done
+        fi
+        
+        # Navigate to wiki directory
+        cd wiki
+        
+        # Configure git
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        
+        # Add all changes
+        git add .
+        
+        # Check if there are changes to commit
+        if git diff --staged --quiet; then
+          echo "No changes to wiki documentation"
+        else
+          # Commit changes
+          git commit -m "Update documentation from ${{ github.repository }}@${{ github.sha }}
+
+          Generated from Neorg files in docs/ directory
+          Converted via Neorg Documentation Lambda
+          Triggered by: ${{ github.event_name }}
+          Branch: ${{ github.ref_name }}
+          Commit: ${{ github.sha }}"
+          
+          # Push changes
+          git push
+          echo "✅ Wiki updated successfully"
+        fi
+        
+    - name: Upload conversion artifacts
+      if: always() && steps.check-docs.outputs.exists == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: neorg-conversion-artifacts
+        path: |
+          docs.tar.gz
+          converted-docs.zip
+          converted/
+        retention-days: 7
