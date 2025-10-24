@@ -27,9 +27,8 @@ jobs:
           registry: https://ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Bulid and Push Image To Registry
+      - name: Build and Push Image To Registry
         uses: docker/build-push-action@v5
         with:
-          push: true
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: ${{ github.ref_name }}, latest
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }},${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
