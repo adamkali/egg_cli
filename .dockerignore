@@ -1,0 +1,34 @@
+# Ignore built binaries
+egg_cli
+
+# Ignore git directory
+.git
+.gitignore
+
+# Ignore documentation
+README.md
+docs/
+
+# Ignore CI/CD files
+.github/
+
+# Ignore Claude-specific files
+.claude/
+CLAUDE.md
+
+# Ignore test files
+*_test.go
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore temporary files
+*.tmp
+*.log
