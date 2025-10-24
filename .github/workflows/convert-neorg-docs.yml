@@ -7,7 +7,6 @@ on:
   pull_request:
     branches: [ main, master, dev, nightly ]
     paths: [ 'docs/**' ]
-  workflow_dispatch:
 
 jobs:
   convert-docs:
