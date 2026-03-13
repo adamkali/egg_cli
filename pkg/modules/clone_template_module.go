@@ -126,19 +126,22 @@ func (m *CloneTemplateModule) Run() {
 		return
 	}
 
-	fmt.Println(styles.EggProgressInfo.Render("Template files copied, running go mod tidy..."))
+	fmt.Println(styles.EggProgressInfo.Render("Template files copied, downloading dependencies..."))
 
-	// Run go mod tidy to download dependencies
-	tidy := exec.Command("go", "mod", "tidy")
-	tidy.Dir = destDir
-	tidy.Stdout = os.Stdout
-	tidy.Stderr = os.Stderr
-	if err := tidy.Run(); err != nil {
-		m.err = fmt.Errorf("go mod tidy failed: %w", err)
+	// Use go mod download rather than go mod tidy here — db/repository/ is
+	// still empty at this point (sqlc generates it in a later module).
+	// go mod download fetches all modules listed in go.mod without needing
+	// to resolve every internal package.
+	download := exec.Command("go", "mod", "download")
+	download.Dir = destDir
+	download.Stdout = os.Stdout
+	download.Stderr = os.Stderr
+	if err := download.Run(); err != nil {
+		m.err = fmt.Errorf("go mod download failed: %w", err)
 		return
 	}
 
-	fmt.Println(styles.EggProgressComplete.Render("Template cloned and dependencies resolved"))
+	fmt.Println(styles.EggProgressComplete.Render("Template cloned and dependencies downloaded"))
 }
 
 func (m *CloneTemplateModule) buildPlaceholders() map[string]string {

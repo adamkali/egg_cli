@@ -59,6 +59,8 @@ example:
 	egg_cli generate --config <file>
 `,
 	Run: func(cmd *cobra.Command, args []string) {
+		useAuth0, _ := cmd.Flags().GetBool("auth0")
+
 		config := new(configuration.Configuration)
 		config.Namespace = "github.com/yourname/example"
 		config.Name = "example"
@@ -67,17 +69,24 @@ example:
 		config.Copyright.Author = "Your Name"
 		config.Copyright.Year = time.Now().Year()
 
-		var port int
-		port = 8080
-		config.Auth.Provider = "jwt"
-		config.Auth.JWT = base64.StdEncoding.EncodeToString([]byte(generate_random_base64(32)))
-		config.Server.Port = port
+		config.Server.Port = 8080
 		config.Server.Frontend.Dir = "web/dist"
 		config.Server.Frontend.Api = "web/src/api"
 
+		if useAuth0 {
+			config.Auth.Provider = "auth0"
+			config.Auth.Auth0Domain = "your-tenant.us.auth0.com"
+			config.Auth.Auth0Audience = "https://api.example.com"
+			config.Auth.Auth0ClientID = "your-auth0-client-id"
+			config.Auth.Auth0ClientSecret = generate_random_base64(32)
+		} else {
+			config.Auth.Provider = "jwt"
+			config.Auth.JWT = base64.StdEncoding.EncodeToString([]byte(generate_random_base64(32)))
+		}
+
 		config.Database.URL = fmt.Sprintf("postgres://postgres:%s@localhost:5432/example?sslmode=disable", generate_random_base64(64))
 		config.Database.QueriesLocation = "db/queries"
-		config.Database.Migration.Destination = "queries"
+		config.Database.Migration.Destination = "db/migrations"
 		config.Database.Migration.Protocol = "postgres"
 		config.Database.Sqlc.RepositoryLocation = "db/repository"
 		config.Database.Sqlc.Schema = "postgresql"
@@ -114,4 +123,5 @@ example:
 func init() {
 	generateCmd.AddCommand(exampleCmd)
 	exampleCmd.Flags().StringP("config", "c", "egg.yaml", "Path to the configuration file to generate from")
+	exampleCmd.Flags().BoolP("auth0", "a", false, "Generate an Auth0 example config instead of JWT")
 }

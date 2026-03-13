@@ -66,6 +66,29 @@ func (m *CompleteModule) Run() {
 	installCompleteMessage = styles.EggProgressInfo.Render(installCompleteMessage)
 	fmt.Println(installCompleteMessage)
 
+	// Now that sqlc has generated db/repository/, we can run go mod tidy
+	// and verify the project builds cleanly.
+	fmt.Println(styles.EggProgressInfo.Render("Running go mod tidy..."))
+	tidy := exec.Command("go", "mod", "tidy")
+	tidy.Stdout = nil
+	tidy.Stderr = nil
+	if err := tidy.Run(); err != nil {
+		m.Error = fmt.Errorf("go mod tidy failed: %w", err)
+		m.eggl.Error("error: %s", m.Error.Error())
+		return
+	}
+
+	fmt.Println(styles.EggProgressInfo.Render("Verifying project builds..."))
+	build := exec.Command("go", "build", "./...")
+	build.Stdout = nil
+	build.Stderr = nil
+	if err := build.Run(); err != nil {
+		m.Error = fmt.Errorf("go build ./... failed: %w", err)
+		m.eggl.Error("error: %s", m.Error.Error())
+		return
+	}
+	fmt.Println(styles.EggProgressComplete.Render("Project builds successfully"))
+
 	cmd := exec.Command("clear")
 	err := cmd.Run()
 	if err != nil {
