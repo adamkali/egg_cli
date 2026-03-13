@@ -100,24 +100,15 @@ var initCmd = &cobra.Command{
 			state.ServerJWT = secret
 		}
 
-		config.Server = struct {
-			JWT      string "yaml:\"jwt\""
-			Port     int    "yaml:\"port\""
-			Frontend struct {
-				Dir string "yaml:\"dir\""
-				Api string "yaml:\"api\""
-			} "yaml:\"frontend\""
-		}{
-			Port: port,
-			JWT:  state.ServerJWT,
-			Frontend: struct {
-				Dir string "yaml:\"dir\""
-				Api string "yaml:\"api\""
-			}{
-				Dir: "web/dist",
-				Api: "web/src/api",
-			},
-		}
+		config.Auth.Provider = state.AuthProvider
+		config.Auth.JWT = state.ServerJWT
+		config.Auth.Auth0Domain = state.Auth0Domain
+		config.Auth.Auth0Audience = state.Auth0Audience
+		config.Auth.Auth0ClientID = state.Auth0ClientID
+		config.Auth.Auth0ClientSecret = state.Auth0ClientSecret
+		config.Server.Port = port
+		config.Server.Frontend.Dir = "web/dist"
+		config.Server.Frontend.Api = "web/src/api"
 
 		if state.DatabaseURL == "" {
 			defaultingDatabaseURLMessage := fmt.Sprintf("Defaulting to %s as database url", defaultDatabaseURL)
@@ -223,7 +214,7 @@ var initCmd = &cobra.Command{
 		}
 		fmt.Println(styles.EggProgressInfo.Render(string(configPretty)))
 		fmt.Println(styles.EggProgressTitle.Render("🥚 Creating Project: " + config.Name))
-		err = pkg.ProjectFactory(config, logger, embeddedTemplates, embeddedMapping)
+		err = pkg.ProjectFactory(config, logger)
 		if err != nil {
 			panic(err)
 		}

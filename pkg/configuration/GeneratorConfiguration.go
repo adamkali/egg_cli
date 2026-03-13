@@ -36,8 +36,15 @@ type GeneratorConfiguration struct {
 		Year   int    `yaml:"year"`
 		Author string `yaml:"author"`
 	} `yaml:"copyright"`
+	Auth struct {
+		Provider          string `yaml:"provider"`
+		JWT               string `yaml:"jwt"`
+		Auth0Domain       string `yaml:"auth0_domain"`
+		Auth0Audience     string `yaml:"auth0_audience"`
+		Auth0ClientID     string `yaml:"auth0_client_id"`
+		Auth0ClientSecret string `yaml:"auth0_client_secret"`
+	} `yaml:"auth"`
 	Server struct {
-		JWT      string `yaml:"jwt"`
 		Port     int    `yaml:"port"`
 		Frontend struct {
 			Dir string `yaml:"dir"`

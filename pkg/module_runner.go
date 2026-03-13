@@ -17,7 +17,6 @@ limitations under the License.
 package pkg
 
 import (
-	"embed"
 	"fmt"
 	"os"
 
@@ -35,10 +34,8 @@ const (
 var (
 	Modules = []modules.IModule{
 		&modules.InitializeModule{},
+		&modules.CloneTemplateModule{},
 		&modules.InstallToolsModule{},
-		&modules.InstallLibrariesModule{},
-		&modules.GenerateConfigurationModule{},
-		&modules.BootstrapFrameworkFilesFromTemplatesModule{},
 		&modules.PostInstallSqlcModule{},
 		&modules.PostInstallPushMigrationsToServer{},
 		&modules.PostInstallSwagModule{},
@@ -89,7 +86,7 @@ func PrintError(m modules.IModule, eggl *models.EggLog) bool {
 //		This function is used to create a new project. It will run all the modules
 //	 in the order they are defined in the Modules slice. If any module fails, it
 //	 will write the .scrambled file and return an error.
-func ProjectFactory(configuration *configuration.Configuration, eggl *models.EggLog, templatesFS embed.FS, mappingYaml string) error {
+func ProjectFactory(configuration *configuration.Configuration, eggl *models.EggLog) error {
 	var err error
 	var succeededModules []modules.IModule
 	for _, module := range Modules {
@@ -130,7 +127,7 @@ func ProjectFactory(configuration *configuration.Configuration, eggl *models.Egg
 //
 //		This function is used to recover a project from the .scrambled file.
 //	 It will load the .scrambled file and run the modules that failed.
-func RecoverFromScrambled(eggl *models.EggLog, templatesFS embed.FS, mappingYaml string) error {
+func RecoverFromScrambled(eggl *models.EggLog) error {
 	configuration, succeededModules, failedModules, err := LoadScrambled()
 	if err != nil {
 		return fmt.Errorf("failed to load .scrambled file: %w", err)

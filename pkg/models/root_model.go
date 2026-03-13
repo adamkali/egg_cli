@@ -48,6 +48,7 @@ func CreatePageModel(log *EggLog) PageModel {
 	database := ProjectDatabaseModel(log)
 	license := ProjectLicenseModel(log)
 	server := ProjectServerSettingsModel(log)
+	auth := ProjectAuthSettingsModel(log)
 	mini := ProjectS3Model(log)
 
 	return PageModel{
@@ -55,6 +56,7 @@ func CreatePageModel(log *EggLog) PageModel {
 			settings,
 			license,
 			server,
+			auth,
 			database,
 			mini,
 		},
@@ -124,8 +126,9 @@ func (m PageModel) View() string {
 func (m *PageModel) headerLine() string {
 	pageNames := []string{
 		"Settings",
-		"Server",
 		"License",
+		"Server",
+		"Auth",
 		"Database",
 		"S3",
 	}

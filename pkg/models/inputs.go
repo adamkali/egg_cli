@@ -25,6 +25,60 @@ import (
 
 
 
+func AuthProviderInput() textinput.Model {
+	input := textinput.New()
+	input.Placeholder = "jwt"
+	input.CharLimit = 10
+	input.Width = 20
+	input.Prompt = ""
+	input.Validate = func(s string) error {
+		if s == "" {
+			return nil
+		}
+		if s != "jwt" && s != "auth0" {
+			return fmt.Errorf("must be 'jwt' or 'auth0'")
+		}
+		return nil
+	}
+	return input
+}
+
+func Auth0DomainInput() textinput.Model {
+	input := textinput.New()
+	input.Placeholder = "your-tenant.us.auth0.com"
+	input.CharLimit = 80
+	input.Width = 50
+	input.Prompt = ""
+	return input
+}
+
+func Auth0AudienceInput() textinput.Model {
+	input := textinput.New()
+	input.Placeholder = "https://api.example.com"
+	input.CharLimit = 100
+	input.Width = 50
+	input.Prompt = ""
+	return input
+}
+
+func Auth0ClientIDInput() textinput.Model {
+	input := textinput.New()
+	input.Placeholder = "Auth0 Client ID"
+	input.CharLimit = 60
+	input.Width = 50
+	input.Prompt = ""
+	return input
+}
+
+func Auth0ClientSecretInput() textinput.Model {
+	input := textinput.New()
+	input.Placeholder = "Auth0 Client Secret"
+	input.CharLimit = 100
+	input.Width = 50
+	input.Prompt = ""
+	return input
+}
+
 func ServerJWTInput() textinput.Model {
 	serverJWTInput := textinput.New()
 	serverJWTInput.Placeholder = "Default: auto-generated"

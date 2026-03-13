@@ -46,15 +46,24 @@ func createTestConfiguration() *configuration.Configuration {
 			Year:   2024,
 			Author: "Test User",
 		},
+		Auth: struct {
+			Provider          string "yaml:\"provider\""
+			JWT               string "yaml:\"jwt\""
+			Auth0Domain       string "yaml:\"auth0_domain\""
+			Auth0Audience     string "yaml:\"auth0_audience\""
+			Auth0ClientID     string "yaml:\"auth0_client_id\""
+			Auth0ClientSecret string "yaml:\"auth0_client_secret\""
+		}{
+			Provider: "jwt",
+			JWT:      "test-secret",
+		},
 		Server: struct {
-			JWT      string "yaml:\"jwt\""
 			Port     int    "yaml:\"port\""
 			Frontend struct {
 				Dir string "yaml:\"dir\""
 				Api string "yaml:\"api\""
 			} "yaml:\"frontend\""
 		}{
-			JWT:  "test-secret",
 			Port: 8080,
 			Frontend: struct {
 				Dir string "yaml:\"dir\""

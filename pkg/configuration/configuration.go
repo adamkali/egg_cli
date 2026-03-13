@@ -33,8 +33,15 @@ type Configuration struct {
 		Year   int    `yaml:"year"`
 		Author string `yaml:"author"`
 	} `yaml:"copyright"`
+	Auth struct {
+		Provider          string `yaml:"provider"`
+		JWT               string `yaml:"jwt"`
+		Auth0Domain       string `yaml:"auth0_domain"`
+		Auth0Audience     string `yaml:"auth0_audience"`
+		Auth0ClientID     string `yaml:"auth0_client_id"`
+		Auth0ClientSecret string `yaml:"auth0_client_secret"`
+	} `yaml:"auth"`
 	Server struct {
-		JWT      string `yaml:"jwt"`
 		Port     int    `yaml:"port"`
 		Frontend struct {
 			Dir string `yaml:"dir"`
@@ -173,7 +180,12 @@ func (configuration *Configuration) IntoGeneratorConfig(version string) *Generat
 	genConfig.License = configuration.License
 	genConfig.Copyright.Author = configuration.Copyright.Author
 	genConfig.Copyright.Year = configuration.Copyright.Year
-	genConfig.Server.JWT = configuration.Server.JWT
+	genConfig.Auth.Provider = configuration.Auth.Provider
+	genConfig.Auth.JWT = configuration.Auth.JWT
+	genConfig.Auth.Auth0Domain = configuration.Auth.Auth0Domain
+	genConfig.Auth.Auth0Audience = configuration.Auth.Auth0Audience
+	genConfig.Auth.Auth0ClientID = configuration.Auth.Auth0ClientID
+	genConfig.Auth.Auth0ClientSecret = configuration.Auth.Auth0ClientSecret
 	genConfig.Server.Port = configuration.Server.Port
 	genConfig.Server.Frontend.Dir = configuration.Server.Frontend.Dir
 	genConfig.Server.Frontend.Api = configuration.Server.Frontend.Api

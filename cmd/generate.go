@@ -59,7 +59,7 @@ var generateCmd = &cobra.Command{
 		}
 		fmt.Println(styles.EggProgressInfo.Render(string(configPretty)))
 		fmt.Println(styles.EggProgressTitle.Render("🥚 Creating Project: " + config.Name))
-		err = pkg.ProjectFactory(config, logger, embeddedTemplates, embeddedMapping)
+		err = pkg.ProjectFactory(config, logger)
 		if err != nil {
 			panic(err)
 		}

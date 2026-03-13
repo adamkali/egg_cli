@@ -69,8 +69,9 @@ example:
 
 		var port int
 		port = 8080
+		config.Auth.Provider = "jwt"
+		config.Auth.JWT = base64.StdEncoding.EncodeToString([]byte(generate_random_base64(32)))
 		config.Server.Port = port
-		config.Server.JWT = base64.StdEncoding.EncodeToString([]byte(generate_random_base64(32)))
 		config.Server.Frontend.Dir = "web/dist"
 		config.Server.Frontend.Api = "web/src/api"
 

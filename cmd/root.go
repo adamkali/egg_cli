@@ -16,16 +16,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package cmd
+
 import (
-    "embed"
-    "os"
+	"os"
 
-    "github.com/spf13/cobra"
-)
-
-var (
-    embeddedTemplates embed.FS
-    embeddedMapping   string
+	"github.com/spf13/cobra"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -43,13 +38,6 @@ func Execute() {
     if err != nil {
         os.Exit(1)
     }
-}
-
-// Here you will define your flags and configuration settings.
-
-func SetEmbeddedData(templates embed.FS, mapping string) {
-    embeddedTemplates = templates
-    embeddedMapping = mapping
 }
 
 func init() {

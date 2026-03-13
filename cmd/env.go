@@ -140,12 +140,12 @@ var envCmd = &cobra.Command{
 			os.Exit(6)
 		}
 		config.Server.Port = port
-		config.Server.JWT = os.Getenv("EGG_SERVER_JWT")
+		config.Auth.Provider = os.Getenv("EGG_AUTH_PROVIDER")
+		config.Auth.JWT = os.Getenv("EGG_SERVER_JWT")
 		config.Server.Frontend.Dir = os.Getenv("EGG_SERVER_FRONTEND_DIR")
 		config.Server.Frontend.Api = os.Getenv("EGG_SERVER_FRONTEND_API")
-		if config.Server.JWT == "" {
-			fmt.Println(styles.EggProgressError.Render("EGG_SERVER_JWT is required"))
-			os.Exit(1)
+		if config.Auth.Provider == "" {
+			config.Auth.Provider = "jwt"
 		}
 		if config.Server.Frontend.Dir == "" {
 			fmt.Println(styles.EggProgressError.Render("EGG_SERVER_FRONTEND_DIR is required"))

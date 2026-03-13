@@ -21,51 +21,70 @@ type (
 )
 
 const (
-	ProjectHostName       = "PROJECTHOSTNAME"
-	ProjectUsernameName   = "PROJECTUSERNAMENAME"
-	ProjectNameName       = "PROJECTNAMENAME"
-	DatabaseURLName       = "DATABASEURLNAME"
-	DatabaseRootName      = "DATABASEROOTNAME"
-	DatabaseSqlcOrGoName  = "DATABASESQLCORGONAME"
-	LicenseName           = "LICENSENAME"
-	CopyrightYearName     = "COPYRIGHTYEARNAME"
-	CopyrightAuthorName   = "COPYRIGHTAUTHORNAME"
-	ServerPortName        = "SERVERPORTNAME"
-	ServerJWTName         = "SERVERJWTSECRETNAME"
-	ServerFrontendDirName = "SERVERFRONTENDDIRNAME"
-	ServerFrontendApiName = "SERVERFRONTENDAPINAME"
-	MinioURLName          = "MINIOURLNAME"
-	MinioAccessKeyName    = "MINIOACCESSKEYNAME"
-	MinioSecretKeyName    = "MINIOSECRETKEYNAME"
+	ProjectHostName        = "PROJECTHOSTNAME"
+	ProjectUsernameName    = "PROJECTUSERNAMENAME"
+	ProjectNameName        = "PROJECTNAMENAME"
+	DatabaseURLName        = "DATABASEURLNAME"
+	DatabaseRootName       = "DATABASEROOTNAME"
+	DatabaseSqlcOrGoName   = "DATABASESQLCORGONAME"
+	LicenseName            = "LICENSENAME"
+	CopyrightYearName      = "COPYRIGHTYEARNAME"
+	CopyrightAuthorName    = "COPYRIGHTAUTHORNAME"
+	ServerPortName         = "SERVERPORTNAME"
+	ServerJWTName          = "SERVERJWTSECRETNAME"
+	ServerFrontendDirName  = "SERVERFRONTENDDIRNAME"
+	ServerFrontendApiName  = "SERVERFRONTENDAPINAME"
+	MinioURLName           = "MINIOURLNAME"
+	MinioAccessKeyName     = "MINIOACCESSKEYNAME"
+	MinioSecretKeyName     = "MINIOSECRETKEYNAME"
+	AuthProviderName       = "AUTHPROVIDERNAME"
+	Auth0DomainName        = "AUTH0DOMAINNAME"
+	Auth0AudienceName      = "AUTH0AUDIENCENAME"
+	Auth0ClientIDName      = "AUTH0CLIENTIDNAME"
+	Auth0ClientSecretName  = "AUTH0CLIENTSECRETNAME"
 )
 
 var (
-	ProjectNamespace   = ""
-	ProjectHost        = ""
-	ProjectUsername    = ""
-	ProjectName        = ""
-	ServerPort         = ""
-	ServerJWT          = ""
-	ServerFrontendDir  = ""
-	ServerFrontendApi  = ""
-	DatabaseURL        = ""
-	DatabaseRoot       = ""
-	DatabaseSqlcOrGo   = ""
-	CacheURL           = ""
-	MinioURL           = ""
-	MinioAccessKey     = ""
-	MinioSecretKey     = ""
-	License            = ""
-	CopyrightYear      = ""
-	CopyrightAuthor    = ""
-	ProjectSettingsMap = map[int]string{
+	ProjectNamespace    = ""
+	ProjectHost         = ""
+	ProjectUsername     = ""
+	ProjectName         = ""
+	ServerPort          = ""
+	ServerJWT           = ""
+	ServerFrontendDir   = ""
+	ServerFrontendApi   = ""
+	DatabaseURL         = ""
+	DatabaseRoot        = ""
+	DatabaseSqlcOrGo    = ""
+	CacheURL            = ""
+	MinioURL            = ""
+	MinioAccessKey      = ""
+	MinioSecretKey      = ""
+	License             = ""
+	CopyrightYear       = ""
+	CopyrightAuthor     = ""
+	AuthProvider        = "jwt"
+	Auth0Domain         = ""
+	Auth0Audience       = ""
+	Auth0ClientID       = ""
+	Auth0ClientSecret   = ""
+	ProjectSettingsMap  = map[int]string{
 		0: ProjectHostName,
 		1: ProjectUsernameName,
 		2: ProjectNameName,
 	}
 	ProjectSeverMap = map[int]string{
-		0: ServerJWTName,
-		1: ServerPortName,
+		0: ServerPortName,
+		1: ServerFrontendDirName,
+		2: ServerFrontendApiName,
+	}
+	AuthMap = map[int]string{
+		0: AuthProviderName,
+		1: ServerJWTName,
+		2: Auth0DomainName,
+		3: Auth0AudienceName,
+		4: Auth0ClientIDName,
+		5: Auth0ClientSecretName,
 	}
 	DatabaseMap = map[int]string{
 		0: DatabaseURLName,

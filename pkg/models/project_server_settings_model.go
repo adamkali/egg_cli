@@ -38,10 +38,11 @@ type ProjectServerSettings struct {
 func ProjectServerSettingsModel(log *EggLog) ProjectServerSettings {
 	return ProjectServerSettings{
 		inputs: map[string]textinput.Model{
-			state.ServerJWTName:       ServerJWTInput(),
-			state.ServerPortName:      ServerPortInput(),
+			state.ServerPortName:        ServerPortInput(),
+			state.ServerFrontendDirName: ServerFrontendDirInput(),
+			state.ServerFrontendApiName: ServerFrontendApiInput(),
 		},
-		focused: state.ServerJWTName,
+		focused: state.ServerPortName,
 		err:     nil,
 		help:    help.New(),
 		cursor:  0,
@@ -60,12 +61,9 @@ func (m ProjectServerSettings) View() string {
 %s --> %s
 %s --> %s
 %s --> %s
-%s --> %s
 `,
 		styles.Keyword.Render("󰒋 Server Settings"),
 		NewUnsavedChangesIcon(m).View(),
-		styles.Keyword.Width(30).Render("JWT"),
-		m.inputs[state.ServerJWTName].View(),
 		styles.Keyword.Width(30).Render("Server Port"),
 		m.inputs[state.ServerPortName].View(),
 		styles.Keyword.Width(30).Render("Frontend Dist Directory"),
@@ -81,7 +79,6 @@ func (m ProjectServerSettings) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch msg.Type {
 		case tea.KeyCtrlS:
-			state.ServerJWT = m.inputs[state.ServerJWTName].Value()
 			state.ServerPort = m.inputs[state.ServerPortName].Value()
 			state.ServerFrontendDir = m.inputs[state.ServerFrontendDirName].Value()
 			state.ServerFrontendApi = m.inputs[state.ServerFrontendApiName].Value()
@@ -108,18 +105,15 @@ func (m ProjectServerSettings) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m ProjectServerSettings) IsUnsavedChanges() bool {
-	return m.inputs[state.ServerJWTName].Value() != state.ServerJWT ||
-		m.inputs[state.ServerPortName].Value() != state.ServerPort ||
+	return m.inputs[state.ServerPortName].Value() != state.ServerPort ||
 		m.inputs[state.ServerFrontendDirName].Value() != state.ServerFrontendDir ||
 		m.inputs[state.ServerFrontendApiName].Value() != state.ServerFrontendApi
 }
 
 func (m ProjectServerSettings) FocusFirstInput() {
-	first := m.inputs[state.ServerJWTName]
+	first := m.inputs[state.ServerPortName]
 	first.Focus()
-	m.focused = state.ServerJWTName // TODO: set this.
-	m.cursor = 0
-	m.inputs[state.ServerJWTName] = first
+	m.inputs[state.ServerPortName] = first
 }
 
 

@@ -40,6 +40,8 @@ func ModuleFactory(moduleName string) IModule {
 		return &BootstrapDirectoriesModule{}
 	case "egg::generate_configuration":
 		return &GenerateConfigurationModule{}
+	case "egg::clone_template":
+		return &CloneTemplateModule{}
 	case "egg::bootstrap_framework":
 		return &BootstrapFrameworkFilesFromTemplatesModule{}
 	case "egg::post_install_sqlc":
