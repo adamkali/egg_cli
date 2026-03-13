@@ -2,45 +2,34 @@
 
 # egg_cli
 
-A fast and simple command line interface for creating fullstack web applications with the **egg** opinionated framework. 
+A fast and simple command line interface for creating fullstack web applications with the **egg** opinionated framework.
 
-In truth the **egg** framework is a collection of tools and libraries that can be used to build fullstack web applications quickly and efficiently.
+In truth, **egg** is a collection of tools and libraries assembled so that developers can get a production-ready Go backend up and running without drowning in boilerplate.
 
-## What is in egg?
+## What's included in every egg project?
 
-Egg is built off of the idea that for many developers are going to need similar tools to get up and started when building a backend in go. 
-- **REST API** 
-- **Database integration** 
-- **Authentication services**
-- **Cache integration**
-- **S3 integration**
-- **Docker setup** for containerized deployment
-- **Organized project structure** following Go best practices
+- **REST API** — Echo-based routing with Swagger docs generated automatically
+- **Database integration** — SQLC for type-safe queries, Goose for migrations (PostgreSQL)
+- **Authentication** — JWT (symmetric) or Auth0 OIDC — your choice at generation time
+- **Cache integration** — Redis
+- **S3 integration** — MinIO-compatible
+- **Docker setup** — multi-stage Dockerfile ready to go
+- **Organised project structure** following Go best practices
 
-With this in mind **egg** takes the approach of builing onto existing tools and libraries.
+Core libraries used:
 
-- **SQLC** for type safe queries 
-- **Goose** for database migrations
-- **Echo** for REST API actions and services
-- **Go/Echo JWT** for authentication
-- **Minio for go** for S3 integration
-- **Redis-sdk** for cache integration
+| Library | Purpose |
+|---|---|
+| [Echo](https://echo.labstack.com/) | HTTP router and middleware |
+| [SQLC](https://sqlc.dev/) | Type-safe SQL → Go code generation |
+| [Goose](https://github.com/pressly/goose) | Database migrations |
+| [echo-jwt](https://github.com/labstack/echo-jwt) | JWT middleware |
+| [go-oidc](https://github.com/coreos/go-oidc) | Auth0 OIDC token verification |
+| [MinIO Go SDK](https://github.com/minio/minio-go) | S3-compatible object storage |
+| [go-redis](https://github.com/redis/go-redis) | Redis client |
+| [echo-swagger](https://github.com/swaggo/echo-swagger) | Swagger UI |
 
-as a result **egg** does not try to be a dogmatized "YOU ARE GOING TO USE THIS A PARTICULAR WAY" framework. Rather a guiding post for developers to get something started without the boilerplate nuances. 
-
-## You could ask, "why is it opinionated then?"
-Simple. Because there are certain aspects that i want to have that I like to have when builing a web api. 
-
-### 1. Services: 
-Egg uses services to abstract away the details of how a service works, while allowing test services for tdd can be achieved. As long as You can implement an interface for the service it makes it easy for setting up testing in the future. (coming soon set up by the framework)
-
-### 2. Handlers: 
-The Idea for these handlers in the `project/controllers/user_controller.go` also allows for developers to implement only a reciever. this allows you the developer to only match the type for the handle function. This in turn allows for greater flex abilty in ab testing, the Current Instantiated service becomes the implementatino and the Handler expects a result. Allowing for a clear path for a2b testing. ie as long as a service has two or more functions that call the same tyes and the return the same types the handler does not need to understand anything about the current implementation inside of the call, and if anything goes wrong the error is locked and nothing else called. 
-
-### 3. Reliance on echo 
-Echo is a fantastic framework for building web services, so using echo for routing and plugin echosystem allows `egg` to piggyback off their plugin ecosystem. 
-
-`Egg` uses the routing features along with the `echo-jwt` and `echo-swagger` plugins to create a REST API with authentication and documentation.
+---
 
 ## Installation
 
@@ -49,237 +38,260 @@ Echo is a fantastic framework for building web services, so using echo for routi
 go install github.com/adamkali/egg_cli@latest
 ```
 
-### Build from Source
+### Build from source
 ```bash
 git clone https://github.com/adamkali/egg_cli.git
 cd egg_cli
 make build
 ```
 
+---
+
 ## Quick Start
 
-### Creating a New Project (`init`)
+### 1. Generate an example config
 
-The `init` command launches an interactive wizard that guides you through setting up your new egg project:
+```bash
+egg_cli generate example          # JWT authentication (default)
+egg_cli generate example --auth0  # Auth0 OIDC authentication
+```
+
+This writes an `egg.yaml` in the current directory with sensible defaults. Edit it to fill in your real database URL, secrets, and (for Auth0) your tenant details.
+
+### 2. Generate the project
+
+```bash
+egg_cli generate --config egg.yaml
+```
+
+egg_cli will:
+1. Clone the matching template repo from GitHub (`egg-template-jwt` or `egg-template-auth0`)
+2. Substitute all `__EGG_*__` placeholders with your config values
+3. Run `go mod download`, `sqlc generate`, `goose up`, `swag init`, `go mod tidy`
+4. Leave you with a fully-compiling, runnable project in `./<name>/`
+
+### 3. Interactive init wizard
+
+If you prefer a guided setup:
 
 ```bash
 egg_cli init
 ```
 
-The wizard will ask you about:
-- Project name and description
-- Database configuration (PostgreSQL, MySQL, SQLite)
-- Authentication setup
-- Frontend framework choice (React/Svelte with RSBuild)
-- Additional libraries and tools
+The TUI wizard walks through every config section (project info, server, auth, database, S3) and generates both the `egg.yaml` and the project in one shot.
 
-### Creating a Project with a Configuration (`generate`)
+---
 
-The `generate` command allows you to create a new project with a yaml configuration file:
+## Authentication options
 
-```bash
-egg_cli generate  --config egg.yaml
+### JWT (default)
+
+The generated project validates tokens with a symmetric HS256 secret stored in your config. `AuthService` issues and checks tokens; tokens are persisted in a `tokens` DB table for revocation support.
+
+### Auth0
+
+Generated with `generate example --auth0`. The project uses the Auth0 OIDC discovery document to validate bearer tokens — no symmetric secret required. The auth flow:
+
+| Endpoint | Method | Description |
+|---|---|---|
+| `/api/users/login` | GET | Redirects to Auth0 Universal Login |
+| `/api/users/signup` | GET | Redirects to Auth0 with `screen_hint=signup` |
+| `/api/users/callback` | GET | Exchanges auth code for tokens, returns user claims |
+
+All other protected routes use the OIDC middleware to verify the `Authorization: Bearer <token>` header directly against Auth0's JWKS endpoint.
+
+After generation, update these fields in `config/dev.yaml`:
+
+```yaml
+server:
+  auth0:
+    domain:        your-tenant.us.auth0.com
+    audience:      https://api.example.com
+    client_id:     your-auth0-client-id
+    client_secret: your-auth0-client-secret
+    callback_url:  http://localhost:8080/api/users/callback
 ```
 
-This command will create a new project based on the configuration file provided. By default, it will use the `egg.yaml` configuration file. 
+---
 
-### Creating a Project Configuration File (`generate example`)
+## Commands
 
-The `generate example` command allows you to create a new project with a yaml configuration file:
-
-```bash
-egg_cli generate example --config egg.yaml
-```
-
-This command will create a new project based on the configuration file provided. By default, it will use the `egg.yaml` configuration file. 
-
-When using --config flag, it will create a project configuration at file path provided. So be sure to also use 
+### `generate`
 
 ```bash
-egg_cli generate --config <file>
+egg_cli generate --config egg.yaml
 ```
 
-when calling `generate`
+Generates a full project from a config file.
 
-### Generating Environment Files (`generate dotenv`)
-
-The `generate dotenv` command creates a `.env` file from your configuration:
+#### `generate example`
 
 ```bash
-egg_cli generate dotenv
+egg_cli generate example              # generates egg.yaml with JWT auth
+egg_cli generate example --auth0      # generates egg.yaml with Auth0 auth
 ```
 
-This command:
-- Creates a `.env` file from `config/developent.yaml` by default
-- Can accept a specific config file path as an argument:
-  ```bash
-  egg_cli generate dotenv path/to/config.yaml
-  ```
-- Can read configuration from stdin for pipeline usage
-- Supports the `--output` flag to specify output file location
+#### `generate dotenv`
 
-### Creating Configuration from Environment Variables (`env`)
+Creates a `.env` file from a config file:
 
-The `env` command creates a configuration file from environment variables:
+```bash
+egg_cli generate dotenv                        # reads config/development.yaml
+egg_cli generate dotenv path/to/config.yaml    # specific file
+egg_cli generate dotenv --output .env.prod     # custom output path
+```
+
+---
+
+### `init`
+
+```bash
+egg_cli init
+```
+
+Interactive TUI wizard — covers all config sections and generates the project on completion.
+
+---
+
+### `env`
 
 ```bash
 egg_cli env
+egg_cli env --env prod --input .env.prod
 ```
 
-This command:
-- Reads environment variables with the `EGG_` prefix
-- Validates required variables (marked with X in the command help)
-- Generates a configuration file for the specified environment
-- Supports `--env` flag to specify environment (default: "dev")
-- Supports `--input` flag to load variables from a specific `.env` file
+Builds a config YAML from `EGG_`-prefixed environment variables. Useful in CI or Docker environments where secrets live in env vars rather than config files.
 
-Key environment variables include:
-- `EGG_NAME` (required) - Project name
-- `EGG_SEMVER` (required) - Project version
-- `EGG_SERVER_PORT` (required) - Server port
-- `EGG_SERVER_JWT` (required) - JWT secret
-- Database, cache, and S3 configuration variables
+Required variables:
 
-### Version Information (`version`)
+| Variable | Description |
+|---|---|
+| `EGG_NAME` | Project name |
+| `EGG_SEMVER` | Project version |
+| `EGG_SERVER_PORT` | HTTP port |
+| `EGG_AUTH_PROVIDER` | `jwt` or `auth0` |
+| `EGG_SERVER_JWT` | JWT secret (jwt mode only) |
+| `EGG_SERVER_FRONTEND_DIR` | Built frontend directory |
+| `EGG_DATABASE_USERNAME` | Postgres username |
+| `EGG_DATABASE_PASSWORD` | Postgres password |
+| `EGG_DATABASE_DBNAME` | Database name |
+| `EGG_DATABASE_PORT` | Postgres port |
+| `EGG_DATABASE_HOST` | Postgres host |
+| `EGG_CACHE_PASSWORD` | Redis password |
+| `EGG_CACHE_HOST` | Redis host |
+| `EGG_CACHE_PORT` | Redis port |
+| `EGG_S3_ACCESS` | S3 / MinIO access key |
+| `EGG_S3_SECRET` | S3 / MinIO secret key |
+| `EGG_S3_URL` | S3 / MinIO endpoint |
 
-The `version` command displays version information:
+---
+
+### `version`
 
 ```bash
-egg_cli version
+egg_cli version              # basic version string
+egg_cli version --verbose    # full build details
+egg_cli version --oneline    # single line
+egg_cli version --compact    # version+hash+buildtime
 ```
 
-Available options:
-- `--verbose` or `-v` - Show detailed version information
-- `--hash` or `-#` - Show git commit hash
-- `--build-time` or `-t` - Show build timestamp
-- `--oneline` or `-1` - Display all info on one line
-- `--compact` or `-c` - Compact format (version+hash+buildtime)
+---
 
-Examples:
-```bash
-egg_cli version                    # Basic version
-egg_cli version --verbose          # Full details
-egg_cli version --oneline          # Single line format
-egg_cli version --compact          # Compact format
-```
-
-## Project Structure
-
-egg_cli generates projects with this structure:
+## Generated project structure
 
 ```
-le-epic-project
-├── cmd
-│  ├── bump.go
-│  ├── configuration
-│  │  └── configuration.go
-│  ├── db.go
-│  ├── down.go
-│  ├── generate.go
-│  ├── migrate.go
-│  ├── root.go
-│  ├── swag.go
-│  ├── up.go
-│  └── version.go
-├── config
-│  └── development.yaml
-├── controllers
-│  ├── controller.go
-│  ├── routes.go
-│  └── user_controller.go
-├── db
-│  ├── migrations
-│  │  └── 20250220222610_init.sql
-│  ├── queries
-│  │  ├── token.sql
-│  │  └── user.sql
-│  └── repository
-│     ├── db.go
-│     ├── models.go
-│     ├── token.sql.go
-│     └── user.sql.go
+my-project/
+├── cmd/
+│   ├── configuration/configuration.go
+│   ├── db.go           # sqlc generate wrapper
+│   ├── migrate.go      # goose up
+│   ├── down.go         # goose down
+│   ├── swag.go         # swag init wrapper
+│   └── version.go
+├── config/
+│   └── dev.yaml
+├── controllers/
+│   ├── controller.go
+│   ├── routes.go
+│   └── user_controller.go
+├── db/
+│   ├── migrations/
+│   ├── queries/
+│   └── repository/     # generated by sqlc
+├── docs/               # generated by swag
+├── middlewares/configs/
+│   ├── AuthConfig.go
+│   └── StaticConfig.go
+├── models/
+│   ├── handlers/user_handlers/
+│   ├── requests/
+│   └── responses/
+├── services/
+│   ├── AuthService.go
+│   ├── IAuthService.go
+│   ├── UserService.go
+│   ├── MockAuthService.go
+│   └── ...
 ├── Dockerfile
-├── docs
-│  ├── docs.go
-│  ├── swagger.json
-│  └── swagger.yaml
-├── go.mod
-├── go.sum
-├── main.go
 ├── Makefile
-├── middlewares
-│  └── configs
-│     ├── AuthConfig.go
-│     └── StaticConfig.go
-├── models
-│  ├── handlers
-│  │  ├── DeleteUserHandler.go
-│  │  ├── GetCurrentLoggedInUserHandler.go
-│  │  ├── GetProfilePictureHandler.go
-│  │  ├── GetUsersHandler.go
-│  │  ├── LoginHandler.go
-│  │  ├── RegisterHandler.go
-│  │  └── UploadProfilePictureHandler.go
-│  ├── requests
-│  │  ├── LoginRequest.go
-│  │  └── NewUserRequest.go
-│  └── responses
-│     ├── DeleteUserResponse.go
-│     ├── LoginResponse.go
-│     ├── StringResponse.go
-│     ├── UserResponse.go
-│     └── UsersResponse.go
-├── openapitools.json
-├── README.md
-├── services
-│  ├── AuthService.go
-│  ├── IAuthService.go
-│  ├── IMinioService.go
-│  ├── IRedisService.go
-│  ├── IUserService.go
-│  ├── MinioService.go
-│  ├── MockAuthService.go
-│  ├── MockUserService.go
-│  ├── RedisService.go
-│  ├── UserService.go
-│  └── ValidatorService.go
+├── main.go
 ├── sqlc.yml
-├── tmp
-│  └── main
-└── web
-   └── dist
-      ├── egg.png
-      └── index.html
+└── web/dist/           # drop your built frontend here
 ```
+
+---
+
+## Template repos
+
+egg_cli generates projects by cloning one of these templates and substituting placeholders:
+
+- **[egg-template-jwt](https://github.com/adamkali/egg-template-jwt)** — symmetric JWT auth
+- **[egg-template-auth0](https://github.com/adamkali/egg-template-auth0)** — Auth0 OIDC auth
+
+---
+
+## Design philosophy
+
+### Services and interfaces
+
+Every service (`AuthService`, `UserService`, `MinioService`, …) implements a matching `IService` interface. Swap in a mock for tests, swap in a different implementation for different providers — handlers never care.
+
+### Handlers
+
+Handlers in `models/handlers/` follow a single pattern: `Handle()` does the work and returns itself; `JSON()` renders the response. This keeps logic and serialisation cleanly separated and makes A/B testing between two service implementations trivial.
+
+### Echo ecosystem
+
+egg rides on Echo's plugin ecosystem for JWT middleware, Swagger UI, and static file serving — no need to reinvent those wheels.
+
+---
 
 ## Development
 
-### Building
 ```bash
-make build
+make build      # build binary with version info
+make test       # go vet + staticcheck + go test
+make tidy       # go mod tidy + verify
+make clean      # remove build artifacts
+make all        # tidy → test → build
 ```
 
-### Running Tests
+End-to-end generation test (requires Docker):
+
 ```bash
-go test ./...
+bash scripts/test-generate.sh
 ```
 
-### Clean 
-```bash
-make clean
-```
+Spins up a Postgres container, generates both a JWT and an Auth0 project, verifies no unreplaced placeholders remain, and confirms `go build ./...` passes for each.
 
-### Development Dependencies
-- Go 1.21+
-- Make (for build automation)
+---
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Run tests: `go test ./...`
-5. Submit a pull request
+2. Work on the `dev` branch
+3. Run `make test` and `bash scripts/test-generate.sh` before submitting
+4. Open a pull request against `dev`
 
 ## License
 
@@ -287,11 +299,5 @@ Apache License 2.0. See [LICENSE](LICENSE) for details.
 
 ## Support
 
-- 📚 [Documentation](https://github.com/adamkali/egg_cli/wiki)
 - 🐛 [Issues](https://github.com/adamkali/egg_cli/issues)
 - 💬 [Discussions](https://github.com/adamkali/egg_cli/discussions)
-
-
-
-
-
