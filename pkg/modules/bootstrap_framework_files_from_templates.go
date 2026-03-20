@@ -3,20 +3,35 @@
 // and use the templates/mapping function to iterate over the templates and output the files to the correct location
 // and provide the logging names when printing to stdout
 
+/*
+Copyright © 2025 Adam Kalinowski <adam.kalilarosa@proton.me>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package modules
 
 import (
-	"embed"
 	"errors"
 	"fmt"
 	"os"
 	"path"
-	"sync"
 	"text/template"
 
 	"github.com/adamkali/egg_cli/pkg/configuration"
 	"github.com/adamkali/egg_cli/pkg/models"
 	tgts "github.com/adamkali/egg_cli/pkg/targets"
+	"github.com/adamkali/egg_cli/pkg/templates"
 	"github.com/adamkali/egg_cli/styles"
 )
 
@@ -89,58 +104,19 @@ func (m *BootstrapFrameworkFilesFromTemplatesModule) Run() {
 		m.eggl.Error(m.error.Error())
 		return
 	}
-	// iterate over the mapping and create a goroutine for each template
-	errChan := make(chan error)
-	logChan := make(chan string)
-	wg := new(sync.WaitGroup)
 	for name, templ := range m.mapping {
-		wg.Add(1)
-		go func(name string, t *template.Template) {
-			defer wg.Done()
-			// Use injected function if available (for testing), otherwise use real implementation
-			var err error
-			if m.PopulateTemplatesFunc != nil {
-				err = m.PopulateTemplatesFunc(name, t)
-			} else {
-				err = m.populateTemplate(name, t)
-			}
-			logChan <- fmt.Sprintf("🥚 %s creating %s", m.Name(), name)
-			if err != nil {
-				errChan <- err
-			}
-		}(name, templ)
-	}
-
-	// handle logging
-	go func() {
-		for log := range logChan {
-			m.eggl.Info(log)
-			log = styles.EggProgressInfo.Render(log)
-			fmt.Println(log)
+		if m.PopulateTemplatesFunc != nil {
+			m.error = m.PopulateTemplatesFunc(name, templ)
+		} else {
+			m.error = m.populateTemplate(name, templ)
 		}
-	}()
-
-	handleErrors := func() {
-		for err := range errChan {
-			m.error = err
-			// return if there is an error
-			wg.Wait()
-			close(errChan)
-			close(logChan)
+		if m.error != nil {
+			m.eggl.Error(m.error.Error())
 			return
 		}
 	}
 
-	// handle errors
-	go func() {
-		handleErrors()
-	}()
-
-	go func() {
-		wg.Wait()
-		close(errChan)
-		close(logChan)
-	}()
+	return
 }
 
 // IsError
@@ -175,33 +151,39 @@ func (m *BootstrapFrameworkFilesFromTemplatesModule) IsError() error {
 //	so that we can collect all the errors into a channel and stop the downstream goroutines
 func (m *BootstrapFrameworkFilesFromTemplatesModule) populateTemplate(name string, template *template.Template) error {
 	// create an io writer to write the file to
+	log := fmt.Sprintf("🥚 %s creating %s", m.Name(), name)
+	m.eggl.Info(log)
+	fmt.Println(styles.EggProgressInfo.Render(log))
 	var err error
 	var f *os.File
 	f, err = os.Create(name)
 	if err != nil {
-		// if m.error is PathError then we need to make sure that the directory exists
-		// we seperate the name as the relative directory in which the file is located
-		// Example:
-		//   name: "./cmd/configuration/configuration.go"
-		//   relativeDir: "<configuration.Name>/cmd/configuration"
-		//   fileName: "configuration.go"
-		//   dir: "./cmd/configuration"
 		relativeDir := path.Dir(name)
 		// if relativeDir is not empty then we need to create the directory
 		if relativeDir != "" {
 			err := os.MkdirAll(relativeDir, os.ModePerm)
+			log:= fmt.Sprintf("🥚 %s creating %s", m.Name(), relativeDir)
+			m.eggl.Info(log)
+			fmt.Println(styles.EggProgressInfo.Render(log))
 			if err != nil {
 				err = errors.New(m.Name() + "error creating directory: " + relativeDir + " " + err.Error())
 				return err
 			}
 			f, err = os.Create(name)
+			if err != nil {
+				err = errors.New(m.Name() + "error creating file: " + name + " " + err.Error())
+				return err
+			}
+		}
+		if err != nil {
+			err = errors.New(m.Name() + "error creating file: " + name + " " + err.Error())
+			return err
 		}
 	}
 	defer f.Close()
-
-	// execute the template
 	err = template.Execute(f, m.configuration)
 	if err != nil {
+		print("%s error executing template: %s %s\n", m.Name(), name, err.Error())
 		err = errors.New(m.Name() + "error executing template: " + name + " " + err.Error())
 		return err
 	}
@@ -221,13 +203,7 @@ func (m *BootstrapFrameworkFilesFromTemplatesModule) populateTemplate(name strin
 //	by m.Run().
 func (m *BootstrapFrameworkFilesFromTemplatesModule) LoadFromConfig(configuration *configuration.Configuration, eggl *models.EggLog) {
 	m.configuration = configuration
-	m.eggl = eggl
-	return
-}
-
-func (m *BootstrapFrameworkFilesFromTemplatesModule) LoadFromConfigWithEmbeds(configuration *configuration.Configuration, eggl *models.EggLog, templatesFS embed.FS, mappingYaml string) {
-	m.configuration = configuration
-	m.mapping, m.error = tgts.Mapping(configuration, templatesFS, mappingYaml)
+	m.mapping, m.error = tgts.Mapping(configuration, templates.GetTemplates())
 	m.eggl = eggl
 	return
 }

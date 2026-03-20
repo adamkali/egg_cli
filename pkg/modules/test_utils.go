@@ -1,3 +1,19 @@
+/*
+Copyright © 2025 Adam Kalinowski <adam.kalilarosa@proton.me>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package modules
 
 import (
@@ -30,15 +46,24 @@ func createTestConfiguration() *configuration.Configuration {
 			Year:   2024,
 			Author: "Test User",
 		},
+		Auth: struct {
+			Provider          string "yaml:\"provider\""
+			JWT               string "yaml:\"jwt\""
+			Auth0Domain       string "yaml:\"auth0_domain\""
+			Auth0Audience     string "yaml:\"auth0_audience\""
+			Auth0ClientID     string "yaml:\"auth0_client_id\""
+			Auth0ClientSecret string "yaml:\"auth0_client_secret\""
+		}{
+			Provider: "jwt",
+			JWT:      "test-secret",
+		},
 		Server: struct {
-			JWT      string "yaml:\"jwt\""
 			Port     int    "yaml:\"port\""
 			Frontend struct {
 				Dir string "yaml:\"dir\""
 				Api string "yaml:\"api\""
 			} "yaml:\"frontend\""
 		}{
-			JWT:  "test-secret",
 			Port: 8080,
 			Frontend: struct {
 				Dir string "yaml:\"dir\""
@@ -46,19 +71,30 @@ func createTestConfiguration() *configuration.Configuration {
 			}{Dir: "web/dist", Api: "web/src/api"},
 		},
 		Database: struct {
-			URL                    string "yaml:\"url\""
-			Sqlc                   string "yaml:\"sqlc\""
-			SqlcRepositoryLocation string "yaml:\"repository\""
-			QueriesLocation        string "yaml:\"queries\""
-			Migration              struct {
+			URL            string "yaml:\"url\""
+			TursoAuthToken string "yaml:\"turso_auth_token,omitempty\""
+			Sqlc           struct {
+				RepositoryLocation string `yaml:"repository"`
+				Schema             string `yaml:"schema"`
+				SqlOrGo            string `yaml:"sql_or_go"`
+			} `yaml:"sqlc"`
+			QueriesLocation string "yaml:\"queries\""
+			Migration       struct {
 				Protocol    string "yaml:\"protocol\""
 				Destination string "yaml:\"destination\""
 			} "yaml:\"migration\""
 		}{
-			URL:                    "postgres://postgres:postgres@localhost:5432/test?sslmode=disable",
-			Sqlc:                   "sql",
-			SqlcRepositoryLocation: "db/repository",
-			QueriesLocation:        "db/queries",
+			URL: "postgres://postgres:postgres@localhost:5432/test?sslmode=disable",
+			Sqlc: struct {
+				RepositoryLocation string "yaml:\"repository\""
+				Schema             string "yaml:\"schema\""
+				SqlOrGo            string "yaml:\"sql_or_go\""
+			}{
+				RepositoryLocation: "db/repository",
+				Schema:             "postgres",
+				SqlOrGo:            "sql",
+			},
+			QueriesLocation: "db/queries",
 			Migration: struct {
 				Protocol    string "yaml:\"protocol\""
 				Destination string "yaml:\"destination\""

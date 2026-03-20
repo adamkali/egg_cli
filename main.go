@@ -16,17 +16,18 @@ limitations under the License.
 package main
 
 import (
-	"embed"
-
 	"github.com/adamkali/egg_cli/cmd"
 )
 
-//go:embed pkg/templates/files/*.tmpl pkg/templates/files/**/*.tmpl
-var templates embed.FS
-//go:embed pkg/targets/mapping.yaml
-var mapping string
+// Version information set by ldflags during build
+var (
+	version   = "unknown"
+	buildTime = "unknown"
+	gitCommit = "unknown"
+)
 
 func main() {
-	cmd.SetEmbeddedData(templates, mapping) 
+	// Pass version info to cmd package
+	cmd.SetVersionInfo(version, buildTime, gitCommit)
 	cmd.Execute()
 }

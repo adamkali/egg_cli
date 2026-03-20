@@ -1,7 +1,22 @@
+/*
+Copyright © 2025 Adam Kalinowski <adam.kalilarosa@proton.me>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package pkg
 
 import (
-	"embed"
 	"fmt"
 	"os"
 
@@ -13,17 +28,18 @@ import (
 )
 
 const (
-	ScrambledFileName = "./.scrambled.yml"
+	ScrambledFileName = ".scrambled.yml"
 )
 
 var (
 	Modules = []modules.IModule{
 		&modules.InitializeModule{},
+		&modules.CloneTemplateModule{},
 		&modules.InstallToolsModule{},
-		&modules.InstallLibrariesModule{},
-		&modules.BootstrapDirectoriesModule{},
-		&modules.GenerateConfigurationModule{},
-		&modules.BootstrapFrameworkFilesFromTemplatesModule{},
+		&modules.PostInstallSqlcModule{},
+		&modules.PostInstallPushMigrationsToServer{},
+		&modules.PostInstallSwagModule{},
+		&modules.CompleteModule{},
 	}
 )
 
@@ -70,16 +86,12 @@ func PrintError(m modules.IModule, eggl *models.EggLog) bool {
 //		This function is used to create a new project. It will run all the modules
 //	 in the order they are defined in the Modules slice. If any module fails, it
 //	 will write the .scrambled file and return an error.
-func ProjectFactory(configuration *configuration.Configuration, eggl *models.EggLog, templatesFS embed.FS, mappingYaml string) error {
+func ProjectFactory(configuration *configuration.Configuration, eggl *models.EggLog) error {
 	var err error
 	var succeededModules []modules.IModule
 	for _, module := range Modules {
 		// Special handling for bootstrap framework module to pass embedded files
-		if bootstrapModule, ok := module.(*modules.BootstrapFrameworkFilesFromTemplatesModule); ok {
-			bootstrapModule.LoadFromConfigWithEmbeds(configuration, eggl, templatesFS, mappingYaml)
-		} else {
-			module.LoadFromConfig(configuration, eggl)
-		}
+		module.LoadFromConfig(configuration, eggl)
 		module.Run()
 		err = module.IsError()
 		if PrintError(module, eggl) {
@@ -115,7 +127,7 @@ func ProjectFactory(configuration *configuration.Configuration, eggl *models.Egg
 //
 //		This function is used to recover a project from the .scrambled file.
 //	 It will load the .scrambled file and run the modules that failed.
-func RecoverFromScrambled(eggl *models.EggLog, templatesFS embed.FS, mappingYaml string) error {
+func RecoverFromScrambled(eggl *models.EggLog) error {
 	configuration, succeededModules, failedModules, err := LoadScrambled()
 	if err != nil {
 		return fmt.Errorf("failed to load .scrambled file: %w", err)
@@ -131,12 +143,7 @@ func RecoverFromScrambled(eggl *models.EggLog, templatesFS embed.FS, mappingYaml
 	for _, module := range failedModules {
 		eggl.Info("Attempting to recover module: %s", module.Name())
 
-		// Special handling for bootstrap framework module to pass embedded files
-		if bootstrapModule, ok := module.(*modules.BootstrapFrameworkFilesFromTemplatesModule); ok {
-			bootstrapModule.LoadFromConfigWithEmbeds(configuration, eggl, templatesFS, mappingYaml)
-		} else {
-			module.LoadFromConfig(configuration, eggl)
-		}
+		module.LoadFromConfig(configuration, eggl)
 		module.Run()
 		err = module.IsError()
 

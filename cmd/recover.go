@@ -47,7 +47,7 @@ var recoverCmd = &cobra.Command{
 		fmt.Println("🔄 Attempting to recover project from .scrambled file...")
 
 		// Attempt recovery
-		if err := pkg.RecoverFromScrambled(logger, embeddedTemplates, embeddedMapping); err != nil {
+		if err := pkg.RecoverFromScrambled(logger); err != nil {
 			fmt.Printf("❌ Recovery failed: %v\n", err)
 			fmt.Println("💡 Check the .scrambled file for details about the failure.")
 			logger.Error("Recovery failed: %v", err)

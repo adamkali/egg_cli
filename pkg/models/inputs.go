@@ -1,3 +1,19 @@
+/*
+Copyright © 2025 Adam Kalinowski <adam.kalilarosa@proton.me>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package models
 
 import (
@@ -8,6 +24,60 @@ import (
 )
 
 
+
+func AuthProviderInput() textinput.Model {
+	input := textinput.New()
+	input.Placeholder = "jwt"
+	input.CharLimit = 10
+	input.Width = 20
+	input.Prompt = ""
+	input.Validate = func(s string) error {
+		if s == "" {
+			return nil
+		}
+		if s != "jwt" && s != "auth0" && s != "turso-jwt" {
+			return fmt.Errorf("must be 'jwt', 'auth0', or 'turso-jwt'")
+		}
+		return nil
+	}
+	return input
+}
+
+func Auth0DomainInput() textinput.Model {
+	input := textinput.New()
+	input.Placeholder = "your-tenant.us.auth0.com"
+	input.CharLimit = 80
+	input.Width = 50
+	input.Prompt = ""
+	return input
+}
+
+func Auth0AudienceInput() textinput.Model {
+	input := textinput.New()
+	input.Placeholder = "https://api.example.com"
+	input.CharLimit = 100
+	input.Width = 50
+	input.Prompt = ""
+	return input
+}
+
+func Auth0ClientIDInput() textinput.Model {
+	input := textinput.New()
+	input.Placeholder = "Auth0 Client ID"
+	input.CharLimit = 60
+	input.Width = 50
+	input.Prompt = ""
+	return input
+}
+
+func Auth0ClientSecretInput() textinput.Model {
+	input := textinput.New()
+	input.Placeholder = "Auth0 Client Secret"
+	input.CharLimit = 100
+	input.Width = 50
+	input.Prompt = ""
+	return input
+}
 
 func ServerJWTInput() textinput.Model {
 	serverJWTInput := textinput.New()
@@ -34,6 +104,15 @@ func ServerFrontendDirInput() textinput.Model {
 	serverFrontendDirInput.Width = 30
 	serverFrontendDirInput.Prompt = ""
 	return serverFrontendDirInput
+}
+
+func TursoAuthTokenInput() textinput.Model {
+	input := textinput.New()
+	input.Placeholder = "Turso auth token (leave blank for local sqld)"
+	input.CharLimit = 200
+	input.Width = 70
+	input.Prompt = ""
+	return input
 }
 
 func DatabaseURLInput() textinput.Model {

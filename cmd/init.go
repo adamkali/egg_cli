@@ -100,24 +100,15 @@ var initCmd = &cobra.Command{
 			state.ServerJWT = secret
 		}
 
-		config.Server = struct {
-			JWT      string "yaml:\"jwt\""
-			Port     int    "yaml:\"port\""
-			Frontend struct {
-				Dir string "yaml:\"dir\""
-				Api string "yaml:\"api\""
-			} "yaml:\"frontend\""
-		}{
-			Port: port,
-			JWT:  state.ServerJWT,
-			Frontend: struct {
-				Dir string "yaml:\"dir\""
-				Api string "yaml:\"api\""
-			}{
-				Dir: "web/dist",
-				Api: "web/src/api",
-			},
-		}
+		config.Auth.Provider = state.AuthProvider
+		config.Auth.JWT = state.ServerJWT
+		config.Auth.Auth0Domain = state.Auth0Domain
+		config.Auth.Auth0Audience = state.Auth0Audience
+		config.Auth.Auth0ClientID = state.Auth0ClientID
+		config.Auth.Auth0ClientSecret = state.Auth0ClientSecret
+		config.Server.Port = port
+		config.Server.Frontend.Dir = "web/dist"
+		config.Server.Frontend.Api = "web/src/api"
 
 		if state.DatabaseURL == "" {
 			defaultingDatabaseURLMessage := fmt.Sprintf("Defaulting to %s as database url", defaultDatabaseURL)
@@ -142,35 +133,21 @@ var initCmd = &cobra.Command{
 			fmt.Println(defaultingDatabaseRootMessage)
 			state.DatabaseRoot = "db"
 		}
-		config.Database = struct {
-			URL                    string "yaml:\"url\""
-			Sqlc                   string "yaml:\"sqlc\""
-			SqlcRepositoryLocation string "yaml:\"repository\""
-			QueriesLocation        string "yaml:\"queries\""
-			Migration              struct {
-				Protocol    string "yaml:\"protocol\""
-				Destination string "yaml:\"destination\""
-			} "yaml:\"migration\""
-		}{
-			URL:                    state.DatabaseURL,
-			Sqlc:                   state.DatabaseSqlcOrGo,
-			SqlcRepositoryLocation: state.DatabaseRoot + "/repository",
-			QueriesLocation:        state.DatabaseRoot + "/queries",
-			Migration: struct {
-				Protocol    string "yaml:\"protocol\""
-				Destination string "yaml:\"destination\""
-			}{
-				// for now we only support postgres
-				Protocol:    "postgresql",
-				Destination: state.DatabaseRoot + "/migrations",
-			},
+		config.Database.URL = state.DatabaseURL
+		config.Database.TursoAuthToken = state.TursoAuthToken
+		config.Database.Sqlc.RepositoryLocation = state.DatabaseRoot + "/repository"
+		config.Database.Sqlc.SqlOrGo = state.DatabaseSqlcOrGo
+		config.Database.QueriesLocation = state.DatabaseRoot + "/queries"
+		config.Database.Migration.Destination = state.DatabaseRoot + "/migrations"
+		if state.AuthProvider == "turso-jwt" {
+			config.Database.Sqlc.Schema = "sqlite"
+			config.Database.Migration.Protocol = "turso"
+		} else {
+			config.Database.Sqlc.Schema = "postgresql"
+			config.Database.Migration.Protocol = "postgresql"
 		}
 
-		config.Cache = struct {
-			URL string "yaml:\"url\""
-		}{
-			URL: "redis://localhost:6379",
-		}
+		config.Cache.URL = "redis://localhost:6379"
 		if state.MinioAccessKey == "" {
 			secret, err := GenerateJWTSecret(32)
 			if err != nil {
@@ -196,15 +173,9 @@ var initCmd = &cobra.Command{
 			state.MinioSecretKey = secret
 		}
 
-		config.S3 = struct {
-			URL    string "yaml:\"url\""
-			Access string "yaml:\"access\""
-			Secret string "yaml:\"secret\""
-		}{
-			URL:    state.MinioURL,
-			Access: state.MinioAccessKey,
-			Secret: state.MinioSecretKey,
-		}
+		config.S3.URL = state.MinioURL
+		config.S3.Access = state.MinioAccessKey
+		config.S3.Secret = state.MinioSecretKey
 
 		fmt.Printf("\n")
 		configPretty, err := yaml.Marshal(config)
@@ -213,7 +184,7 @@ var initCmd = &cobra.Command{
 		}
 		fmt.Println(styles.EggProgressInfo.Render(string(configPretty)))
 		fmt.Println(styles.EggProgressTitle.Render("🥚 Creating Project: " + config.Name))
-		err = pkg.ProjectFactory(config, logger, embeddedTemplates, embeddedMapping)
+		err = pkg.ProjectFactory(config, logger)
 		if err != nil {
 			panic(err)
 		}

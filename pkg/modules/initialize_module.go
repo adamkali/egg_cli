@@ -1,3 +1,19 @@
+/*
+Copyright © 2025 Adam Kalinowski <adam.kalilarosa@proton.me>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package modules
 
 import (
@@ -58,12 +74,12 @@ func (m InitializeModule) IsError() error {
 
 func (m *InitializeModule) Run() {
 	// create a directory for the project
-	initModuleStart := styles.EggProgressInfo.Render("🥚 " + m.Name() + " start\n")
-	initModuleMkdirMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " creating project root directory\n")
-	initModuleGoVersionMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " checking go version\n")
-	initModuleGoModInitMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " initializing go module\n")
-	initModuleChangingDirectoryMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " changing directory to " + m.ProjectName + "\n")
-	initModuleCompletSuccessMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " initialization complete\n")
+	initModuleStart := styles.EggProgressInfo.Render("🥚 " + m.Name() + " start")
+	initModuleMkdirMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " creating project root directory")
+	initModuleGoVersionMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " checking go version")
+	initModuleGoModInitMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " initializing go module")
+	initModuleChangingDirectoryMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " changing directory to " + m.ProjectName + "")
+	initModuleCompletSuccessMessage := styles.EggProgressInfo.Render("🥚 " + m.Name() + " initialization complete")
 	fmt.Println(initModuleStart)
 
 	fmt.Println(initModuleMkdirMessage)
