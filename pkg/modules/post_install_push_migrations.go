@@ -43,6 +43,9 @@ func (m *PostInstallPushMigrationsToServer) Name() string {
 func (m *PostInstallPushMigrationsToServer) LoadFromConfig(config *configuration.Configuration, eggl *models.EggLog) {
 	m.GOOSE_DRIVER = config.Database.Migration.Protocol
 	m.GOOSE_DBSTRING = config.Database.URL
+	if m.GOOSE_DRIVER == "turso" && config.Database.TursoAuthToken != "" {
+		m.GOOSE_DBSTRING = m.GOOSE_DBSTRING + "?authToken=" + config.Database.TursoAuthToken
+	}
 	m.GOOSE_MIGRATION_DIR = config.Database.Migration.Destination
 
 	m.eggl = eggl

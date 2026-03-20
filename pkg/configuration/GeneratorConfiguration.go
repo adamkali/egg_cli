@@ -52,12 +52,13 @@ type GeneratorConfiguration struct {
 		} `yaml:"frontend"`
 	} `yaml:"server"`
 	Database struct {
-		Host     string `yaml:"host"`
-		Port     int    `yaml:"port"`
-		Username string `yaml:"username"`
-		Password string `yaml:"password"`
-		DBName   string `yaml:"db"`
-		Sqlc     struct {
+		Host           string `yaml:"host"`
+		Port           int    `yaml:"port"`
+		Username       string `yaml:"username"`
+		Password       string `yaml:"password"`
+		DBName         string `yaml:"db"`
+		TursoAuthToken string `yaml:"turso_auth_token,omitempty"`
+		Sqlc           struct {
 			RepositoryLocation string `yaml:"repository"`
 			Schema             string `yaml:"schema"`
 			SqlOrGo            string `yaml:"sql_or_go"`

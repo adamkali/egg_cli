@@ -42,6 +42,7 @@ const (
 	Auth0AudienceName      = "AUTH0AUDIENCENAME"
 	Auth0ClientIDName      = "AUTH0CLIENTIDNAME"
 	Auth0ClientSecretName  = "AUTH0CLIENTSECRETNAME"
+	TursoAuthTokenName     = "TURSOAUTHTOKENNAME"
 )
 
 var (
@@ -68,6 +69,7 @@ var (
 	Auth0Audience       = ""
 	Auth0ClientID       = ""
 	Auth0ClientSecret   = ""
+	TursoAuthToken      = ""
 	ProjectSettingsMap  = map[int]string{
 		0: ProjectHostName,
 		1: ProjectUsernameName,
@@ -90,6 +92,7 @@ var (
 		0: DatabaseURLName,
 		1: DatabaseSqlcOrGoName,
 		2: DatabaseRootName,
+		3: TursoAuthTokenName,
 	}
 	LicenseMap = map[int]string{
 		0: LicenseName,

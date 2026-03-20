@@ -17,6 +17,8 @@ PG_CONTAINER="egg-gen-test-pg"
 PG_USER="postgres"
 PG_PASS="eggtest123"
 PG_PORT="5499"      # non-standard port to avoid collisions
+SQLD_CONTAINER="egg-gen-test-sqld"
+SQLD_PORT="8081"
 
 # ── Colours ──────────────────────────────────────────────────────────────────
 GREEN='\033[0;32m'; RED='\033[0;31m'; YELLOW='\033[1;33m'; NC='\033[0m'
@@ -29,6 +31,9 @@ cleanup() {
   info "Stopping postgres container..."
   docker stop "$PG_CONTAINER" 2>/dev/null || true
   docker rm   "$PG_CONTAINER" 2>/dev/null || true
+  info "Stopping sqld container..."
+  docker stop "$SQLD_CONTAINER" 2>/dev/null || true
+  docker rm   "$SQLD_CONTAINER" 2>/dev/null || true
 }
 trap cleanup EXIT
 
@@ -104,11 +109,67 @@ run_test() {
   ok "── $name PASSED ────────────────────────────────────────"
 }
 
+# ── Helper: run the turso project test ────────────────────────────────────────
+run_turso_test() {
+  local name="turso"
+  local dir="$TESTROOT/$name"
+
+  info "── $name test ────────────────────────────────────────"
+
+  # Start sqld for turso
+  info "Starting sqld on port $SQLD_PORT..."
+  docker run -d \
+    --name "$SQLD_CONTAINER" \
+    -p "${SQLD_PORT}:8080" \
+    ghcr.io/tursodatabase/sqld:latest \
+    > /dev/null
+
+  info "Waiting for sqld to be ready..."
+  for i in $(seq 1 20); do
+    curl -sf "http://localhost:${SQLD_PORT}/v1/health" >/dev/null 2>&1 && break
+    [ "$i" -eq 20 ] && fail "sqld did not become ready in time"
+    sleep 1
+  done
+  ok "sqld is ready"
+
+  rm -rf "$dir" && mkdir -p "$dir"
+
+  # Generate the example turso egg.yaml
+  (cd "$dir" && "$EGG_CLI" generate example --turso) \
+    || fail "$name: generate example failed"
+
+  # Patch the DB URL and clear the auth token for local sqld (no auth needed)
+  sed -i "s|url: libsql://.*|url: http://localhost:${SQLD_PORT}|" "$dir/egg.yaml"
+  sed -i "s|turso_auth_token:.*|turso_auth_token: \"\"|" "$dir/egg.yaml"
+
+  # Run the full generate pipeline
+  info "Running egg_cli generate for $name..."
+  (cd "$dir" && "$EGG_CLI" generate --config egg.yaml) \
+    || fail "$name: egg_cli generate failed"
+
+  local proj="$dir/example"
+
+  # Verify no unreplaced placeholders
+  if grep -r "__EGG_" "$proj" --include="*.go" --include="*.yml" \
+       --include="*.yaml" --include="*.mod" --include="*.env*" 2>/dev/null | grep -v ".git"; then
+    fail "$name: found unreplaced __EGG_*__ placeholders"
+  fi
+  ok "$name: no unreplaced placeholders"
+
+  # Verify go build
+  info "Running go build ./... in $proj..."
+  (cd "$proj" && go build ./...) || fail "$name: go build ./... failed"
+  ok "$name: go build ./... succeeded"
+
+  ok "── $name PASSED ────────────────────────────────────────"
+}
+
 # ── Run tests ─────────────────────────────────────────────────────────────────
 rm -rf "$TESTROOT" && mkdir -p "$TESTROOT"
 
 run_test "jwt"   ""       "example_jwt"
 run_test "auth0" "--auth0" "example_auth0"
+run_turso_test
 
 echo ""
 ok "All tests passed!"

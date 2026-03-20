@@ -35,8 +35,8 @@ func AuthProviderInput() textinput.Model {
 		if s == "" {
 			return nil
 		}
-		if s != "jwt" && s != "auth0" {
-			return fmt.Errorf("must be 'jwt' or 'auth0'")
+		if s != "jwt" && s != "auth0" && s != "turso-jwt" {
+			return fmt.Errorf("must be 'jwt', 'auth0', or 'turso-jwt'")
 		}
 		return nil
 	}
@@ -104,6 +104,15 @@ func ServerFrontendDirInput() textinput.Model {
 	serverFrontendDirInput.Width = 30
 	serverFrontendDirInput.Prompt = ""
 	return serverFrontendDirInput
+}
+
+func TursoAuthTokenInput() textinput.Model {
+	input := textinput.New()
+	input.Placeholder = "Turso auth token (leave blank for local sqld)"
+	input.CharLimit = 200
+	input.Width = 70
+	input.Prompt = ""
+	return input
 }
 
 func DatabaseURLInput() textinput.Model {

@@ -60,6 +60,7 @@ example:
 `,
 	Run: func(cmd *cobra.Command, args []string) {
 		useAuth0, _ := cmd.Flags().GetBool("auth0")
+		useTurso, _ := cmd.Flags().GetBool("turso")
 
 		config := new(configuration.Configuration)
 		config.Namespace = "github.com/yourname/example"
@@ -79,17 +80,27 @@ example:
 			config.Auth.Auth0Audience = "https://api.example.com"
 			config.Auth.Auth0ClientID = "your-auth0-client-id"
 			config.Auth.Auth0ClientSecret = generate_random_base64(32)
+		} else if useTurso {
+			config.Auth.Provider = "turso-jwt"
+			config.Auth.JWT = base64.StdEncoding.EncodeToString([]byte(generate_random_base64(32)))
 		} else {
 			config.Auth.Provider = "jwt"
 			config.Auth.JWT = base64.StdEncoding.EncodeToString([]byte(generate_random_base64(32)))
 		}
 
-		config.Database.URL = fmt.Sprintf("postgres://postgres:%s@localhost:5432/example?sslmode=disable", generate_random_base64(64))
+		if useTurso {
+			config.Database.URL = "libsql://your-db-name.turso.io"
+			config.Database.TursoAuthToken = generate_random_base64(32)
+			config.Database.Migration.Protocol = "turso"
+			config.Database.Sqlc.Schema = "sqlite"
+		} else {
+			config.Database.URL = fmt.Sprintf("postgres://postgres:%s@localhost:5432/example?sslmode=disable", generate_random_base64(64))
+			config.Database.Migration.Protocol = "postgres"
+			config.Database.Sqlc.Schema = "postgresql"
+		}
 		config.Database.QueriesLocation = "db/queries"
 		config.Database.Migration.Destination = "db/migrations"
-		config.Database.Migration.Protocol = "postgres"
 		config.Database.Sqlc.RepositoryLocation = "db/repository"
-		config.Database.Sqlc.Schema = "postgresql"
 		config.Database.Sqlc.SqlOrGo = "sql"
 
 		config.Cache.URL = fmt.Sprintf("redis://%s:%s@localhost:6379/0",
@@ -124,4 +135,5 @@ func init() {
 	generateCmd.AddCommand(exampleCmd)
 	exampleCmd.Flags().StringP("config", "c", "egg.yaml", "Path to the configuration file to generate from")
 	exampleCmd.Flags().BoolP("auth0", "a", false, "Generate an Auth0 example config instead of JWT")
+	exampleCmd.Flags().BoolP("turso", "t", false, "Generate a Turso (libSQL) + JWT example config")
 }

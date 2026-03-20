@@ -49,8 +49,9 @@ type Configuration struct {
 		} `yaml:"frontend"`
 	} `yaml:"server"`
 	Database struct {
-		URL  string `yaml:"url"`
-		Sqlc struct {
+		URL            string `yaml:"url"`
+		TursoAuthToken string `yaml:"turso_auth_token,omitempty"`
+		Sqlc           struct {
 			RepositoryLocation string `yaml:"repository"`
 			Schema             string `yaml:"schema"`
 			SqlOrGo            string `yaml:"sql_or_go"`
@@ -189,7 +190,10 @@ func (configuration *Configuration) IntoGeneratorConfig(version string) *Generat
 	genConfig.Server.Port = configuration.Server.Port
 	genConfig.Server.Frontend.Dir = configuration.Server.Frontend.Dir
 	genConfig.Server.Frontend.Api = configuration.Server.Frontend.Api
-	genConfig.PostgresUrl(configuration.Database.URL)
+	if configuration.Auth.Provider != "turso-jwt" {
+		genConfig.PostgresUrl(configuration.Database.URL)
+	}
+	genConfig.Database.TursoAuthToken = configuration.Database.TursoAuthToken
 	genConfig.Database.Sqlc.RepositoryLocation = configuration.Database.Sqlc.RepositoryLocation
 	genConfig.Database.Sqlc.Schema = configuration.Database.Sqlc.Schema
 	genConfig.Database.Sqlc.SqlOrGo = configuration.Database.Sqlc.SqlOrGo

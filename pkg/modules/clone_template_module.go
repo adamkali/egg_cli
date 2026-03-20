@@ -31,8 +31,9 @@ import (
 )
 
 const (
-	jwtTemplateRepo   = "https://github.com/adamkali/egg-template-jwt"
-	auth0TemplateRepo = "https://github.com/adamkali/egg-template-auth0"
+	jwtTemplateRepo      = "https://github.com/adamkali/egg-template-jwt"
+	auth0TemplateRepo    = "https://github.com/adamkali/egg-template-auth0"
+	tursoJwtTemplateRepo = "https://github.com/adamkali/egg-template-turso-jwt"
 )
 
 var binaryExtensions = map[string]bool{
@@ -59,8 +60,11 @@ func (m *CloneTemplateModule) LoadFromConfig(config *configuration.Configuration
 func (m *CloneTemplateModule) Run() {
 	// Pick template repo based on auth provider
 	repoURL := jwtTemplateRepo
-	if m.config.Auth.Provider == "auth0" {
+	switch m.config.Auth.Provider {
+	case "auth0":
 		repoURL = auth0TemplateRepo
+	case "turso-jwt":
+		repoURL = tursoJwtTemplateRepo
 	}
 
 	fmt.Println(styles.EggProgressInfo.Render(fmt.Sprintf("Cloning template from %s", repoURL)))
@@ -175,12 +179,16 @@ func (m *CloneTemplateModule) buildPlaceholders() map[string]string {
 	}
 
 	// Auth-provider-specific placeholders
-	if c.Auth.Provider == "auth0" {
+	switch c.Auth.Provider {
+	case "auth0":
 		p["__EGG_AUTH0_DOMAIN__"]        = c.Auth.Auth0Domain
 		p["__EGG_AUTH0_AUDIENCE__"]      = c.Auth.Auth0Audience
 		p["__EGG_AUTH0_CLIENT_ID__"]     = c.Auth.Auth0ClientID
 		p["__EGG_AUTH0_CLIENT_SECRET__"] = c.Auth.Auth0ClientSecret
-	} else {
+	case "turso-jwt":
+		p["__EGG_JWT_SECRET__"]          = c.Auth.JWT
+		p["__EGG_TURSO_AUTH_TOKEN__"]    = c.Database.TursoAuthToken
+	default:
 		p["__EGG_JWT_SECRET__"] = c.Auth.JWT
 	}
 

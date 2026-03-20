@@ -39,9 +39,10 @@ type ProjectDatabase struct {
 func ProjectDatabaseModel(l *EggLog) ProjectDatabase {
 	return ProjectDatabase{
 		inputs: map[string]textinput.Model{
-			state.DatabaseURLName:      DatabaseURLInput(),
-			state.DatabaseSqlcOrGoName: DatabaseSqlOrGoSQLCInput(),
-			state.DatabaseRootName:     DatabaseRootLocation(),
+			state.DatabaseURLName:       DatabaseURLInput(),
+			state.DatabaseSqlcOrGoName:  DatabaseSqlOrGoSQLCInput(),
+			state.DatabaseRootName:      DatabaseRootLocation(),
+			state.TursoAuthTokenName:    TursoAuthTokenInput(),
 		},
 		focused: state.DatabaseURLName,
 		err:     nil,
@@ -54,7 +55,8 @@ func ProjectDatabaseModel(l *EggLog) ProjectDatabase {
 func (m ProjectDatabase) IsUnsavedChanges() bool {
 	return m.inputs[state.DatabaseURLName].Value() != state.DatabaseURL ||
 		m.inputs[state.DatabaseSqlcOrGoName].Value() != state.DatabaseSqlcOrGo ||
-		m.inputs[state.DatabaseRootName].Value() != state.DatabaseRoot
+		m.inputs[state.DatabaseRootName].Value() != state.DatabaseRoot ||
+		m.inputs[state.TursoAuthTokenName].Value() != state.TursoAuthToken
 }
 
 func (m ProjectDatabase) FocusFirstInput() {
@@ -76,10 +78,11 @@ func (m ProjectDatabase) View() string {
 %s --> %s
 %s --> %s
 %s --> %s
+%s --> %s
 
 `,
 
-		styles.Keyword.Width(70).Render(" Postgres Settings"),
+		styles.Keyword.Width(70).Render(" Database Settings"),
 		NewUnsavedChangesIcon(m).View(),
 		styles.Keyword.Align(lipgloss.Left).Width(30).Render("Database URL"),
 		m.inputs[state.DatabaseURLName].View(),
@@ -87,6 +90,8 @@ func (m ProjectDatabase) View() string {
 		m.inputs[state.DatabaseSqlcOrGoName].View(),
 		styles.Keyword.Align(lipgloss.Left).Width(30).Render("Directory for Database Logic"),
 		m.inputs[state.DatabaseRootName].View(),
+		styles.Keyword.Align(lipgloss.Left).Width(30).Render("Turso Auth Token"),
+		m.inputs[state.TursoAuthTokenName].View(),
 	)
 }
 
@@ -128,11 +133,13 @@ func (m ProjectDatabase) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			state.DatabaseURL = m.inputs[state.DatabaseURLName].Value()
 			state.DatabaseSqlcOrGo = m.inputs[state.DatabaseSqlcOrGoName].Value()
 			state.DatabaseRoot = m.inputs[state.DatabaseRootName].Value()
+			state.TursoAuthToken = m.inputs[state.TursoAuthTokenName].Value()
 		case tea.KeyEnter:
 			if m.cursor == len(m.inputs)-1 {
 				state.DatabaseURL = m.inputs[state.DatabaseURLName].Value()
 				state.DatabaseSqlcOrGo = m.inputs[state.DatabaseSqlcOrGoName].Value()
 				state.DatabaseRoot = m.inputs[state.DatabaseRootName].Value()
+				state.TursoAuthToken = m.inputs[state.TursoAuthTokenName].Value()
 				// Move to next page will be handled by parent
 			}
 			m.nextInput()

@@ -71,19 +71,20 @@ func createTestConfiguration() *configuration.Configuration {
 			}{Dir: "web/dist", Api: "web/src/api"},
 		},
 		Database: struct {
-			URL                    string "yaml:\"url\""
-			Sqlc struct {
+			URL            string "yaml:\"url\""
+			TursoAuthToken string "yaml:\"turso_auth_token,omitempty\""
+			Sqlc           struct {
 				RepositoryLocation string `yaml:"repository"`
 				Schema             string `yaml:"schema"`
 				SqlOrGo            string `yaml:"sql_or_go"`
 			} `yaml:"sqlc"`
-			QueriesLocation        string "yaml:\"queries\""
-			Migration              struct {
+			QueriesLocation string "yaml:\"queries\""
+			Migration       struct {
 				Protocol    string "yaml:\"protocol\""
 				Destination string "yaml:\"destination\""
 			} "yaml:\"migration\""
 		}{
-			URL:                    "postgres://postgres:postgres@localhost:5432/test?sslmode=disable",
+			URL: "postgres://postgres:postgres@localhost:5432/test?sslmode=disable",
 			Sqlc: struct {
 				RepositoryLocation string "yaml:\"repository\""
 				Schema             string "yaml:\"schema\""
@@ -93,7 +94,7 @@ func createTestConfiguration() *configuration.Configuration {
 				Schema:             "postgres",
 				SqlOrGo:            "sql",
 			},
-			QueriesLocation:        "db/queries",
+			QueriesLocation: "db/queries",
 			Migration: struct {
 				Protocol    string "yaml:\"protocol\""
 				Destination string "yaml:\"destination\""
